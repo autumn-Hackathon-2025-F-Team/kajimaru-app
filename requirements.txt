@@ -1,0 +1,5 @@
+# 2025.10時点での最新バーションを明記
+Django==5.2.7
+django-bootstrap5==25.2
+mysqlclient==2.2.7
+python-dotenv==1.1.1
