@@ -1,5 +1,5 @@
-# 2025.10時点での最新バーションを明記
-Django==5.2.7
+# 依存パッケージ管理ファイル
+Django==5.2.7 # 最新のLTS版
 django-bootstrap5==25.2
 mysqlclient==2.2.7
 python-dotenv==1.1.1

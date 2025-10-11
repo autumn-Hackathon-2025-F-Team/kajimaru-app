@@ -1,13 +1,17 @@
-# 最新の安定バージョンである3.13を使用
+# 最新のLTSバージョンである3.13を使用
 FROM python:3.13
 
 # Pythonの出力をバッファリングしないように設定（ログが見やすくなるように設定）
 ENV PYTHONUNBUFFERED=1
 
 # 作業ディレクトリの設定
-WORKDIR /app
+WORKDIR /src
 
-# カレントディレクトリのrequirements.txtをワーキングディレクトリ直下にコピー
+# wait-for-it.shをコンテナにコピー、実行権限を付与
+COPY docker/wait-for-it.sh .
+RUN chmod +x ./wait-for-it.sh
+
+# requirements.txtをワーキングディレクトリ直下にコピー
 # 依存関係ファイルのみ先にコピー（キャッシュ効率化のため）
 COPY requirements.txt .
 
