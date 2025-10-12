@@ -8,8 +8,8 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /src
 
 # wait-for-it.shをコンテナにコピー、実行権限を付与
-COPY docker/wait-for-it.sh .
-RUN chmod +x ./wait-for-it.sh
+COPY docker/wait-for-it.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/wait-for-it.sh
 
 # requirements.txtをワーキングディレクトリ直下にコピー
 # 依存関係ファイルのみ先にコピー（キャッシュ効率化のため）

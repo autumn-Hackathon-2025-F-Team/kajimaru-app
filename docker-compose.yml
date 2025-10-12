@@ -1,9 +1,9 @@
-# db(MySQL), web(django)のコンテナを作成
+# db(django_MySQL), web(django)のコンテナを作成
 services:
   # MySQLの設定
   db:
     # コンテナ名をMySQLに設定
-    container_name: MySQL
+    container_name: django_MySQL
     # バージョンはAWS RDS MySQLのLTS(8.4)と整合
     image: mysql:8.4
     # ポート番号の設定
@@ -57,6 +57,7 @@ services:
     # .envファイルから環境変数を読み込む
     env_file:
       - .env
-  
+
 # DBデータ永続化用の名前付きボリューム
-volumes: db_data
+volumes:
+  db_data:
