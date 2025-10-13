@@ -4,6 +4,16 @@ FROM python:3.13
 # Pythonの出力をバッファリングしないように設定（ログが見やすくなるように設定）
 ENV PYTHONUNBUFFERED=1
 
+# ビルド時に渡す変数の定義
+ARG UID
+ARG GID
+ARG USERNAME
+ARG GROUPNAME
+
+# 非ルートユーザーの作成
+RUN groupadd --gid ${GID} ${GROUPNAME} && \
+    useradd --uid ${UID} --gid ${GID} --shell /bin/bash --create-home ${USERNAME}
+
 # 作業ディレクトリの設定
 WORKDIR /src
 
@@ -19,6 +29,9 @@ COPY requirements.txt .
 # ローカルの保存用ディレクトリ（キャッシュ）の影響を排除して、常に最新のパッケージをインストールしたいため、--no-cache-dirを採用
 RUN pip install -U pip && \
     pip install --no-cache-dir -r requirements.txt
+
+# コンテナの実行ユーザーを非rootユーザーに設定
+USER ${USERNAME}
 
 # ポート番号の明記（ドキュメント目的）
 # 実際の指定はdocker-compose.ymlで指定

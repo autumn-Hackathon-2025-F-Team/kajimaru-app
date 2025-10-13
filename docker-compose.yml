@@ -39,6 +39,12 @@ services:
     build:
       context: .
       dockerfile: docker/Dockerfile
+      # ビルド時のDockerfileの変数設定
+      args:
+        UID: ${UID}
+        GID: ${GID}
+        USERNAME: ${USERNAME}
+        GROUPNAME: ${GROUPNAME}
     # dockerコンテナ起動時のデフォルトコマンド設定
     command: wait-for-it.sh db:${MYSQL_PORT} -- python manage.py runserver 0.0.0.0:8000
     # バインドマウントの設定(ローカルのsrcとコンテナ内のsrcを同期)
