@@ -1,0 +1,69 @@
+# db(django_MySQL), web(django)のコンテナを作成
+services:
+  # MySQLの設定
+  db:
+    # コンテナ名をMySQLに設定
+    container_name: django_MySQL
+    # バージョンはAWS RDS MySQLのLTS(8.4)と整合
+    image: mysql:8.4
+    # ポート番号の設定
+    ports:
+      - "${MYSQL_PORT}:3306"
+    # ボリュームマウントの設定
+    volumes:
+      - db_data:/var/lib/mysql
+    # 環境変数の設定
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - TZ=${TZ}
+    # .envファイルから環境変数を読み込む
+    env_file:
+      - .env
+    # コンテナが正常に動作しているか監視するためのhealthcheckの設定
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u${MYSQL_USER}", "-p${MYSQL_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # Djangoの設定
+  web:
+    # コンテナ名をdjangoに設定
+    container_name: django
+    # Python(django)のDockerfileをビルド
+    # ビルドコンテキストは「カレントディレクトリ」とする
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      # ビルド時のDockerfileの変数設定
+      args:
+        UID: ${UID}
+        GID: ${GID}
+        USERNAME: ${USERNAME}
+        GROUPNAME: ${GROUPNAME}
+    # dockerコンテナ起動時のデフォルトコマンド設定
+    command: wait-for-it.sh db:${MYSQL_PORT} -- python manage.py runserver 0.0.0.0:8000
+    # バインドマウントの設定(ローカルのsrcとコンテナ内のsrcを同期)
+    volumes:
+      - ./src:/src
+    # ポート番号の設定
+    ports:
+      - "${DJANGO_PORT}:8000"
+    # 環境変数の設定
+    environment:
+      - TZ=${TZ}
+    # dbサービスがhealthyになるまで待機
+    depends_on:
+      db:
+        condition: service_healthy
+    # .envファイルから環境変数を読み込む
+    env_file:
+      - .env
+
+# DBデータ永続化用の名前付きボリューム
+volumes:
+  db_data:

@@ -1,0 +1,17 @@
+# ビルドコンテキストから不要なファイル、ディレクトリを除外して、ビルド時間を短縮
+# Git関連ファイル
+.git
+.gitignore
+
+# 環境設定ファイル
+.env
+.env.example
+
+# ドキュメント、開発関連ファイル
+Makefile
+README.md
+
+# Pythonのキャッシュファイル
+__pycache__/
+*.pyc
+*.pyo
