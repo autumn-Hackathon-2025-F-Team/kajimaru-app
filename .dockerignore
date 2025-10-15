@@ -2,6 +2,7 @@
 # Git関連ファイル
 .git
 .gitignore
+.gitkeep
 
 # 環境設定ファイル
 .env
@@ -15,3 +16,6 @@ README.md
 __pycache__/
 *.pyc
 *.pyo
+
+# Mac .DS_store
+.DS_Store

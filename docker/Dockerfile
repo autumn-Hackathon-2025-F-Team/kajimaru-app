@@ -5,10 +5,10 @@ FROM python:3.13
 ENV PYTHONUNBUFFERED=1
 
 # ビルド時に渡す変数の定義
-ARG UID
-ARG GID
-ARG USERNAME
-ARG GROUPNAME
+ARG UID=1000
+ARG GID=1000
+ARG USERNAME=appuser
+ARG GROUPNAME=appgroup
 
 # 非ルートユーザーの作成
 RUN groupadd --gid ${GID} ${GROUPNAME} && \
