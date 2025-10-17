@@ -8,14 +8,11 @@ class HouseholdSessionMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        key_active = "active_member_id"
-        key_seen = "profile_last_seen"
-
-        if request.session.get(key_active):
-            last = request.session.get(key_seen, 0)
+        if request.session.get(MK):
+            last = request.session.get(LS, 0)
             now = time.time()
             if now - last > 15 * 60:
-                request.session.pop(key_active, None)
+                request.session.pop(MK, None)
             else:
-                request.session[key_seen] = now
+                request.session[LS] = now
         return self.get_response(request)

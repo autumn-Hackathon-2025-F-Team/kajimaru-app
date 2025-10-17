@@ -1,12 +1,19 @@
 from django.urls import path
 from . import views
+from django.views.generic import TemplateView
 
 urlpatterns = [
-    path("welcome", views.welcome, name="welcome"),
-    path("join/verify", views.join_verify, name="join_verify"),
-    path("signup", views.signup, name="signup"),
-    path("profiles", views.profiles, name="profiles"),
-    path("profiles/<int:pk>/enter", views.profile_enter, name="profile_enter"),
-    path("profiles/exit", views.profile_exit, name="profile_exit"),
-    path("dashboard", views.dashboard, name="dashboard"),
+    # 管理者サインアップ/ログイン
+    path('signup', views.signup, name='signup'),
+    path('login', views.admin_login, name='admin_login'),
+
+    # 参加コード検証
+    path('join_verify', views.join_verify, name='join_verify'),
+
+    # プロフィール関連
+    path('profiles<int:pk>', views.profiles, name='profiles'),
+
+    #まだ未実装
+    path('welcome', TemplateView.as_view(template_name='welcome.html'), name='welcome'),
+    path('dashboard', TemplateView.as_view(template_name='dashboard.html'), name='dashboard'),
 ]

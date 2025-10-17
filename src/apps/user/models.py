@@ -3,16 +3,18 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 
 class Household(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)      # UIには出さない（自動生成でOK）
     owner = models.ForeignKey(User,on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
+
     def __str__(self):
         return self.name
 
 class Member(models.Model):
     ROLE_CHOICES = [('admin', 'Admin'), ('member', 'Member')]
+    REL_CHOICES = [('self', 'Self'), ('spouse', 'Spouse'), ('parent', 'Parent'), ('child', 'Child'), ('other', 'Other')]
     household = models.ForeignKey(Household, on_delete=models.CASCADE)
-    display_name = models.CharField(max_length=100)
+    display_name = models.CharField(max_length=50)
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='member')
     avatar_url = models.URLField(blank=True)
     pin_hash = models.CharField(max_length=255, blank=True)
@@ -20,16 +22,19 @@ class Member(models.Model):
     failed_attempts = models.PositiveIntegerField(default=0)
     locked_until = models.DateTimeField(null=True, blank=True)
     status = models.CharField(max_length=10, default='active')
+    relation_to_admin = models.CharField(max_length=10, choices=REL_CHOICES, default='other')
 
     def __str__(self):
         return f"{self.display_name} ({self.household.name})"
+    
 class JoinCode(models.Model):
-    code8 = models.CharField(max_length=8, unique=True)
+    code8 = models.CharField(max_length=8, unique=True, db_index=True)
     household = models.ForeignKey(Household, on_delete=models.CASCADE)
-    expires_at = models.DateTimeField()
-    max_uses = models.PositiveIntegerField(default=10)
-    revoked = models.DateTimeField(null=True, blank=True)
+    expires_at = models.DateTimeField()            # 発行から５分後
+    max_uses = models.PositiveIntegerField(default=10)  # 使われた瞬間
+    revoked = models.DateTimeField(null=True, blank=True)   #手動失効
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(default=timezone.now)
 
     def is_valid(self):
         now = timezone.now()
