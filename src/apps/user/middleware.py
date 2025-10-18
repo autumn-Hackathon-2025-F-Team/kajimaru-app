@@ -1,5 +1,9 @@
 import time
 
+HK = 'household_id'
+MK = 'active_member_id'
+LS = 'profile_last_seen'
+
 class HouseholdSessionMiddleware:
     """
     15分間アクティビティがない場合、セッションを終了するミドルウェア
