@@ -41,7 +41,7 @@ def signup(request):
             return redirect('profiles')
     else:
         form = AdminSignupForm()
-    return render(request, 'signup.html', {'signup_form': form})
+    return render(request, 'user/signup.html', {'signup_form': form})
 
 class AdminLoginForm(forms.Form):
     email = forms.EmailField()
@@ -60,7 +60,7 @@ def admin_login(request):
             return redirect('profiles')
     else:
         form = AdminLoginForm()
-    return render(request, 'admin_login.html', {'form': form})
+    return render(request, 'user/admin_login.html', {'form': form})
 
 def join_verify(request):
     if request.method == 'POST': return redirect('welcome')
@@ -115,4 +115,4 @@ def profiles(request, pk:int):
             m.save(update_fields=['failed_attempts', 'locked_until'])
             messages.error(request, 'PINが違います')
             return redirect('profiles')
-    return render(request, 'profiles.html', {'member': m, 'form': form})
+    return render(request, 'user/profiles.html', {'member': m, 'form': form})
