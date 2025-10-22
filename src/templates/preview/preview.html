@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}プレビュー{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/components/bottom_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/top_nav.css' %}">
+{% endblock %}
+
+{% block header %}
+  {% include 'components/top_nav.html' %}
+{% endblock %}
+
+{% block content %}
+  <div class="mt-4">
+    <p>ここにメインコンテンツを入れたり、背景・余白の確認などができます。</p>
+  </div>
+{% endblock %}
+
+{% block footer %}
+  {% include 'components/bottom_nav.html' %}
+{% endblock %}
