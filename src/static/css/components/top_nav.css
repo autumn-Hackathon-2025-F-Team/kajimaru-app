@@ -42,21 +42,21 @@
 }
 
 .material-icons-outlined {
-  font-size: 30px;
+  font-size: 1.9rem;
 }
 
 .material-symbols-outlined {
-  font-size: 30px;
+  font-size: 1.9rem;
 }
 
 .small_text {
-  font-size: 9px; 
+  font-size: 0.5rem; 
   color: var(--text);
 }
 
 .title {
   padding-top: 30px;
-  font-size: 20px;
+  font-size: 1.2rem;
   color: var(--text-sub);
   -webkit-text-stroke: 1px var(--text);
   text-stroke: 1px var(--text);

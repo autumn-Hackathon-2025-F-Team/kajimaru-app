@@ -3,12 +3,21 @@
   box-sizing: border-box;
 }
 
+html {
+  font-size: 16px;
+}
+
 body {
     margin: 0;
     padding: 0;
     height: 100%;
     font-family: "Noto Sans JP", sans-serif;
-    background: linear-gradient(var(--bg-1), var(--bg-2), var(--bg-3));
+    background: linear-gradient(
+        to bottom, 
+        var(--bg-1) 0%, 
+        var(--bg-2) 30%, 
+        var(--bg-3) 100%
+    );
     color: var(--text);
 }
 
@@ -29,7 +38,7 @@ body {
     padding-bottom: 72px;
     padding-left: 20px;
     padding-right: 20px;
-    min-height: calc(100vh - 56px - 56px);
+    min-height: 100vh;
 }
 
 .footer {

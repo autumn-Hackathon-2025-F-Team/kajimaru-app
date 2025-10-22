@@ -33,7 +33,7 @@
   align-items: center;
   gap: 4px; 
   color: var(--text); 
-  padding-top: 24px;
+  padding-top: 16px;
 }
 
 .bottom_nav_list li {
@@ -44,14 +44,14 @@
 } 
 
 .material-icons-outlined {
-  font-size: 30px;
+  font-size: 1.9rem;
 }
 
 .material-symbols-outlined {
-  font-size: 30px;
+  font-size: 1.9rem;
 }
 
 .small_text {
-  font-size: 9px; 
+  font-size: 0.5rem; 
 } 
 

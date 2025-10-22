@@ -6,7 +6,9 @@
   --text: #111111;
   --text-sub: #ffffff;
   --primary: #FFAE00; 
-  --btn-danger: #FF0000;
+  --btn-danger-solid: #FF0000;
   --btn-primary: #FFAE00; 
-  --btn-secondary: #ffffff;
+  --btn-secondary-solid: #FFAE00;
+  --btn-bg-secondary: #ffffff;
+  --btn-bg-danger: #ffffff;
 }
