@@ -9,7 +9,7 @@ urlpatterns = [
 
     # 参加コード検証
     path('join/verify/', views.join_verify, name='join_verify'),
-    path('welcome/', TemplateView.as_view(template_name='user/welcome.html'), name='welcome'),
+    path('welcome/', TemplateView.as_view(template_name='user/code_input.html'), name='welcome'),
     path('invite/create/', views.invite_create, name='invite_create'),
 
     # プロフィール関連
