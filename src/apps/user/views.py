@@ -28,7 +28,7 @@ def signup(request):
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
             name = form.cleaned_data['name']
-            nickname = form.cleaned_data.get['nickname', '']
+            nickname = form.cleaned_data.get('nickname', '')
             relation = form.cleaned_data['relation']
 
             user = User.objects.create_user(username=email, email=email, password=password)
@@ -41,7 +41,7 @@ def signup(request):
             )
             login(request, user)
             request.session[HK] = hh.id
-            return redirect('profiles')
+            return redirect('profiles_list')
     else:
         form = AdminSignupForm()
     return render(request, 'user/signup.html', {'signup_form': form})
@@ -60,7 +60,7 @@ def admin_login(request):
             login(request, user)
             hh = Household.objects.filter(owner=user).first()
             request.session[HK] = hh.id if hh else None
-            return redirect('profiles')
+            return redirect('profiles_list')
     else:
         form = AdminLoginForm()
     return render(request, 'user/admin_login.html', {'form': form})
@@ -80,7 +80,7 @@ def join_verify(request):
         jc.used_at = timezone.now()
         jc.save(update_fields=['used_at'])
         request.session[HK] = jc.household.id
-    return redirect('profiles')
+    return redirect('profiles_list')
 
 
 def profiles(request, pk:int):
@@ -103,7 +103,7 @@ def profiles(request, pk:int):
         # ロック中
         if m.locked_until and m.locked_until > timezone.now():
             messages.error(request, '試行が多すぎます。しばらくしてから再試行してください')
-            return redirect('profiles')
+            return redirect('profiles_list')
         # 照合
         if check_password(pin, m.pin_hash):
             m.failed_attempts = 0
@@ -118,7 +118,7 @@ def profiles(request, pk:int):
                 m.locked_until = timezone.now() + timedelta(minutes=15)
             m.save(update_fields=['failed_attempts', 'locked_until'])
             messages.error(request, 'PINが違います')
-            return redirect('profiles')
+            return redirect('profiles_list')
     return render(request, 'user/profiles.html', {'member': m, 'form': form})
 
 def _require_admin_household(request):

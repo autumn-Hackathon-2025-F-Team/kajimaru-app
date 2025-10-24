@@ -8,7 +8,7 @@ urlpatterns = [
     path('login/', views.admin_login, name='admin_login'),
 
     # 参加コード検証
-    path('join_verify/', views.join_verify, name='join_verify'),
+    path('join/verify/', views.join_verify, name='join_verify'),
     path('welcome/', TemplateView.as_view(template_name='user/welcome.html'), name='welcome'),
     path('invite/create/', views.invite_create, name='invite_create'),
 
