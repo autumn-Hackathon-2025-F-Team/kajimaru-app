@@ -10,7 +10,7 @@ class Household(models.Model):
     def __str__(self):
         return self.name
 
-class Member(models.Model):
+class Users(models.Model):
     ROLE_CHOICES = [('admin', 'Admin'), ('member', 'Member')]
     REL_CHOICES = [('self', 'Self'), ('spouse', 'Spouse'), ('parent', 'Parent'), ('child', 'Child'), ('other', 'Other')]
     household = models.ForeignKey(Household, on_delete=models.CASCADE)

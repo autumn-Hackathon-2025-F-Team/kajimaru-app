@@ -7,7 +7,7 @@ from django import forms
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import AdminSignupForm, JoinCodeForm, PinForm, AdminLoginForm, MemberForm
 from django.utils.crypto import get_random_string
-from .models import Household, Member, JoinCode
+from .models import Household, Users, JoinCode
 from django.utils import timezone
 from django.db import transaction
 from datetime import timedelta
@@ -34,7 +34,7 @@ def signup(request):
             user = User.objects.create_user(username=email, email=email, password=password)
             hh = Household.objects.create(name=_gen_household_name(email), owner=user)
 
-            Member.objects.create(
+            Users.objects.create(
                 household = hh, display_name = name, nickname = nickname,
                 relation_to_admin = {'本人': 'self', '配偶者': 'spouse', '親': 'parent', '子': 'child', 'その他': 'other'}.get(relation, 'other'),
                 role = 'admin', user = user
@@ -44,7 +44,7 @@ def signup(request):
             return redirect('profiles_list')
     else:
         form = AdminSignupForm()
-    return render(request, 'user/signup.html', {'signup_form': form})
+    return render(request, 'user/owner_signup.html', {'signup_form': form})
 
 class AdminLoginForm(forms.Form):
     email = forms.EmailField()
@@ -86,7 +86,7 @@ def join_verify(request):
 def profiles(request, pk:int):
     hh_id = request.session.get(HK)
     if not hh_id: return redirect('welcome')
-    m = get_object_or_404(Member, id=pk, household_id=hh_id)
+    m = get_object_or_404(Users, id=pk, household_id=hh_id)
     form = PinForm(request.POST or None)
     if request.method == 'POST' and form.is_valid():
         pin = form.cleaned_data['pin']
@@ -165,15 +165,15 @@ def profiles_list(request):
     hh_id = request.session.get(HK)
     if not hh_id:
         return redirect('welcome')
-    members = Member.objects.filter(household_id=hh_id).order_by('id')
-    return render(request, 'user/profiles_list.html', {'members': members})
+    members = Users.objects.filter(household_id=hh_id).order_by('id')
+    return render(request, 'user/family_select.html', {'members': members})
 
 def profile_enter(request, pk:int):
     """プロフィール別PIN（初回は設定）"""
     hh_id = request.session.get(HK)
     if not hh_id:
         return redirect('welcome')
-    m = get_object_or_404(Member, id=pk, household_id=hh_id)
+    m = get_object_or_404(Users, id=pk, household_id=hh_id)
     form = PinForm(request.POST or None)
 
     if request.method == 'POST' and form.is_valid():
@@ -221,10 +221,10 @@ def member_create(request):
         form = MemberForm(request.POST)
         if form.is_valid():
             name = form.cleaned_data['display_name']
-            if Member.objects.filter(household=hh, display_name=name).exists():
+            if Users.objects.filter(household=hh, display_name=name).exists():
                 form.add_error('display_name', 'この名前は世帯内使用済みです。')
             else:
-                Member.objects.create(
+                Users.objects.create(
                     household = hh,
                     display_name = name,
                     nickname = form.cleaned_data.get('nickname', ''),
@@ -236,7 +236,7 @@ def member_create(request):
                 return redirect('profiles_list')
     else:
         form = MemberForm()
-        return render(request, 'user/member_form.html', {'form': form, 'mode': 'create'})
+        return render(request, 'user/owner_family_manage.html', {'form': form, 'mode': 'create'})
     
 @login_required
 def member_edit(request, pk:int):
@@ -245,12 +245,12 @@ def member_edit(request, pk:int):
         messages.error(request, '管理者の世帯が見つかりません。')
         return redirect('admin_login')
     
-    m = get_object_or_404(Member, id=pk, household=hh)
+    m = get_object_or_404(Users, id=pk, household=hh)
     if request.method == 'POST':
         form = MemberForm(request.POST)
         if form.is_valid():
             name = form.cleaned_data['display_name']
-            if Member.objects.filter(household=hh, display_name=name).exlude(id=m.id).exists():
+            if Users.objects.filter(household=hh, display_name=name).exlude(id=m.id).exists():
                 form.add_error('display_name', 'この名前は世帯内で使用済みです')
             else:
                 m.display_name = name
@@ -269,7 +269,7 @@ def member_edit(request, pk:int):
             'role': m.role,
             'avatar_url': m.avatar_url,
         })
-    return render(request, 'user/member_form.html', {'form': form, 'mode': 'edit', 'member': m})
+    return render(request, 'user/family_member_form.html', {'form': form, 'mode': 'edit', 'member': m})
 
 @login_required
 def member_delete(request, pk:int):
@@ -278,7 +278,7 @@ def member_delete(request, pk:int):
         messages.error(request, '管理者の世帯が見つかりません。')
         return redirect('admin_login')
     
-    m = get_object_or_404(Member, id=pk, household=hh)
+    m = get_object_or_404(Users, id=pk, household=hh)
     if request.method == 'POST':
         display = m.display_name
         m.delete()
