@@ -1,0 +1,11 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><title>ようこそ</title></head>
+<body>
+  <h1>家族に参加</h1>
+  <form method="post" action="/join/verify/">{% csrf_token %}
+    <label>参加コード（8桁）</label>
+    <input name="code8" inputmode="numeric" pattern="\d{8}" maxlength="8" required>
+    <button type="submit">参加する</button>
+  </form>
+  <p><a href="/login/">管理者ログイン</a></p>
+  {% for m in messages %}<p style="color:red">{{ m }}</p>{% endfor %}
+</body></html>

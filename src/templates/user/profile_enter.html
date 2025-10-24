@@ -1,0 +1,11 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><title>PIN 入力</title></head>
+<body>
+  <h1>PIN 入力</h1>
+  <p>対象プロフィール：<strong>{{ member.display_name }}</strong></p>
+  <form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">入室する</button>
+  </form>
+  <p><a href="/profiles/">一覧へ戻る</a></p>
+  {% for m in messages %}<p style="color:red">{{ m }}</p>{% endfor %}
+</body></html>

@@ -1,8 +1,8 @@
 from django.db import models
-from apps.user.models import Member
+from apps.user.models import Users
 
 class Task(models.Model):
-    member = models.ForeignKey(Member, on_delete=models.CASCADE)
+    user = models.ForeignKey(Users, on_delete=models.CASCADE)
     role = models.CharField(max_length=10)
     substitute = models.CharField(max_length=10, blank=True)
     is_completed = models.BooleanField(default=False)

@@ -62,3 +62,10 @@ class PinForm(forms.Form):
         if not v.isdigit():
             raise forms.ValidationError('PINコードは４桁の数字で入力してください。')
         return v
+
+class MemberForm(forms.Form):
+    display_name = forms.CharField(label='名前', max_length=50)
+    nickname = forms.CharField(label='ニックネーム', max_length=50, required=False)
+    relation = forms.ChoiceField(label='家族内での立場', choices=REL_CHOICES, initial='other')
+    role = forms.ChoiceField(label='権限', choices=ROLE_CHOICES, initial='member')
+    avatar = forms.URLField(label='アイコンURL', required=False)
