@@ -17,7 +17,6 @@
   
  <form action="/owner_signup" method="post">
    {% csrf_token %}
-   {{ form }}
    <input id="name" type="text" name="name" placeholder="名前">
    <input id="nickname" type="text" name="nickname" placeholder="ニックネーム">
    <input id="family_relationships" type="text" name="family_relationships" placeholder="家族内での立場">
