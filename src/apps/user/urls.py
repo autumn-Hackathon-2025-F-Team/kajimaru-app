@@ -8,12 +8,17 @@ urlpatterns = [
     path('login/', views.admin_login, name='admin_login'),
 
     # 参加コード検証
-    path('join_verify/', views.join_verify, name='join_verify'),
+    path('join/verify/', views.join_verify, name='join_verify'),
+    path('welcome/', TemplateView.as_view(template_name='user/code_input.html'), name='welcome'),
+    path('invite/create/', views.invite_create, name='invite_create'),
 
     # プロフィール関連
-    path('profiles/<int:pk>/', views.profiles, name='profiles'),
+    path('profiles/', views.profiles_list, name='profiles_list'),
+    path('profiles/<int:pk>/enter/', views.profile_enter, name='profile_enter'),
+    path('members/new/', views.member_create, name='member_create'),
+    path('members/<int:pk>/edit/', views.member_edit, name='member_edit'),
+    path('members/<int:pk>/delete/', views.member_delete, name='member_delete'),
 
-    #まだ未実装
-    path('welcome/', TemplateView.as_view(template_name='user/welcome.html'), name='welcome'),
+    # ダッシュボード
     path('dashboard/', TemplateView.as_view(template_name='user/dashboard.html'), name='dashboard'),
 ]

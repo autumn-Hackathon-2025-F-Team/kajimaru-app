@@ -1,0 +1,5 @@
+<!doctype html><meta charset="utf-8"><title>プロフィール削除</title>
+<h1>プロフィール削除</h1>
+<p>「{{ member.display_name }}」を削除します。よろしいですか？</p>
+<form method="post">{% csrf_token %}<button>削除する</button></form>
+<p><a href="/profiles/">キャンセル</a></p>

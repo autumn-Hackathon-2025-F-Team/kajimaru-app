@@ -10,11 +10,12 @@ class Household(models.Model):
     def __str__(self):
         return self.name
 
-class Member(models.Model):
+class Users(models.Model):
     ROLE_CHOICES = [('admin', 'Admin'), ('member', 'Member')]
     REL_CHOICES = [('self', 'Self'), ('spouse', 'Spouse'), ('parent', 'Parent'), ('child', 'Child'), ('other', 'Other')]
     household = models.ForeignKey(Household, on_delete=models.CASCADE)
     display_name = models.CharField(max_length=50)
+    nickname = models.CharField(max_length=50, blank=True, default='')
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='member')
     avatar_url = models.URLField(blank=True)
     pin_hash = models.CharField(max_length=255, blank=True)
@@ -23,6 +24,9 @@ class Member(models.Model):
     locked_until = models.DateTimeField(null=True, blank=True)
     status = models.CharField(max_length=10, default='active')
     relation_to_admin = models.CharField(max_length=10, choices=REL_CHOICES, default='other')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return f"{self.display_name} ({self.household.name})"
@@ -32,6 +36,7 @@ class JoinCode(models.Model):
     household = models.ForeignKey(Household, on_delete=models.CASCADE)
     expires_at = models.DateTimeField()            # 発行から５分後
     max_uses = models.PositiveIntegerField(default=10)  # 使われた瞬間
+    used_at = models.DateTimeField(null=True, blank=True)      
     revoked = models.DateTimeField(null=True, blank=True)   #手動失効
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(default=timezone.now)
