@@ -63,7 +63,7 @@ def admin_login(request):
             return redirect('profiles_list')
     else:
         form = AdminLoginForm()
-    return render(request, 'user/admin_login.html', {'form': form})
+    return render(request, 'user/owner_login.html', {'form': form})
 
 def join_verify(request):
     if request.method != 'POST': 
@@ -269,7 +269,7 @@ def member_edit(request, pk:int):
             'role': m.role,
             'avatar_url': m.avatar_url,
         })
-    return render(request, 'user/family_member_form.html', {'form': form, 'mode': 'edit', 'member': m})
+    return render(request, 'user/owner_family_manage.html', {'form': form, 'mode': 'edit', 'member': m})
 
 @login_required
 def member_delete(request, pk:int):
