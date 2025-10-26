@@ -9,7 +9,7 @@ button {
 .btn-primary {
     background-color: var(--btn-primary);
     color: var(--text); 
-    margin-top: 2rem;
+    margin-top: 3rem;
 }
 
 .btn-secondary {

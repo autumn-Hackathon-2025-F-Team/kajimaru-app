@@ -1,12 +1,18 @@
-<!doctype html>
-<html lang="ja">
-<head>
-  <meta charset="utf-8">
-  <title>
-    {% if mode == "create" %}プロフィール作成{% else %}プロフィール編集{% endif %}
-  </title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{% if mode == "create" %}プロフィール作成{% else %}プロフィール編集{% endif %}{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/components/button.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/form.css' %}">
+  <link rel="stylesheet" href="{% static 'css/user/owner.css' %}">
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
   <h1>
     {% if mode == "create" %}プロフィールを作成{% else %}プロフィールを編集{% endif %}
   </h1>
@@ -14,14 +20,19 @@
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">
+    <button class="btn-primary" type="submit">
       {% if mode == "create" %}作成{% else %}更新{% endif %}
     </button>
-    <a href="/profiles/">キャンセル</a>
+    <p class="link_set">
+      <a href="/profiles/">キャンセル</a>
+    </p>
   </form>
 
   {% for m in messages %}
     <p style="color:red">{{ m }}</p>
   {% endfor %}
-</body>
-</html>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+

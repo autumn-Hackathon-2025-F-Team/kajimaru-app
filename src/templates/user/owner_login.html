@@ -1,10 +1,31 @@
-<!doctype html><html lang="ja"><head><meta charset="utf-8"><title>管理者ログイン</title></head>
-<body>
-  <h1>管理者ログイン</h1>
-  <form method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">ログイン</button>
-  </form>
-  <p><a href="/owner_signup/">新規登録</a> / <a href="/welcome/">参加コード入力</a></p>
-  {% for m in messages %}<p style="color:red">{{ m }}</p>{% endfor %}
-</body></html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}管理者の新規登録{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/components/button.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/form.css' %}">
+  <link rel="stylesheet" href="{% static 'css/user/owner.css' %}">
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+<h1>管理者用ログイン</h1>
+<form method="post">{% csrf_token %}
+  {{ form.as_p }}
+<button class="btn-primary" type="submit">ログイン</button>
+</form>
+<p class="link_set">
+  <a href="/owner_signup/">新規登録</a> / 
+  <a href="/welcome/">参加コード入力</a>
+</p>
+{% for m in messages %}<p style="color:red">{{ m }}</p>{% endfor %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+
