@@ -6,7 +6,7 @@
 {% block css %}
   <link rel="stylesheet" href="{% static 'css/components/button.css' %}">
   <link rel="stylesheet" href="{% static 'css/components/form.css' %}">
-  <link rel="stylesheet" href="{% static 'owner_signup.css' %}">
+  <link rel="stylesheet" href="{% static 'css/user/owner_signup.css' %}">
 {% endblock %}
 
 {% block header %}
@@ -18,7 +18,10 @@
   {{ signup_form.as_p }}
 <button class="btn-primary" type="submit">登録してはじめる</button>
 </form>
-<p><a href="/login/">管理者ログインへ</a> / <a href="/welcome/">参加コード入力へ</a></p>
+<p class="link_set">
+  <a href="/login/">管理者ログインへ</a> / 
+  <a href="/welcome/">参加コード入力へ</a>
+</p>
 {% for m in messages %}<p style="color:red">{{ m }}</p>{% endfor %}  
 {% endblock %}
 
