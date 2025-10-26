@@ -1,0 +1,11 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><title>プロフィール入室</title></head>
+<body>
+  <h1>プロフィール入室</h1>
+  <p>対象: <strong>{{ member.display_name }}</strong></p>
+  <form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">入室する</button>
+  </form>
+  {% for m in messages %}<p style="color:red">{{ m }}</p>{% endfor %}
+  <p><a href="/welcome/">戻る</a></p>
+</body></html>

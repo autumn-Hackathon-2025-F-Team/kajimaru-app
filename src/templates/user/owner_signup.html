@@ -1,0 +1,10 @@
+<!doctype html><html lang="ja"><head><meta charset="utf-8"><title>管理者の新規登録</title></head>
+<body>
+  <h1>管理者の新規登録</h1>
+  <form method="post">{% csrf_token %}
+    {{ signup_form.as_p }}
+    <button type="submit">登録してはじめる</button>
+  </form>
+  <p><a href="/login/">管理者ログインへ</a> / <a href="/welcome/">参加コード入力へ</a></p>
+  {% for m in messages %}<p style="color:red">{{ m }}</p>{% endfor %}
+</body></html>
