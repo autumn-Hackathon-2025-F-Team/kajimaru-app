@@ -1,11 +1,28 @@
-<!doctype html><html lang="ja"><head><meta charset="utf-8"><title>PIN 入力</title></head>
-<body>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}PIN 入力{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/components/button.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/form.css' %}">
+  <link rel="stylesheet" href="{% static 'css/user/user.css' %}">
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
   <h1>PIN 入力</h1>
-  <p>対象プロフィール：<strong>{{ member.display_name }}</strong></p>
+  <p class="pin_target">対象プロフィール：<strong>{{ member.display_name }}</strong></p>
   <form method="post">{% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">入室する</button>
+    <button class="btn-primary" type="submit">入室する</button>
   </form>
-  <p><a href="/profiles/">一覧へ戻る</a></p>
-  {% for m in messages %}<p style="color:red">{{ m }}</p>{% endfor %}
-</body></html>
+  <p class="link_set">
+    <a href="/profiles/">一覧へ戻る</a>
+  </p>
+  {% for m in messages %}<p style="color:red">{{ m }}</p>{% endfor %} 
+{% endblock %}
+
+

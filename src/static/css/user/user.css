@@ -70,3 +70,8 @@ form label {
 .profile_add_select a:last-child {
   margin-right: 1rem;
 }
+
+.pin_target {
+  text-align: center;
+  margin-top: 1rem;
+}
