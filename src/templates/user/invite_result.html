@@ -1,6 +1,26 @@
-<!doctype html><meta charset="utf-8"><title>招待コード</title>
-<h1>招待コード</h1>
-<p style="font-size:2rem;letter-spacing:.2rem"><strong>{{ code }}</strong></p>
-<p>有効期限：{{ expires_at }}</p>
-<p>※ 1回のみ有効。5分以内に入力してください。</p>
-<p><a href="/profiles/">プロフィール一覧へ</a></p>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}招待コード{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/components/button.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/form.css' %}">
+  <link rel="stylesheet" href="{% static 'css/user/user.css' %}">
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block content %}
+  <h1>
+    招待コード
+  </h1>
+  <p class="invite_code" style="font-size:2rem;letter-spacing:.2rem"><strong>{{ code }}</strong></p>
+  <p class="expiration_date">有効期限：{{ expires_at }}</p>
+  <p class="caution_text">※ 1回のみ有効。5分以内に入力してください。</p>
+  <p class="link_set">
+    <a href="/profiles/">プロフィール一覧へ</a>
+  </p>
+{% endblock %}
+
