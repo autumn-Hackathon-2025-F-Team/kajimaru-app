@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 
 urlpatterns = [
     # 管理者サインアップ/ログイン
-    path('owner_signup/', views.owner_signup, name='owner_signup'),
+    path('signup/', views.signup, name='signup'),
     path('login/', views.admin_login, name='admin_login'),
 
     # 参加コード検証
