@@ -70,7 +70,8 @@ def join_verify(request):
         return redirect('welcome')
     form = JoinCodeForm(request.POST)
     if not form.is_valid():
-        messages.error(request, '8桁の参加コードを入力してください'); return redirect('welcome')
+        messages.error(request, '8桁の参加コードを入力してください'); 
+        return redirect('welcome')
 
     code = form.cleaned_data['code8']
     with transaction.atomic():
@@ -78,7 +79,9 @@ def join_verify(request):
         if not jc or not jc.is_valid():
             messages.error(request, '無効な参加コードです'); return redirect('welcome')
         jc.used_at = timezone.now()
-        jc.save(update_fields=['used_at'])
+        if jc.max_uses > 0:
+            jc.max_uses -= 1
+        jc.save(update_fields=['used_at', 'max_uses'])
         request.session[HK] = jc.household.id
     return redirect('profiles_list')
 
@@ -138,12 +141,24 @@ def invite_create(request):
         return redirect('admin_login')
     
     if request.method == 'POST':
-        return render(request, 'user/invite_issue.html')
+        return render(request, 'user/invite_result.html')
     
     def _gen_code():
         return get_random_string(length=8, allowed_chars='0123456789')
     
     with transaction.atomic():
+        now = timezone.now()
+        (
+            JoinCode.objects
+            .select_for_update()
+            .filter(
+                household=hh,
+                revoked=False,
+                used_at__isnull=True,
+                expires_at__gt=now,
+            )
+            .update(expires_at=now)
+        )
         for _ in range(10):
             code = _gen_code()
             exists = JoinCode.objects.select_for_update().filter(code8=code).exists()
@@ -152,6 +167,7 @@ def invite_create(request):
                     code8 =code,
                     household = hh,
                     expires_at = timezone.now() + timedelta(minutes=5),
+                    revoked=False,
                     created_by = request.user,
                 )
                 break
