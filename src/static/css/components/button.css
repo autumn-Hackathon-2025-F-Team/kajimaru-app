@@ -9,7 +9,9 @@ button {
 .btn-primary {
     background-color: var(--btn-primary);
     color: var(--text); 
-    margin-top: 3rem;
+    margin-top: 2rem;
+    padding-left: 2.7rem;
+    padding-right: 2.7rem; 
 }
 
 .btn-secondary {
@@ -17,11 +19,12 @@ button {
     color: var(--text);
     border: 5px solid var(--btn-secondary-solid);
     padding: 5px 15px; 
+    border-radius: 8px;
 }
 
 .btn-danger {
     background-color: var(--btn-bg-danger);
     color: var(--text);
     border: 5px solid var(--btn-danger-solid);
-    padding: 5px 15px; 
+    padding: 5px 22px; 
 }

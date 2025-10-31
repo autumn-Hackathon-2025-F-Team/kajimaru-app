@@ -12,24 +12,24 @@
 {% block header %}
 {% endblock %}
 
-{% block content %}
-  <h1>
+{% block page_title %}
     {% if mode == "create" %}プロフィールを作成{% else %}プロフィールを編集{% endif %}
-  </h1>
+{% endblock %}
+{% block content %}
 
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button class="btn-primary" type="submit">
-      {% if mode == "create" %}作成{% else %}更新{% endif %}
+      {% if mode == "create" %}作成する{% else %}更新する{% endif %}
     </button>
     <p class="link_set">
-      <a href="/profiles/">キャンセル</a>
+      <a href="/profiles/" class="btn-secondary">キャンセル</a>
     </p>
   </form>
 
   {% for m in messages %}
-    <p style="color:red">{{ m }}</p>
+    <p class="alert_message" style="color:red">{{ m }}</p>
   {% endfor %}
 {% endblock %}
 

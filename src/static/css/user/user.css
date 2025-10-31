@@ -18,13 +18,23 @@ form label {
 }
 
 .link_set {
+    display: flex;
+    flex-direction: column;  
+    align-items: center;
     text-align: center;
-    margin-top: 3rem;
+    margin-top: 2rem;
+    gap: 0.5rem;
 }
 
 .link_set a {
     text-decoration: none;
 }
+
+.alert_message {
+  text-align: center;
+}
+
+/* invite_result.html */
 
 .invite_code {
   text-align: center;
@@ -43,16 +53,22 @@ form label {
   text-align: center;
 }
 
+/* member_delete_confirm.html */
+
 .delete_text {
   text-align: center;
   margin-top: 3rem;
 }
+
+/* code_input.html */
 
 .participation_code {
   text-align: center;
   margin-bottom: -0.5rem;
   margin-top: 1rem;
 }
+
+/* family_select.html */
 
 .profile_card {
   background-color: var(--bg-surface);
@@ -71,7 +87,22 @@ form label {
   margin-right: 1rem;
 }
 
+
+/* profile_enter.html */
+
 .pin_target {
   text-align: center;
   margin-top: 1rem;
 }
+
+/* login_error.html */
+
+.unlock_time {
+  text-align: center;
+  margin-top: 3rem;
+  margin-left: 3rem;
+  margin-right: 3rem;
+  background-color: var(--bg-surface);
+  font-size: 2rem;
+}
+

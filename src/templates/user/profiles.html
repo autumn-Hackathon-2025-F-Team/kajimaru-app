@@ -12,14 +12,14 @@
 {% block header %}
 {% endblock %}
 
+{% block page_title %}プロフィール入室{% endblock %}
 {% block content %}
-<h1>プロフィール入室</h1>
 <p>対象: <strong>{{ member.display_name }}</strong></p>
   <form method="post">{% csrf_token %}
     {{ form.as_p }}
     <button class="btn-primary" type="submit">入室する</button>
   </form>
-  {% for m in messages %}<p style="color:red">{{ m }}</p>{% endfor %}
+  {% for m in messages %}<p class="alert_message" style="color:red">{{ m }}</p>{% endfor %}
   <p><a href="/welcome/">戻る</a></p>
 {% endblock %}
 

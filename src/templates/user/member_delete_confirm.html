@@ -12,14 +12,14 @@
 {% block header %}
 {% endblock %}
 
+{% block page_title %}プロフィール削除{% endblock %}
 {% block content %}
-<h1>プロフィール削除</h1>
 <p class="delete_text">「{{ member.display_name }}」を削除します。よろしいですか？</p>
 <form method="post">{% csrf_token %}
 <button class="btn-danger">削除する</button>
 </form>
 <p class="link_set">
-    <a href="/profiles/">キャンセル</a>
+    <a href="/profiles/" class="btn-secondary">キャンセル</a>
 </p>  
 {% endblock %}
 

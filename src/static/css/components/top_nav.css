@@ -58,6 +58,9 @@
   padding-top: 30px;
   font-size: 1.2rem;
   color: var(--text-sub);
-  -webkit-text-stroke: 1px var(--text);
-  text-stroke: 1px var(--text);
+  text-shadow:
+    var(--text) 1px 0px 0px,
+    var(--text) 0px 1px 0px,
+    var(--text) -1px 0px 0px,
+    var(--text) 0px -1px 0px;
 }

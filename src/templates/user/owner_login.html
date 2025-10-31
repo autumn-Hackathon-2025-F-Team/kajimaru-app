@@ -12,17 +12,17 @@
 {% block header %}
 {% endblock %}
 
+{% block page_title %}管理者用ログイン{% endblock %}
 {% block content %}
-<h1>管理者用ログイン</h1>
 <form method="post">{% csrf_token %}
   {{ form.as_p }}
-<button class="btn-primary" type="submit">ログイン</button>
+<button class="btn-primary" type="submit">ログインする</button>
 </form>
 <p class="link_set">
-  <a href="/signup/">新規登録</a> / 
-  <a href="/welcome/">参加コード入力</a>
+  <a href="/signup/" class="btn-secondary">新規登録にもどる</a>   
+  <a href="/welcome/" class="btn-secondary">参加コードを入力</a>
 </p>
-{% for m in messages %}<p style="color:red">{{ m }}</p>{% endfor %}
+{% for m in messages %}<p class="alert_message" style="color:red">{{ m }}</p>{% endfor %}
 {% endblock %}
 
 {% block footer %}

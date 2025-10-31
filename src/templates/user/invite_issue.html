@@ -5,21 +5,20 @@
 
 {% block css %}
   <link rel="stylesheet" href="{% static 'css/components/button.css' %}">
-  <link rel="stylesheet" href="{% static 'css/components/form.css' %}">
   <link rel="stylesheet" href="{% static 'css/user/user.css' %}">
 {% endblock %}
 
 {% block header %}
 {% endblock %}
 
+{% block page_title %}招待コードを発行する{% endblock %}
 {% block content %}
-  <h1>招待コードを発行する</h1>
   <form method="post">{% csrf_token %}
     <button class="btn-primary" type="submit">発行する（有効5分／1回）</button>
   </form>
   <p class="link_set">
-    <a href="/profiles/">プロフィール一覧へ戻る</a>
+    <a href="/profiles/" class="btn-secondary">プロフィール一覧へ戻る</a>
   </p>
-  {% for m in messages %}<p style="color:red">{{ m }}</p>{% endfor %}
+  {% for m in messages %}<p class="alert_message" style="color:red">{{ m }}</p>{% endfor %}
 {% endblock %}
 
