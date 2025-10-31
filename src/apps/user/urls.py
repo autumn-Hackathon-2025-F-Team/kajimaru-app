@@ -22,5 +22,5 @@ urlpatterns = [
     path('members/<int:pk>/delete/', views.member_delete, name='member_delete'),
 
     # ダッシュボード
-    path('dashboard/', TemplateView.as_view(template_name='user/dashboard.html'), name='dashboard'),
+    #path('dashboard/', TemplateView.as_view(template_name='user/dashboard.html'), name='dashboard'),
 ]
