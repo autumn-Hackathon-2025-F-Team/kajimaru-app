@@ -37,12 +37,12 @@ class JoinCode(models.Model):
     expires_at = models.DateTimeField()            # 発行から５分後
     max_uses = models.PositiveIntegerField(default=10)  # 使われた瞬間
     used_at = models.DateTimeField(null=True, blank=True)      
-    revoked = models.DateTimeField(null=True, blank=True)   #手動失効
+    revoked = models.BooleanField(default=False)   #手動失効
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(default=timezone.now)
 
     def is_valid(self):
         now = timezone.now()
-        return (self.revoked is None) and (self.expires_at > now) and (self.max_uses)
+        return (not self.revoked and self.expires_at > now and self.used_at is None and self.max_uses > 0)
 
     

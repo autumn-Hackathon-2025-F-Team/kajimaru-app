@@ -41,7 +41,7 @@ def signup(request):
             )
             login(request, user)
             request.session[HK] = hh.id
-            return redirect('profiles_list')
+            return redirect('member_create')
     else:
         form = AdminSignupForm()
     return render(request, 'user/owner_signup.html', {'signup_form': form})
@@ -70,7 +70,8 @@ def join_verify(request):
         return redirect('welcome')
     form = JoinCodeForm(request.POST)
     if not form.is_valid():
-        messages.error(request, '8桁の参加コードを入力してください'); return redirect('welcome')
+        messages.error(request, '8桁の参加コードを入力してください'); 
+        return redirect('welcome')
 
     code = form.cleaned_data['code8']
     with transaction.atomic():
@@ -78,7 +79,9 @@ def join_verify(request):
         if not jc or not jc.is_valid():
             messages.error(request, '無効な参加コードです'); return redirect('welcome')
         jc.used_at = timezone.now()
-        jc.save(update_fields=['used_at'])
+        if jc.max_uses > 0:
+            jc.max_uses -= 1
+        jc.save(update_fields=['used_at', 'max_uses'])
         request.session[HK] = jc.household.id
     return redirect('profiles_list')
 
@@ -138,12 +141,24 @@ def invite_create(request):
         return redirect('admin_login')
     
     if request.method == 'POST':
-        return render(request, 'user/invite_issue.html')
+        return render(request, 'user/invite_result.html')
     
     def _gen_code():
         return get_random_string(length=8, allowed_chars='0123456789')
     
     with transaction.atomic():
+        now = timezone.now()
+        (
+            JoinCode.objects
+            .select_for_update()
+            .filter(
+                household=hh,
+                revoked=False,
+                used_at__isnull=True,
+                expires_at__gt=now,
+            )
+            .update(expires_at=now)
+        )
         for _ in range(10):
             code = _gen_code()
             exists = JoinCode.objects.select_for_update().filter(code8=code).exists()
@@ -152,6 +167,7 @@ def invite_create(request):
                     code8 =code,
                     household = hh,
                     expires_at = timezone.now() + timedelta(minutes=5),
+                    revoked=False,
                     created_by = request.user,
                 )
                 break
@@ -214,30 +230,39 @@ def profile_enter(request, pk:int):
 def member_create(request):
     hh = _require_admin_household(request)
     if not hh:
-        messages.error(request, '管理者世帯が見つかりません。')
-        return redirect('admin_login')
-    
-    if request.method == 'POST':
+        messages.error(request, "管理者の世帯が見つかりません。ログインし直してください。")
+        return redirect("admin_login")
+
+    if request.method == "POST":
         form = MemberForm(request.POST)
         if form.is_valid():
-            name = form.cleaned_data['display_name']
+            name = form.cleaned_data["display_name"]
+
+            # ★ ここで必ず FamilyMember を使う！！
             if Users.objects.filter(household=hh, display_name=name).exists():
-                form.add_error('display_name', 'この名前は世帯内使用済みです。')
+                form.add_error("display_name", "この名前は世帯内で使用済みです")
             else:
                 Users.objects.create(
-                    household = hh,
-                    display_name = name,
-                    nickname = form.cleaned_data.get('nickname', ''),
-                    relation_to_admin = form.cleaned_data['relation'],
-                    role = form.cleaned_data['role'],
-                    avatar_url = form.cleaned_data.get('avatar_url', ''),
+                    household=hh,
+                    display_name=name,
+                    nickname=form.cleaned_data.get("nickname", ""),
+                    relation_to_admin=form.cleaned_data["relation"],
+                    role=form.cleaned_data["role"],
+                    avatar_url=form.cleaned_data.get("avatar_url", ""),
                 )
-                messages.success(request, f'プロフィール「{name}」を作成しました')
-                return redirect('profiles_list')
-    else:
-        form = MemberForm()
-        return render(request, 'user/owner_family_manage.html', {'form': form, 'mode': 'create'})
-    
+                messages.success(request, f"プロフィール「{name}」を作成しました")
+                return redirect("invite_create")
+
+        # バリデーションNG時
+        return render(
+            request,
+            "user/owner_family_manage.html",
+            {"form": form, "mode": "create"},
+        )
+
+    # GET のとき
+    form = MemberForm()
+    return render(request, "user/owner_family_manage.html", {"form": form, "mode": "create"})    
 @login_required
 def member_edit(request, pk:int):
     hh = _require_admin_household(request)
