@@ -1,0 +1,29 @@
+button,.btn {
+    border-radius: 8px;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.btn-primary {
+    background-color: var(--btn-primary);
+    color: var(--text); 
+    margin-top: 2rem;
+    padding-left: 2.7rem;
+    padding-right: 2.7rem; 
+}
+
+.btn-secondary {
+    background-color: var(--btn-bg-secondary);
+    color: var(--text);
+    border: 5px solid var(--btn-secondary-solid);
+    padding: 5px 15px; 
+}
+
+.btn-danger {
+    background-color: var(--btn-bg-danger);
+    color: var(--text);
+    border: 5px solid var(--btn-danger-solid);
+    padding: 5px 22px; 
+}

@@ -1,0 +1,52 @@
+/* index.html */
+
+.page-title {
+  font-size: 3.5rem;
+  text-align: center;
+  color: var(--text-sub);
+  text-shadow:
+    var(--text) 1px 0px 0px,
+    var(--text) 0px 1px 0px,
+    var(--text) -1px 0px 0px,
+    var(--text) 0px -1px 0px;
+}
+
+.index_text {
+  text-align: center;
+  margin-top: 4rem;
+}
+
+.index_button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.big_btn {
+  font-size: 1.8rem;       
+  padding: 1rem 2rem;  
+  margin-bottom: 3.5rem;   
+  border-radius: 8px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.second_big_btn {   
+  padding: 0.7rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.third_big_btn {
+  padding: 0.7rem;
+  border-radius: 8px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.index_kagimaru_icon {
+  vertical-align: -12px;
+}

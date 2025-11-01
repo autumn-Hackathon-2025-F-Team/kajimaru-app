@@ -1,6 +1,30 @@
-<!doctype html><meta charset="utf-8"><title>招待コード</title>
-<h1>招待コード</h1>
-<p style="font-size:2rem;letter-spacing:.2rem"><strong>{{ code }}</strong></p>
-<p>有効期限：{{ expires_at }}</p>
-<p>※ 1回のみ有効。5分以内に入力してください。</p>
-<p><a href="/members/new/">続けて家族を追加する</a> / <a href="/profiles/">プロフィール一覧へ</a></p>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}招待コード{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/user/user.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/top_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/bottom_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/button.css' %}">
+{% endblock %}
+
+{% block header %}
+{% include "components/top_nav.html" %}
+{% endblock %}
+
+{% block page_title %}こちらが招待コードです{% endblock %}
+{% block content %}
+  <p class="invite_code"><strong>{{ code }}</strong></p>
+  <p class="expiration_date">有効期限：{{ expires_at }}</p>
+  <p class="caution_text">※ 1回のみ有効。5分以内に入力してください。</p>
+  <div class="btn_space">
+    <a href="/members/new/" class="btn btn-primary">続けて家族を追加する</a>
+    <a href="/profiles/" class="btn btn-secondary">プロフィール一覧へ</a>
+  </div>
+{% endblock %}
+
+{% block footer %}
+{% include "components/bottom_nav_before_login.html" %}
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}ログイン失敗{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/user/user.css' %}">
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block page_title %}ログインに失敗しました{% endblock %}
+{% block content %}
+  <p class="caution_text">15分待つとロックが解除されます。</p>
+  <p class="unlock_time">15:00（仮）</p>
+  
+{% endblock %}
+

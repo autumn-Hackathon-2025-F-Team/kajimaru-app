@@ -21,6 +21,9 @@ LS = 'profile_last_seen'
 def _gen_household_name(email: str) -> str:
     return f"household-{email.split('@')[0]}-{get_random_string(6)}"
 
+def index(request):
+    return render(request, 'user/index.html')
+
 def signup(request):
     if request.method == 'POST':
         form = AdminSignupForm(request.POST)

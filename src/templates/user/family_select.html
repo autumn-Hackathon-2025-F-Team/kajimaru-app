@@ -1,15 +1,30 @@
-<!-- /src/templates/user/profiles_list.html -->
-<!doctype html><html lang="ja"><head><meta charset="utf-8"><title>プロフィール一覧</title></head>
-<body>
-  <h1>家族のプロフィール</h1>
-  <p><a href="/members/new/">＋ プロフィールを追加</a></p>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}プロフィール一覧{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/components/button.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/form.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/top_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/bottom_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/user/user.css' %}">
+{% endblock %}
+
+{% block header %}
+{% include "components/top_nav.html" %}
+{% endblock %}
+
+{% block page_title %}家族のプロフィール一覧{% endblock %}
+{% block content %}
+<p class="link_set"><a href="/members/new/">＋ プロフィールを追加</a></p>
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;">
     {% for m in members %}
-      <div style="border:1px solid #ddd;border-radius:8px;padding:12px;">
+      <div class="profile_card" style="border:1px solid #ddd;border-radius:8px;padding:12px;">
         <div><strong>{{ m.display_name }}</strong> <small>({{ m.role }})</small></div>
         {% if m.nickname %}<div>Nickname: {{ m.nickname }}</div>{% endif %}
         {% if m.avatar_url %}<div><img src="{{ m.avatar_url }}" alt="" style="max-width:100%;height:auto"></div>{% endif %}
-        <p>
+        <p class="profile_add_select">
           <a href="/profiles/{{ m.id }}/enter/">このプロフィールで入室</a> |
           <a href="/members/{{ m.id }}/edit/">編集</a> |
           <a href="/members/{{ m.id }}/delete/">削除</a>
@@ -20,6 +35,15 @@
     {% endfor %}
   </div>
   <hr>
-  <p><a href="/invite/create/">招待コードを発行する</a></p>
-  {% for m in messages %}<p style="color:red">{{ m }}</p>{% endfor %}
-</body></html>
+  <p class="link_set">
+    <a href="/invite/create/" class="btn btn-primary" style="border-radius: 8px; font-size: 1rem; font-weight: bold; padding: 10px 20px;">
+      招待コードを発行する
+    </a>
+  </p>
+  {% for m in messages %}<p class="alert_message" style="color:red">{{ m }}</p>{% endfor %}
+{% endblock %}
+
+{% block footer %}
+{% include "components/bottom_nav_before_login.html" %}
+{% endblock %}
+

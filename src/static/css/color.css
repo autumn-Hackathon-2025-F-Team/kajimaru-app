@@ -1,0 +1,14 @@
+:root {
+  --bg-1: #FBEAC8;
+  --bg-2: #FBECCD;
+  --bg-3: #FBF5EA;
+  --bg-surface: #ffffff;
+  --text: #111111;
+  --text-sub: #ffffff;
+  --primary: #FFAE00; 
+  --btn-danger-solid: #FF0000;
+  --btn-primary: #FFAE00; 
+  --btn-secondary-solid: #FFAE00;
+  --btn-bg-secondary: #ffffff;
+  --btn-bg-danger: #ffffff;
+}

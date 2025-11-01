@@ -1,27 +1,42 @@
-<!doctype html>
-<html lang="ja">
-<head>
-  <meta charset="utf-8">
-  <title>
-    {% if mode == "create" %}プロフィール作成{% else %}プロフィール編集{% endif %}
-  </title>
-</head>
-<body>
-  <h1>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{% if mode == "create" %}プロフィール作成{% else %}プロフィール編集{% endif %}{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/components/button.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/form.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/top_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/bottom_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/user/user.css' %}">
+{% endblock %}
+
+{% block header %}
+{% include "components/top_nav.html" %}
+{% endblock %}
+
+{% block page_title %}
     {% if mode == "create" %}プロフィールを作成{% else %}プロフィールを編集{% endif %}
-  </h1>
+{% endblock %}
+{% block content %}
 
   <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">
-      {% if mode == "create" %}作成{% else %}更新{% endif %}
+    <button class="btn-primary" type="submit">
+      {% if mode == "create" %}作成する{% else %}更新する{% endif %}
     </button>
-    <a href="/profiles/">キャンセル</a>
+    <p class="link_set">
+      <a href="/profiles/" class="btn btn-secondary">キャンセル</a>
+    </p>
   </form>
 
   {% for m in messages %}
-    <p style="color:red">{{ m }}</p>
+    <p class="alert_message" style="color:red">{{ m }}</p>
   {% endfor %}
-</body>
-</html>
+{% endblock %}
+
+{% block footer %}
+{% include "components/bottom_nav_before_login.html" %}
+{% endblock %}
+

@@ -1,0 +1,123 @@
+h1 {
+    text-align: center;
+    margin-top: 3rem;
+}
+
+form p {
+  display: flex;
+  flex-direction: column;   
+  align-items: stretch;      
+  gap: 0.2rem;
+  width: 70%;
+  margin-bottom: 0.2rem; 
+}
+
+form label {
+  text-align: left;     
+  width: 70%;   
+}
+
+.link_set {
+    display: flex;
+    flex-direction: column;  
+    align-items: center;
+    text-align: center;
+    margin-top: 2rem;
+    gap: 0.5rem;
+}
+
+.link_set a {
+    text-decoration: none;
+}
+
+.alert_message {
+  text-align: center;
+}
+
+/* invite_result.html */
+
+.invite_code {
+  text-align: center;
+  margin-top: 3rem;
+  margin-left: 3rem;
+  margin-right: 3rem;
+  background-color: var(--bg-surface);
+  font-size: 2rem;
+  letter-spacing: 0.2rem;
+}
+
+.expiration_date {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.caution_text {
+  text-align: center;
+}
+
+.btn_space {
+  text-align: center;
+}
+
+.btn_space a:last-child {
+  margin-top: 2rem;
+}
+
+/* member_delete_confirm.html */
+
+.delete_text {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+/* code_input.html */
+
+.participation_code {
+  text-align: center;
+  margin-bottom: -0.5rem;
+  margin-top: 1rem;
+}
+
+/* family_select.html */
+
+.profile_card {
+  background-color: var(--bg-surface);
+}
+
+.profile_add_select {
+  display: flex;
+  justify-content: space-between;
+}
+
+.profile_add_select a {
+  text-decoration: none;
+}
+
+.profile_add_select a:last-child {
+  margin-right: 1rem;
+}
+
+
+/* profile_enter.html */
+
+.pin_target {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+/* login_error.html */
+
+.unlock_time {
+  text-align: center;
+  margin-top: 3rem;
+  margin-left: 3rem;
+  margin-right: 3rem;
+  background-color: var(--bg-surface);
+  font-size: 2rem;
+}
+
+/* owner_signup.html */
+
+.owner_signup_form {
+  margin-top: 1rem;
+}

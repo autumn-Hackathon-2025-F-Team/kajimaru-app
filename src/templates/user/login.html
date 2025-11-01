@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}PIN 入力{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/components/button.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/form.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/top_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/bottom_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/user/user.css' %}">
+{% endblock %}
+
+{% block header %}
+{% include "components/top_nav.html" %}
+{% endblock %}
+
+{% block page_title %} PINコードの入力 {% endblock %}
+{% block content %}
+  <p class="pin_target">対象プロフィール：<strong>{{ member.display_name }}</strong></p>
+  <div class="caution_text">
+    <p>PINコードを入力してください。</p>
+    <p>５回間違えるとロックがかかります。</p>
+  </div>
+  <form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <button class="btn-primary" type="submit">入室する</button>
+  </form>
+  <p class="link_set">
+    <a href="/profiles/" class="btn btn-secondary">プロフィールへ戻る</a>
+  </p>
+  {% for m in messages %}<p class="alert_message" style="color:red">{{ m }}</p>{% endfor %} 
+{% endblock %}
+
+{% block footer %}
+{% include "components/bottom_nav_before_login.html" %}
+{% endblock %}

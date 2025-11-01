@@ -1,11 +1,35 @@
-<!doctype html><html lang="ja"><head><meta charset="utf-8"><title>PIN 入力</title></head>
-<body>
-  <h1>PIN 入力</h1>
-  <p>対象プロフィール：<strong>{{ member.display_name }}</strong></p>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}PIN 登録{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/components/button.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/form.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/top_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/bottom_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/user/user.css' %}">
+{% endblock %}
+
+{% block header %}
+{% include "components/top_nav.html" %}
+{% endblock %}
+
+{% block page_title %} PINコードの登録 {% endblock %}
+{% block content %}
+  <p class="pin_target">対象プロフィール：<strong>{{ member.display_name }}</strong></p>
+
   <form method="post">{% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">入室する</button>
+    <button class="btn btn-primary" type="submit">登録して入室する</button>
   </form>
-  <p><a href="/profiles/">一覧へ戻る</a></p>
-  {% for m in messages %}<p style="color:red">{{ m }}</p>{% endfor %}
-</body></html>
+  <p class="link_set">
+    <a href="/profiles/" class="btn btn-secondary">プロフィールへ戻る</a>
+  </p>
+  {% for m in messages %}<p class="alert_message" style="color:red">{{ m }}</p>{% endfor %} 
+{% endblock %}
+
+{% block footer %}
+{% include "components/bottom_nav_before_login.html" %}
+{% endblock %}
+
