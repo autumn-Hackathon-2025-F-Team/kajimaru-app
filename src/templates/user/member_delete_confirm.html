@@ -6,10 +6,13 @@
 {% block css %}
   <link rel="stylesheet" href="{% static 'css/components/button.css' %}">
   <link rel="stylesheet" href="{% static 'css/components/form.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/top_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/bottom_nav.css' %}">
   <link rel="stylesheet" href="{% static 'css/user/user.css' %}">
 {% endblock %}
 
 {% block header %}
+{% include "components/top_nav.html" %}
 {% endblock %}
 
 {% block page_title %}プロフィール削除{% endblock %}
@@ -19,10 +22,11 @@
 <button class="btn-danger">削除する</button>
 </form>
 <p class="link_set">
-    <a href="/profiles/" class="btn-secondary">キャンセル</a>
+    <a href="/profiles/" class="btn btn-secondary">キャンセル</a>
 </p>  
 {% endblock %}
 
 {% block footer %}
+{% include "components/bottom_nav_before_login.html" %}
 {% endblock %}
 

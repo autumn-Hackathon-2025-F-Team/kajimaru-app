@@ -42,6 +42,8 @@ form label {
   margin-left: 3rem;
   margin-right: 3rem;
   background-color: var(--bg-surface);
+  font-size: 2rem;
+  letter-spacing: 0.2rem;
 }
 
 .expiration_date {
@@ -51,6 +53,14 @@ form label {
 
 .caution_text {
   text-align: center;
+}
+
+.btn_space {
+  text-align: center;
+}
+
+.btn_space a:last-child {
+  margin-top: 2rem;
 }
 
 /* member_delete_confirm.html */
@@ -106,3 +116,8 @@ form label {
   font-size: 2rem;
 }
 
+/* owner_signup.html */
+
+.owner_signup_form {
+  margin-top: 1rem;
+}

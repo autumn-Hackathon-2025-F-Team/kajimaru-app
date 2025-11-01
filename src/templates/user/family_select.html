@@ -6,10 +6,13 @@
 {% block css %}
   <link rel="stylesheet" href="{% static 'css/components/button.css' %}">
   <link rel="stylesheet" href="{% static 'css/components/form.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/top_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/bottom_nav.css' %}">
   <link rel="stylesheet" href="{% static 'css/user/user.css' %}">
 {% endblock %}
 
 {% block header %}
+{% include "components/top_nav.html" %}
 {% endblock %}
 
 {% block page_title %}家族のプロフィール一覧{% endblock %}
@@ -33,7 +36,7 @@
   </div>
   <hr>
   <p class="link_set">
-    <a href="/invite/create/" class="btn-primary" style="border-radius: 8px; font-size: 1rem; font-weight: bold; padding: 10px 20px;">
+    <a href="/invite/create/" class="btn btn-primary" style="border-radius: 8px; font-size: 1rem; font-weight: bold; padding: 10px 20px;">
       招待コードを発行する
     </a>
   </p>
@@ -41,5 +44,6 @@
 {% endblock %}
 
 {% block footer %}
+{% include "components/bottom_nav_before_login.html" %}
 {% endblock %}
 

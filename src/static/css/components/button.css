@@ -1,4 +1,4 @@
-button {
+button,.btn {
     border-radius: 8px;
     border: none;
     padding: 10px 20px;
@@ -19,7 +19,6 @@ button {
     color: var(--text);
     border: 5px solid var(--btn-secondary-solid);
     padding: 5px 15px; 
-    border-radius: 8px;
 }
 
 .btn-danger {

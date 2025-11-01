@@ -6,10 +6,13 @@
 {% block css %}
   <link rel="stylesheet" href="{% static 'css/components/button.css' %}">
   <link rel="stylesheet" href="{% static 'css/components/form.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/top_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/bottom_nav.css' %}">
   <link rel="stylesheet" href="{% static 'css/user/user.css' %}">
 {% endblock %}
 
 {% block header %}
+{% include "components/top_nav.html" %}
 {% endblock %}
 
 {% block page_title %}
@@ -24,7 +27,7 @@
       {% if mode == "create" %}作成する{% else %}更新する{% endif %}
     </button>
     <p class="link_set">
-      <a href="/profiles/" class="btn-secondary">キャンセル</a>
+      <a href="/profiles/" class="btn btn-secondary">キャンセル</a>
     </p>
   </form>
 
@@ -34,5 +37,6 @@
 {% endblock %}
 
 {% block footer %}
+{% include "components/bottom_nav_before_login.html" %}
 {% endblock %}
 

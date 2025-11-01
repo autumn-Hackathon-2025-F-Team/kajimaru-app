@@ -1,7 +1,7 @@
 /* index.html */
 
 .page-title {
-  font-size: 4rem;
+  font-size: 3.5rem;
   text-align: center;
   color: var(--text-sub);
   text-shadow:
@@ -45,4 +45,8 @@
   border-radius: 8px;
   font-weight: bold;
   text-decoration: none;
+}
+
+.index_kagimaru_icon {
+  vertical-align: -12px;
 }

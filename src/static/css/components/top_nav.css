@@ -3,7 +3,7 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 64px;
+  height: 70px;
   z-index: 1000;
   background-color: var(--primary);
   display: flex;
@@ -63,4 +63,14 @@
     var(--text) 0px 1px 0px,
     var(--text) -1px 0px 0px,
     var(--text) 0px -1px 0px;
+}
+
+.kajimaru_icon {
+  width: 20%;
+  height: auto;
+  vertical-align: -7px;
+}
+
+.nav_item {
+  margin-top: 1.5rem;
 }
