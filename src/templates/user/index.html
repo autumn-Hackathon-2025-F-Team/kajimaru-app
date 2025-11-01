@@ -14,8 +14,16 @@
 {% endblock %}
 
 {% block page_title %}
-<img src="{% static 'img/icon.png' %}" alt="かじまるアイコン" class="index_kagimaru_icon">
-かじまる
+<div class="container">
+    <img src="{% static 'img/background_illust.svg' %}" alt="背景画像" class="index_background-img">
+    <div class="title_set">
+        <img src="{% static 'img/icon.svg' %}" alt="かじまるアイコン" class="index_kajimaru_icon">
+        <p>かじまる</p>
+    </div>
+    <div class="kajimaru_mikan_position">
+        <img src="{% static 'img/kajimaru_mikan.svg' %}" alt="かじまるみかん" class="index_kajimaru_mikan">
+    </div>
+</div>
 {% endblock %}
 {% block content %}
 <div class="index_text">
