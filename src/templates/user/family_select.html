@@ -20,7 +20,7 @@
 <p class="link_set"><a href="/members/new/">＋ プロフィールを追加</a></p>
   <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;">
     {% for m in members %}
-      <div class="profile_card" style="border:1px solid #ddd;border-radius:8px;padding:12px;">
+      <div class="profile_card">
         <div><strong>{{ m.display_name }}</strong> <small>({{ m.role }})</small></div>
         {% if m.nickname %}<div>Nickname: {{ m.nickname }}</div>{% endif %}
         {% if m.avatar_url %}<div><img src="{{ m.avatar_url }}" alt="" style="max-width:100%;height:auto"></div>{% endif %}

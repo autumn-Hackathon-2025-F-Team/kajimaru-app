@@ -82,6 +82,9 @@ form label {
 
 .profile_card {
   background-color: var(--bg-surface);
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px;
 }
 
 .profile_add_select {
