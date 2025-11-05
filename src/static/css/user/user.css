@@ -56,7 +56,11 @@ form label {
 }
 
 .btn_space {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
+  gap: 1.5rem;
 }
 
 .btn_space a:last-child {
@@ -80,11 +84,20 @@ form label {
 
 /* family_select.html */
 
-.profile_card {
-  background-color: var(--bg-surface);
-  border: 1px solid #ddd;
-  border-radius: 8px;
+.profile_container {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  width: 100%;
+}
+
+.profile_section {
   padding: 12px;
+  margin-top: 2rem;
+  /* display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(240px,1fr));
+  gap: 16px; */
+  width: 50%
 }
 
 .profile_add_select {
@@ -100,6 +113,10 @@ form label {
   margin-right: 1rem;
 }
 
+.profile_kajimaru_mikan {
+  width: 5rem;
+  height: 5rem;
+}
 
 /* profile_enter.html */
 
@@ -123,4 +140,18 @@ form label {
 
 .owner_signup_form {
   margin-top: 1rem;
+}
+
+/* personal_page.html */
+
+.profile_card {
+  background-color: var(--bg-surface);
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px;
+  margin-top: 2rem;
+}
+
+.new_line {
+  display: inline-block;
 }

@@ -27,7 +27,7 @@
       {% if mode == "create" %}作成する{% else %}更新する{% endif %}
     </button>
     <p class="link_set">
-      <a href="/profiles/" class="btn btn-secondary">キャンセル</a>
+      <a href="{% url 'profiles_list' %}" class="btn btn-secondary">キャンセル</a>
     </p>
   </form>
 

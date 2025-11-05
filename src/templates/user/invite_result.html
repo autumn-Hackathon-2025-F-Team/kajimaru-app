@@ -20,8 +20,8 @@
   <p class="expiration_date">有効期限：{{ expires_at }}</p>
   <p class="caution_text">※ 1回のみ有効。5分以内に入力してください。</p>
   <div class="btn_space">
-    <a href="/members/new/" class="btn btn-primary">続けて家族を追加する</a>
-    <a href="/profiles/" class="btn btn-secondary">プロフィール一覧へ</a>
+    <a href="{% url 'member_create' %}" class="btn btn-primary">続けて家族を追加する</a>
+    <a href="{% url 'profiles_list' %}" class="btn btn-secondary">プロフィール一覧へ</a>
   </div>
 {% endblock %}
 

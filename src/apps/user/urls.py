@@ -20,6 +20,9 @@ urlpatterns = [
     path('members/new/', views.member_create, name='member_create'),
     path('members/<int:pk>/edit/', views.member_edit, name='member_edit'),
     path('members/<int:pk>/delete/', views.member_delete, name='member_delete'),
+    # 岡が追記した分↓
+    path('personal_page/<int:pk>/', views.personal_page, name='personal_page'),
+
 
     # ダッシュボード
     #path('dashboard/', TemplateView.as_view(template_name='user/dashboard.html'), name='dashboard'),

@@ -31,9 +31,9 @@
     <p>登録した方が管理者権限を持ちます。</p>
 </div>
 <div class="index_button">
-    <a href="/signup/" class="btn btn-primary big_btn">新規登録</a>
-    <a href="/welcome/" class="btn btn-secondary second_big_btn">招待コードを入力</a>
-    <a href="/login/" class="btn btn-secondary third_big_btn">管理者ログインへ</a>
+    <a href="{% url 'signup' %}" class="btn btn-primary big_btn">新規登録</a>
+    <a href="{% url 'welcome' %}" class="btn btn-secondary second_big_btn">招待コードを入力</a>
+    <a href="{% url 'admin_login' %}" class="btn btn-secondary third_big_btn">管理者ログインへ</a>
 </div>  
 {% endblock %}
 

@@ -22,7 +22,7 @@
 <button class="btn-primary" type="submit">ログインする</button>
 </form>
 <p class="link_set">
-  <a href="/signup/" class="btn btn-secondary">新規登録へ</a>   
+  <a href="{% url 'signup' %}" class="btn btn-secondary">新規登録へ</a>   
 </p>
 {% for m in messages %}<p class="alert_message" style="color:red">{{ m }}</p>{% endfor %}
 {% endblock %}
