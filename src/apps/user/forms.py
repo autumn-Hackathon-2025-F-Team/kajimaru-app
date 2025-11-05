@@ -39,22 +39,33 @@ class JoinCodeForm(forms.Form):
             raise forms.ValidationError('参加コードは8桁の数字で入力してください。')
         return v
 
-class PinForm(forms.Form):
+class PinSetForm(forms.Form):
+    pin1 = forms.CharField(
+        label="PINコード（4桁）",
+        min_length=4, max_length=4,
+        widget=forms.PasswordInput(attrs={"inputmode": "numeric", "autocomplete": "off"})
+    )
+    pin2 = forms.CharField(
+        label="PIN（確認）",
+        min_length=4, max_length=4,
+        widget=forms.PasswordInput(attrs={"inputmode": "numeric", "autocomplete": "off"})
+    )
+
+    def clean(self):
+        cleaned = super().clean()
+        p1 = cleaned.get('pin1', '')
+        p2 = cleaned.get('pin2', '')
+        if not (p1.isdigit() and p2.isdigit()):
+            raise forms.ValidationError('PINは数字4桁で入力してください。')
+        if p1 != p2:
+            raise forms.ValidationError('確認用PINが一致しません。')
+        return cleaned
+
+class PinVerifyForm(forms.Form):
     pin = forms.CharField(
-        label='４桁のPINコード',
-        min_length=4,
-        max_length=4,
-        widget=forms.PasswordInput(attrs={
-            'inputmode': 'numeric',
-            'pattern': r'\d{4}',
-            'maxlength': '4',
-            'placeholder': '••••',
-        }),
-        error_messages={
-            'required': 'PINコードを入力してください',
-            'min_length': 'PINコードは４桁です',
-            'max_length': 'PINコードは４桁です',
-        },   
+        label='PIN（4桁）',
+        min_length=4, max_length=4,
+        widget=forms.PasswordInput(attrs={'inputmode': 'numeric', 'autocomplete': 'off'})
     )
 
     def clean_pin(self):
