@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django import forms
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import AdminSignupForm, JoinCodeForm, PinForm, AdminLoginForm, MemberForm
+from .forms import AdminSignupForm, JoinCodeForm, PinSetForm, PinVerifyForm, AdminLoginForm, MemberForm
 from django.utils.crypto import get_random_string
 from .models import Household, Users, JoinCode
 from django.utils import timezone
@@ -50,8 +50,8 @@ def signup(request):
     return render(request, 'user/owner_signup.html', {'signup_form': form})
 
 class AdminLoginForm(forms.Form):
-    email = forms.EmailField()
-    password = forms.CharField(widget=forms.PasswordInput)
+    email = forms.EmailField(label='メールアドレス')
+    password = forms.CharField(label='パスワード', widget=forms.PasswordInput)
 
 def admin_login(request):
     if request.method == 'POST':
@@ -93,7 +93,7 @@ def profiles(request, pk:int):
     hh_id = request.session.get(HK)
     if not hh_id: return redirect('welcome')
     m = get_object_or_404(Users, id=pk, household_id=hh_id)
-    form = PinForm(request.POST or None)
+    form = PinSetForm(request.POST or None)
     if request.method == 'POST' and form.is_valid():
         pin = form.cleaned_data['pin']
         # 初回設定
@@ -192,25 +192,30 @@ def profile_enter(request, pk:int):
     hh_id = request.session.get(HK)
     if not hh_id:
         return redirect('welcome')
+    
     m = get_object_or_404(Users, id=pk, household_id=hh_id)
-    form = PinForm(request.POST or None)
-
-    if request.method == 'POST' and form.is_valid():
-        pin = form.cleaned_data['pin']
-        if not m.pin_hash:
+    
+    if not m.pin_hash:
+        form = PinSetForm(request.POST or None)
+        if request.method == 'POST' and form.is_valid():
+            pin = form.cleaned_data['pin1']
             m.pin_hash = make_password(pin)
             m.pin_updated_at = timezone.now()
             m.failed_attempts = 0
             m.locked_until = None
-            m.save()
+            m.save(update_fields=['pin_hash', 'pin_updated_at', 'failed_attempts', 'locked_until'])
             request.session[MK] = m.id
             request.session[LS] = timezone.now().timestamp()
             return redirect('dashboard')
+        return render(request, 'user/login.html', {'member': m, 'form': form})
         
-        if m.locked_until and m.locked_until > timezone.now():
-            messages.error(request, '試行が多すぎます。しばらくしてから再試行してください')
-            return redirect('profiles_list')
-        
+    if m.locked_until and m.locked_until > timezone.now():
+        messages.error(request, '試行が多すぎます。しばらくしてから再試行してください')
+        return redirect('profiles_list')
+    
+    form = PinVerifyForm(request.POST or None)
+    if request.method == 'POST' and form.is_valid():
+        pin = form.cleaned_data['pin']
         if check_password(pin, m.pin_hash):
             m.failed_attempts = 0
             m.locked_until = None
@@ -224,7 +229,6 @@ def profile_enter(request, pk:int):
                 m.locked_until = timezone.now() + timedelta(minutes=15)
             m.save(update_fields=['failed_attempts', 'locked_until'])
             messages.error(request, 'PINが違います')
-            return redirect('profile_list')
     return render(request, 'user/profile_enter.html', {'member': m, 'form': form})
 
 # ---- 管理者のプロフィールCRUD ----
@@ -278,7 +282,7 @@ def member_edit(request, pk:int):
         form = MemberForm(request.POST)
         if form.is_valid():
             name = form.cleaned_data['display_name']
-            if Users.objects.filter(household=hh, display_name=name).exlude(id=m.id).exists():
+            if Users.objects.filter(household=hh, display_name=name).exclude(id=m.id).exists():
                 form.add_error('display_name', 'この名前は世帯内で使用済みです')
             else:
                 m.display_name = name
