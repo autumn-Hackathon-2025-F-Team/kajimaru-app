@@ -1,8 +1,16 @@
 from django import forms
+from .models import Users
 
 REL_CHOICES = [('self', '本人'), ('spouse', '配偶者'), ('parent', '親'), ('child', '子'), ('other', 'その他')]
 
 ROLE_CHOICES = [('admin', '管理者'), ('member', 'メンバー')]
+
+AVAATAR_CHOICES = [
+    ('boy', '男の子'),
+    ('girl', '女の子'),
+    ('man', '男性'),
+    ('woman', '女性'),
+]
 
 class AdminSignupForm(forms.Form):
     name = forms.CharField(label='名前', max_length=50)
@@ -79,4 +87,12 @@ class MemberForm(forms.Form):
     nickname = forms.CharField(label='ニックネーム', max_length=50, required=False)
     relation = forms.ChoiceField(label='家族内での立場', choices=REL_CHOICES, initial='other')
     role = forms.ChoiceField(label='権限', choices=ROLE_CHOICES, initial='member')
-    avatar = forms.URLField(label='アイコンURL', required=False)
+    avatar_key = forms.ChoiceField(
+        label='アイコン',
+        choices=[('', '(未選択)')] + AVAATAR_CHOICES,
+        widget=forms.RadioSelect
+    )
+
+    class Meta:
+        model = Users
+        fields = ['display_name', 'nickname', 'relation_to_admin', 'role', 'avatar_key']
