@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}PINコードを入力{% endblock %}
+{% block title %}ログイン{% endblock %}
 
 {% block css %}
   <link rel="stylesheet" href="{% static 'css/components/button.css' %}">
@@ -15,7 +15,7 @@
 {% include "components/top_nav.html" %}
 {% endblock %}
 
-{% block page_title %} PINコードを入力 {% endblock %}
+{% block page_title %} ログイン {% endblock %}
 {% block content %}
   <p class="pin_target">対象プロフィール：<strong>{{ member.display_name }}</strong></p>
   <div class="caution_text">
@@ -23,10 +23,10 @@
   </div>
   <form method="post">{% csrf_token %}
     {{ form.as_p }}
-    <button class="btn btn-primary" type="submit">入室する</button>
+    <button class="btn btn-primary" type="submit">ホームに入室する</button>
   </form>
   <p class="link_set">
-    <a href="/profiles/" class="btn btn-secondary">プロフィールへ戻る</a>
+    <a href="{% url 'personal_page' member.id %}" class="btn btn-secondary">プロフィールへ戻る</a>
   </p>
   {% for m in messages %}<p class="alert_message" style="color:red">{{ m }}</p>{% endfor %} 
 {% endblock %}

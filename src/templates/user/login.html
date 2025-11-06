@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}PIN 登録{% endblock %}
+{% block title %}初回ログイン{% endblock %}
 
 {% block css %}
   <link rel="stylesheet" href="{% static 'css/components/button.css' %}">
@@ -15,16 +15,19 @@
 {% include "components/top_nav.html" %}
 {% endblock %}
 
-{% block page_title %} PINコードを登録 {% endblock %}
+{% block page_title %} 初回ログイン {% endblock %}
 {% block content %}
   <p class="pin_target">対象プロフィール：<strong>{{ member.display_name }}</strong></p>
-
+  <div class="caution_text">
+    <p>PINコードを登録してください。</p>
+    <p>５回間違えるとロックがかかります。</p>
+  </div>
   <form method="post">{% csrf_token %}
     {{ form.as_p }}
-    <button class="btn-primary" type="submit">登録する</button>
+    <button class="btn-primary" type="submit">登録して入室する</button>
   </form>
   <p class="link_set">
-    <a href="/profiles/" class="btn btn-secondary">プロフィールへ戻る</a>
+    <a href="{% url 'profiles_list' %}" class="btn btn-secondary">プロフィールへ戻る</a>
   </p>
   {% for m in messages %}<p class="alert_message" style="color:red">{{ m }}</p>{% endfor %} 
 {% endblock %}

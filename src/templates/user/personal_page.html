@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}個人のプロフィールページ{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/components/button.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/form.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/top_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/bottom_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/user/user.css' %}">
+{% endblock %}
+
+{% block header %}
+{% include "components/top_nav.html" %}
+{% endblock %}
+
+{% block page_title %}<span class="new_line">{{ m.nickname }}さんの</span><span class="new_line">プロフィール</span>{% endblock %}
+{% block content %}
+  <!-- <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;"> -->
+      <div class="profile_card">
+        <div><strong>{{ m.display_name }}</strong> <small>({{ m.role }})</small></div>
+        {% if m.nickname %}<div>Nickname: {{ m.nickname }}</div>{% endif %}
+        {% if m.avatar_url %}<div><img src="{{ m.avatar_url }}" alt="" style="max-width:100%;height:auto"></div>{% endif %}
+        <p class="profile_add_select">
+          <a href="{% url 'profile_enter' m.id %}">このプロフィールで入室</a> |
+          <a href="{% url 'member_edit' m.id %}">編集</a> |
+          <a href="{% url 'member_delete' m.id %}">削除</a>
+        </p>
+      </div>
+  <hr>
+  <p class="link_set">
+    <a href="{% url 'profiles_list' %}" class="btn btn-secondary">プロフィール一覧へ</a>
+  </p>
+  {% for m in messages %}<p class="alert_message" style="color:red">{{ m }}</p>{% endfor %}
+{% endblock %}
+
+{% block footer %}
+{% include "components/bottom_nav_before_login.html" %}
+{% endblock %}
+

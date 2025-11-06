@@ -23,7 +23,7 @@
     <button class="btn-primary" type="submit">参加する</button>
   </form>
   <p class="link_set">
-    <a href="/login/" class="btn btn-secondary">管理者ログイン</a>
+    <a href="{% url 'admin_login' %}" class="btn btn-secondary">管理者ログイン</a>
   </p>
   {% for m in messages %}<p class="alert_message" style="color:red">{{ m }}</p>{% endfor %}
 {% endblock %}

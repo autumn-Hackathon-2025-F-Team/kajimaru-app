@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}管理者の新規登録{% endblock %}
+{% block title %}管理者ログイン{% endblock %}
 
 {% block css %}
   <link rel="stylesheet" href="{% static 'css/components/button.css' %}">
@@ -15,15 +15,14 @@
 {% include "components/top_nav.html" %}
 {% endblock %}
 
-{% block page_title %}管理者用ログイン{% endblock %}
+{% block page_title %}管理者ログイン{% endblock %}
 {% block content %}
 <form method="post">{% csrf_token %}
   {{ form.as_p }}
 <button class="btn-primary" type="submit">ログインする</button>
 </form>
 <p class="link_set">
-  <a href="/signup/" class="btn btn-secondary">新規登録にもどる</a>   
-  <a href="/welcome/" class="btn btn-secondary">参加コードを入力</a>
+  <a href="{% url 'signup' %}" class="btn btn-secondary">新規登録へ</a>   
 </p>
 {% for m in messages %}<p class="alert_message" style="color:red">{{ m }}</p>{% endfor %}
 {% endblock %}
