@@ -17,7 +17,7 @@ class Users(models.Model):
     display_name = models.CharField(max_length=50)
     nickname = models.CharField(max_length=50, blank=True, default='')
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='member')
-    avatar_url = models.URLField(blank=True)
+    avatar_key = models.CharField(max_length=50, blank=True, default='')
     pin_hash = models.CharField(max_length=255, blank=True)
     pin_updated_at = models.DateTimeField(null=True, blank=True)
     failed_attempts = models.PositiveIntegerField(default=0)
