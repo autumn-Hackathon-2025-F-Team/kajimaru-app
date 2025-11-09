@@ -24,12 +24,6 @@ class DashboardView(LoginRequiredMixin,TemplateView):
         #今日の家事(個人)
         tasks_today = Task.objects.filter(daily__date=today, user=login_user).select_related("user")
 
-        #未完了
-        unfinished_today = tasks_today.filter(is_completed=False)
-
-        #代役がまだ見つかってない
-        need_substitute = tasks_today.filter(is_busy=True, substitute="")
-
         #昨日できなかった家事
         unfinished_yesterday = Task.objects.filter(daily__date=yesterday, user=login_user, is_completed=False)
 
@@ -56,8 +50,6 @@ class DashboardView(LoginRequiredMixin,TemplateView):
         #フロントに渡す
         context.update({
             "tasks_today": tasks_today,
-            "unfinished_today": unfinished_today,
-            "need_substitute": need_substitute,
             "unfinished_yesterday": unfinished_yesterday,
             "maintenance_today": maintenance_today,
 
