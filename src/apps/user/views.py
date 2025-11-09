@@ -81,11 +81,12 @@ def join_verify(request):
         jc = (JoinCode.objects.select_for_update().filter(code8=code).first())
         if not jc or not jc.is_valid():
             messages.error(request, '無効な参加コードです'); return redirect('welcome')
-        jc.used_at = timezone.now()
-        if jc.max_uses > 0:
-            jc.max_uses -= 1
-        jc.save(update_fields=['used_at', 'max_uses'])
+        if jc.used_at is None:
+            jc.used_at = timezone.now()
+            jc.max_uses = timezone.now()
+            jc.save(update_fields=['used_at'])
         request.session[HK] = jc.household.id
+        
     return redirect('profiles_list')
 
 
