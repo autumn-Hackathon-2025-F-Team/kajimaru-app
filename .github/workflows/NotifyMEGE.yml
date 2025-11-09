@@ -6,17 +6,17 @@ on:
   # プルリクエストがクローズ
   pull_request:
     types: [closed]
-    # ターゲットブランチがdevelop
+    # ターゲットブランチがdevelopブランチ
     branches:
       - develop
 
 # ジョブの定義
 jobs:
 
-  # 「notify」はジョブの名前（なんでもOK）
+  # 「notify」はジョブの名前（何でもOK）
   notify:
 
-    # GitHubが提供する最新のUbuntu環境（仮想マシン）上で実行
+    # GitHubが提供する最新のUbuntu環境（仮想マシン） 上で実行
     runs-on: ubuntu-latest
 
     # 処理の中身を定義
@@ -25,5 +25,5 @@ jobs:
         run: |
           curl -X POST -H 'Content-Type: application/json' \
             -d '{
-              "text": "@all\nプルリクエストがマージされました！\n●リポジトリ: '${{ github.repository }}'\n●PRタイトル: \"${{ github.event.pull_request.title }}\"\n●作成者: ${{ github.event.pull_request.user.login }}\n●URL: ${{github.event.pull_request.html_url }}"
+              "text": "@all\nプルリクエストがマージされました！\n●リポジトリ: '${{ github.repository }}'\n●PRタイトル: \"${{ github.event.pull_request.title }}\"\n●作成者: ${{ github.event.pull_request.user.login }}\n●URL: ${{ github.event.pull_request.html_url }}"
             }' ${{ secrets.MATTERMOST_WEBHOOK_URL }}
