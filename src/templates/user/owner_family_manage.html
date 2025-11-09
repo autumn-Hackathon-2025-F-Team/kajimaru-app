@@ -22,7 +22,80 @@
 
   <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    <!-- ゆーせー追加分 -->
+     {# 1) avatar_key 以外の項目を普通に表示 #}
+     {% for field in form %}
+        {% if field.name != 'avatar_key' %}
+          <div class="form_group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}
+              <p class="help_text">{{ field.help_text }}</p>
+            {% endif %}
+            {% for error in field.errors %}
+              <p class="alert_message">{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endfor %}
+
+      {# 2) アイコン選択エリア #}
+    <div class="form_group">
+      <label>{{ form.avatar_key.label }}</label>
+      <p class="help_text">お好みのアイコンを選択してください。</p>
+
+      <style>
+        .avatar-grid {
+          display: grid;
+          grid-template-columns: repeat(4, 72px);
+          gap: 12px;
+          margin-top: 8px;
+        }
+        .avatar-item {
+          cursor: pointer;
+          text-align: center;
+          font-size: 10px;
+        }
+        .avatar-item input[type="radio"] {
+          display: none;  /* 本物のラジオは隠す */
+        }
+        .avatar-item img {
+          width: 56px;
+          height: 56px;
+          border-radius: 50%;
+          border: 2px solid transparent;
+          box-sizing: border-box;
+        }
+        .avatar-item input[type="radio"]:checked + img {
+          border-color: #00aaff;  /* 選択中の見た目 */
+        }
+      </style>
+
+      {% load static %}
+
+      <div class="avatar-grid">
+        {# form.avatar_key.field.choices は [('boy','男の子'), ...] #}
+        {% for value, label in form.avatar_key.field.choices %}
+          <label class="avatar-item">
+            <input type="radio"
+                  name="{{ form.avatar_key.name }}"
+                  value="{{ value }}"
+                  {% if form.avatar_key.value == value %}checked{% endif %}>
+            <img src="{% static 'img/avatars/' %}{{ value }}.png"
+                alt="{{ label }}"
+                title="{{ label }}">
+            <div>{{ label }}</div>
+          </label>
+        {% endfor %}
+      </div>
+
+      {% for error in form.avatar_key.errors %}
+        <p class="alert_message">{{ error }}</p>
+      {% endfor %}
+    </div>
+    <!-- ここまでゆーせー追加分 -->
+     
+    <!-- {{ form.as_p }} -->
     <button class="btn-primary" type="submit">
       {% if mode == "create" %}作成する{% else %}更新する{% endif %}
     </button>

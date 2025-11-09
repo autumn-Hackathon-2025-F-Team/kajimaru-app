@@ -155,3 +155,11 @@ form label {
 .new_line {
   display: inline-block;
 }
+
+.profile_avatar_img {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto 4px;
+}
