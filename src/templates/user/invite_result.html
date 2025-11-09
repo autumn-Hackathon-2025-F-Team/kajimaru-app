@@ -16,13 +16,93 @@
 
 {% block page_title %}こちらが招待コードです{% endblock %}
 {% block content %}
-  <p class="invite_code"><strong>{{ code }}</strong></p>
+  <div class="invite_code" id="invite-code"><strong>{{ code }}</strong></div>
+  <!-- ゆーせー追加分 -->
+  <button type="button" class="btn-copy" onclick="copyInviteCode()">
+    コピーする
+  </button>
+
+  <p id="copy-message" class="copy-message" style="display:none;">
+    コピーしました！
+  </p>
+
+  <style>
+    .btn-copy {
+      margin-top: 1rem;
+      padding: 6px 16px;
+      border-radius: 6px;
+      border: none;
+      background-color: #007aff;
+      color: #fff;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .btn-copy:hover {
+      opacity: 0.9;
+    }
+
+    .copy-message {
+      margin-left: 0.5rem;
+      font-size: 0.8rem;
+      color: #007aff;
+    }
+  </style>
+    <script>
+    function copyInviteCode() {
+      const el = document.getElementById('invite-code');
+      if (!el) return;
+
+      const text = (el.textContent || el.innerText || '').trim();
+      if (!text) return;
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text)
+          .then(function () {
+            showCopied();
+          })
+          .catch(function () {
+            fallbackCopy(text);
+          });
+      } else {
+        fallbackCopy(text);
+      }
+    }
+
+    function fallbackCopy(text) {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.left = '-9999px';
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      try {
+        document.execCommand('copy');
+      } catch (e) {
+        console.error(e);
+      }
+      document.body.removeChild(textarea);
+      showCopied();
+    }
+
+    function showCopied() {
+      const msg = document.getElementById('copy-message');
+      if (!msg) return;
+      msg.style.display = 'inline';
+      setTimeout(function () {
+        msg.style.display = 'none';
+      }, 1500);
+    }
+  </script>
+<!-- ゆーせー追加分ここまで -->
   <p class="expiration_date">有効期限：{{ expires_at }}</p>
-  <p class="caution_text">※ 1回のみ有効。5分以内に入力してください。</p>
+  <p class="caution_text">※ 5分以内に入力してください。</p>
   <div class="btn_space">
     <a href="{% url 'member_create' %}" class="btn btn-primary">続けて家族を追加する</a>
     <a href="{% url 'profiles_list' %}" class="btn btn-secondary">プロフィール一覧へ</a>
   </div>
+
 {% endblock %}
 
 {% block footer %}

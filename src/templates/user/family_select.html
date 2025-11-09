@@ -18,8 +18,10 @@
 {% block page_title %}家族のプロフィール一覧{% endblock %}
 {% block content %}
 <p class="link_set"><a href="/members/new/">＋ プロフィールを追加</a></p>
+
   <!-- <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;"> -->
-  <div class="profile_container">
+  <!-- ゆーせーが下記をコメントアウトしました -->
+  <!-- <div class="profile_container">
     {% for m in members %}
       <div class="profile_section">
         <div><strong>{{ m.display_name }}</strong> <small>({{ m.role }})</small></div>
@@ -27,17 +29,58 @@
         {% if m.avatar_url %}<div><img src="{{ m.avatar_url }}" alt="" style="max-width:100%;height:auto"></div>{% endif %}
         <a href="{% url 'profile_enter' m.id %}">
           <img src="{% static 'img/kajimaru_mikan.svg' %}" alt="かじまるみかん" class="profile_kajimaru_mikan">
-        </a>
+        </a> -->
         <!-- <p class="profile_add_select">
           <a href="/profiles/{{ m.id }}/enter/">このプロフィールで入室</a> |
           <a href="/members/{{ m.id }}/edit/">編集</a> |
           <a href="/members/{{ m.id }}/delete/">削除</a>
         </p> -->
-      </div>
+      <!-- </div>
     {% empty %}
       <p>プロフィールがありません。まず追加してください。</p>
     {% endfor %}
+  </div> -->
+  <!-- ここまでコメントアウトしました -->
+
+  <!-- ゆーせー追加分 -->
+  <div class="profile_container">
+      {% for m in members %}
+        <div class="profile_section">
+          {# ▼ 選択したアバター（avatar_key） #}
+          <!-- <img
+            src="{% static 'img/avatars/' %}{{ m.avatar_key|default:'boy' }}.png"
+            alt="{{ m.display_name }}のアイコン"
+            class="profile_avatar_img"
+          > -->
+
+          {# ▼ 名前など #}
+          <div><strong>{{ m.display_name }}</strong> <small>({{ m.role }})</small></div>
+          {% if m.nickname %}
+            <div>Nickname: {{ m.nickname }}</div>
+          {% endif %}
+
+          {# ▼ 入室ボタン（今はダミーで personal_page。必要に応じて変更） #}
+          <div class="profile_add_select">
+            <a href="/personal_page/{{ m.id }}">
+              {% if m.avatar_key %}
+                <img src="{% static 'img/avatars/' %}{{ m.avatar_key }}.png"
+                    alt="{{ m.display_name }}のアイコンで入室"
+                    class="profile_kajimaru_mikan">
+              {% else %}
+                <img src="{% static 'img/kajimaru_mikan.svg' %}"
+                    alt="{{ m.display_name }}のデフォルトアイコンで入室"
+                    class="profile_kajimaru_mikan">
+              {% endif %}
+            </a>
+            <a href="/members/{{ m.id }}/edit/">編集</a>
+          </div>
+        </div>
+      {% empty %}
+        <p>プロフィールがありません。まず追加してください。</p>
+      {% endfor %}
   </div>
+  <!-- ここまでゆーせー追加分 -->
+
   <hr>
   <p class="link_set">
     <a href="{% url 'invite_create' %}" class="btn btn-primary" style="border-radius: 8px; font-size: 1rem; font-weight: bold; padding: 10px 20px;">
