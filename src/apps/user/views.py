@@ -254,20 +254,14 @@ def member_create(request):
     if request.method == "POST":
         form = MemberForm(request.POST)
         if form.is_valid():
-            name = form.cleaned_data["display_name"]
+            name = form.cleaned_data["display_name"].strip()
 
-            # ★ ここで必ず FamilyMember を使う！！
-            if Users.objects.filter(household=hh, display_name=name).exists():
+            if Users.objects.filter(household=hh, display_name__iexact=name).exists():
                 form.add_error("display_name", "この名前は世帯内で使用済みです")
             else:
-                Users.objects.create(
-                    household=hh,
-                    display_name=name,
-                    nickname=form.cleaned_data.get("nickname", ""),
-                    relation_to_admin=form.cleaned_data["relation"],
-                    role=form.cleaned_data["role"],
-                    avatar_url=form.cleaned_data.get("avatar_url", ""),
-                )
+                member = form.save(commit=False)
+                member.household = hh
+                member.save()
                 messages.success(request, f"プロフィール「{name}」を作成しました")
                 return redirect("invite_create")
 
@@ -281,38 +275,50 @@ def member_create(request):
     # GET のとき
     form = MemberForm()
     return render(request, "user/owner_family_manage.html", {"form": form, "mode": "create"})    
+
 @login_required
-def member_edit(request, pk:int):
+def member_edit(request, pk: int):
     hh = _require_admin_household(request)
     if not hh:
         messages.error(request, '管理者の世帯が見つかりません。')
         return redirect('admin_login')
     
-    m = get_object_or_404(Users, id=pk, household=hh)
+    member = get_object_or_404(Users, id=pk, household=hh)
+
     if request.method == 'POST':
-        form = MemberForm(request.POST)
+        # 既存データに対する更新なので instance=member を渡す
+        form = MemberForm(request.POST, instance=member)
         if form.is_valid():
-            name = form.cleaned_data['display_name']
-            if Users.objects.filter(household=hh, display_name=name).exclude(id=m.id).exists():
+            name = form.cleaned_data['display_name'].strip()
+
+            # 自分以外に同名がいないかチェック
+            dup_exists = (
+                Users.objects
+                .filter(household=hh, display_name__iexact=name)
+                .exclude(id=member.id)   # ← ここを m ではなく member に統一
+                .exists()
+            )
+            if dup_exists:
                 form.add_error('display_name', 'この名前は世帯内で使用済みです')
             else:
-                m.display_name = name
-                m.nickname = form.cleaned_data.get('nickname', '')
-                m.relation_to_admin = form.cleaned_data['relation']
-                m.role = form.cleaned_data['role']
-                m.avatar_url = form.cleaned_data.get('avatar_url', '')
-                m.save()
+                form.save()  # avatar_key 含めて保存
                 messages.success(request, f'プロフィール「{name}」を更新しました')
                 return redirect('profiles_list')
-    else:
-        form = MemberForm(initial={
-            'display_name': m.display_name,
-            'nickname': m.nickname,
-            'relation': m.relation_to_admin,
-            'role': m.role,
-            'avatar_url': m.avatar_url,
-        })
-    return render(request, 'user/owner_family_manage.html', {'form': form, 'mode': 'edit', 'member': m})
+
+        # バリデーションNG時
+        return render(
+            request,
+            'user/owner_family_manage.html',
+            {'form': form, 'mode': 'edit', 'member': member}
+        )
+
+    # GET時：初期表示
+    form = MemberForm(instance=member)
+    return render(
+        request,
+        'user/owner_family_manage.html',
+        {'form': form, 'mode': 'edit', 'member': member}
+    )
 
 @login_required
 def member_delete(request, pk:int):
