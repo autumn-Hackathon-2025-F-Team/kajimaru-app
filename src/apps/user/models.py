@@ -43,6 +43,12 @@ class JoinCode(models.Model):
 
     def is_valid(self):
         now = timezone.now()
-        return (not self.revoked and self.expires_at > now and self.used_at is None and self.max_uses > 0)
-
+        if self.revoked:
+            return False
+        if self.expires_at <= now:
+            return False
+        if self.max_uses and self.max_uses > 0:
+            return True
+        return True
+ 
     
