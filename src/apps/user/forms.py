@@ -5,7 +5,7 @@ REL_CHOICES = [('self', '本人'), ('spouse', '配偶者'), ('parent', '親'), (
 
 ROLE_CHOICES = [('admin', '管理者'), ('member', 'メンバー')]
 
-AVAATAR_CHOICES = [
+AVATAR_CHOICES = [
     ('boy', '男の子'),
     ('girl', '女の子'),
     ('man', '男性'),
@@ -82,15 +82,16 @@ class PinVerifyForm(forms.Form):
             raise forms.ValidationError('PINコードは４桁の数字で入力してください。')
         return v
 
-class MemberForm(forms.Form):
+class MemberForm(forms.ModelForm):
     display_name = forms.CharField(label='名前', max_length=50)
     nickname = forms.CharField(label='ニックネーム', max_length=50, required=False)
-    relation = forms.ChoiceField(label='家族内での立場', choices=REL_CHOICES, initial='other')
+    relation_to_admin = forms.ChoiceField(label='家族内での立場', choices=REL_CHOICES, initial='other')
     role = forms.ChoiceField(label='権限', choices=ROLE_CHOICES, initial='member')
     avatar_key = forms.ChoiceField(
         label='アイコン',
-        choices=[('', '(未選択)')] + AVAATAR_CHOICES,
-        widget=forms.RadioSelect
+        choices=AVATAR_CHOICES,
+        required=False,
+        widget=forms.RadioSelect,
     )
 
     class Meta:
