@@ -20,15 +20,15 @@
 {% endblock %}
 {% block content %}
 
-  <form method="post">
+  <form method="post" class="profile_add_form">
     {% csrf_token %}
     {{ form.as_p }}
     <button class="btn-primary" type="submit">
       {% if mode == "create" %}作成する{% else %}更新する{% endif %}
     </button>
-    <p class="link_set">
+    <div class="link_set_profile_add">
       <a href="{% url 'profiles_list' %}" class="btn btn-secondary">キャンセル</a>
-    </p>
+    </div>
   </form>
 
   {% for m in messages %}

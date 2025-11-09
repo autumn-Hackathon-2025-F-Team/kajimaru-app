@@ -6,7 +6,7 @@ from .models import Task, Maintenance
 from apps.user.models import Users
 
 class DashboardView(LoginRequiredMixin,TemplateView):
-    template_name = "home.html"
+    template_name = "dashboard/home.html"
     login_url = "/login/"
 
     def get_context_data(self, **kwargs):

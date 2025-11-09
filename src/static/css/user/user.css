@@ -53,6 +53,14 @@ form label {
 
 .caution_text {
   text-align: center;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  row-gap: 0;
+}
+
+.caution_text p {
+  margin: 0;
 }
 
 .btn_space {
@@ -142,8 +150,37 @@ form label {
   margin-top: 1rem;
 }
 
-/* personal_page.html */
+/* owner_family_manage.html */
+#id_avatar_key {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  width: fit-content;
+  white-space: nowrap;
+  margin: 0;
+}
 
+.link_set_profile_add {
+    display: flex;
+    flex-direction: column;  
+    align-items: center;
+    text-align: center;
+    margin-top: 1rem;
+    gap: 0.5rem;
+}
+
+.profile_add_form {
+  margin-top: 1.5rem;
+}
+
+.profile_add_form .btn-primary {
+  margin-top: 1rem;
+}
+
+
+
+/* personal_page.html */
+/* 
 .profile_card {
   background-color: var(--bg-surface);
   border: 1px solid #ddd;
@@ -154,4 +191,4 @@ form label {
 
 .new_line {
   display: inline-block;
-}
+} */

@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}ホーム{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/components/button.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/form.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/top_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/bottom_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/dashboard/home.css' %}">
+  <!-- chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- FullCalendar -->
+  <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
+{% endblock %}
+
+{% block header %}
+{% include "components/top_nav.html" %}
+{% endblock %}
+
+{% block page_title %}ホーム{% endblock %}
+{% block content %}
+<div class="dashboard_scroll_container">
+  <section class="area"><p class="graph_title">家族の家事達成率</p><canvas id ="family_chart"></canvas></section>
+  <section class="area">週ローテ表<div id="calendar"></div></section>
+</div>
+<article class="notification_area"></article>
+{% endblock %}
+
+{% block footer %}
+{% include "components/bottom_nav.html" %}
+{% endblock %}
+{% block script %}
+<script>
+  const ctx = document.getElementById("family_chart");
+  const myDoughnutChart= new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ["父", "母", "娘", "息子"], //データ項目のラベル
+      datasets: [{
+          backgroundColor: [
+              "#CD7257",
+              "#ED6C00",
+              "#EC6D56",
+              "#F6BBA6"
+          ],
+          data: [45, 32, 18, 5] //グラフのデータ
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        //グラフタイトル
+        text: '家族の家事達成率'
+      }
+    }
+  });
+</script>
+<scrpt>
+  
+</scrpt>
+{% endblock %}
+
+

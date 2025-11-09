@@ -1,0 +1,79 @@
+.main {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.page-section {
+    flex: 1;
+}
+.dashboard_scroll_container {
+    display: flex;
+    align-items: center;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    height: 350px;
+    padding-top: 2rem;
+    background-color: var(--bg-surface);
+    /* インジケータを設置位置 */
+    scroll-marker-group: after;
+    /* スクロールバー非表示 */
+    scrollbar-width: none;
+    position: relative; 
+}
+
+.dashboard_scroll_container::scroll-marker-group {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: flex;
+}
+
+.area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 100%;
+    height: 100%;
+    scroll-snap-align: center;
+    background-color: var(--bg-surface);
+}
+
+.area::scroll-marker {
+    /* 疑似要素が存在することを教えている */
+    content: "";
+    border: 2px solid var(--primary);
+    border-radius: 50%; 
+    height: 1em;
+    width: 1em;
+    background-color: transparent;
+}
+
+::scroll-marker-group {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  background-color: var(--bg-surface);
+}
+
+::scroll-marker:target-current {
+  background: var(--primary);
+}
+
+.notification_area{
+    margin-top: 2rem;
+    min-height: 300px;
+}
+
+.graph_title {
+    text-align: center;
+}
+
+.area canvas {
+  display: block;
+  height: 30dvh;   
+  max-height: 80%; 
+}
+
+.page-title {
+    margin-bottom: 1rem;
+}

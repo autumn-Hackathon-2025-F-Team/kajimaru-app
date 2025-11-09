@@ -12,13 +12,15 @@ button,.btn {
     margin-top: 2rem;
     padding-left: 2.7rem;
     padding-right: 2.7rem; 
+    border-bottom: 4px solid var(--btn-bottom);
 }
 
 .btn-secondary {
     background-color: var(--btn-bg-secondary);
     color: var(--text);
-    border: 5px solid var(--btn-secondary-solid);
+    /* border: 5px solid var(--btn-secondary-solid); */
     padding: 5px 15px; 
+    border: 5px outset var(--btn-secondary-solid);
 }
 
 .btn-danger {
