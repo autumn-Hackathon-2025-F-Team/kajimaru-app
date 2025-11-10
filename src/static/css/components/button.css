@@ -29,3 +29,23 @@ button,.btn {
     border: 5px solid var(--btn-danger-solid);
     padding: 5px 22px; 
 }
+
+.btn-copy {
+  margin-top: 1rem;
+  padding: 6px 16px;
+  border-radius: 6px;
+  border: none;
+  background-color: #007aff;
+  color: #fff;
+  font-size: 0.9rem;
+  cursor: pointer;
+    }
+   
+.btn-copy:hover {
+  opacity: 0.9;
+}
+
+button:active,
+.btn:active {
+  opacity: 0.7; 
+}

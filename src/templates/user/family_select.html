@@ -61,7 +61,7 @@
 
           {# ▼ 入室ボタン（今はダミーで personal_page。必要に応じて変更） #}
           <div class="profile_add_select">
-            <a href="/personal_page/{{ m.id }}">
+            <a href="{% url 'profile_enter' m.id %}">
               {% if m.avatar_key %}
                 <img src="{% static 'img/avatars/' %}{{ m.avatar_key }}.png"
                     alt="{{ m.display_name }}のアイコンで入室"
@@ -72,7 +72,7 @@
                     class="profile_kajimaru_mikan">
               {% endif %}
             </a>
-            <a href="/members/{{ m.id }}/edit/">編集</a>
+            <a href="/members/{{ m.id }}/edit/" class="icon_select">編集</a>
           </div>
         </div>
       {% empty %}

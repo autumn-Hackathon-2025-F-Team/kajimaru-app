@@ -5,7 +5,6 @@
 
 {% block css %}
   <link rel="stylesheet" href="{% static 'css/components/button.css' %}">
-  <link rel="stylesheet" href="{% static 'css/components/form.css' %}">
   <link rel="stylesheet" href="{% static 'css/components/top_nav.css' %}">
   <link rel="stylesheet" href="{% static 'css/components/bottom_nav.css' %}">
   <link rel="stylesheet" href="{% static 'css/user/user.css' %}">
@@ -23,7 +22,7 @@
   <form method="post" class="profile_add_form">
     {% csrf_token %}
     <!-- ゆーせー追加分 -->
-     {# 1) avatar_key 以外の項目を普通に表示 #}
+     {# 1 avatar_key 以外の項目を普通に表示 #}
      {% for field in form %}
         {% if field.name != 'avatar_key' %}
           <div class="form_group">
@@ -43,33 +42,6 @@
     <div class="form_group">
       <label>{{ form.avatar_key.label }}</label>
       <p class="help_text">お好みのアイコンを選択してください。</p>
-
-      <style>
-        .avatar-grid {
-          display: grid;
-          grid-template-columns: repeat(4, 72px);
-          gap: 12px;
-          margin-top: 8px;
-        }
-        .avatar-item {
-          cursor: pointer;
-          text-align: center;
-          font-size: 10px;
-        }
-        .avatar-item input[type="radio"] {
-          display: none;  /* 本物のラジオは隠す */
-        }
-        .avatar-item img {
-          width: 56px;
-          height: 56px;
-          border-radius: 50%;
-          border: 2px solid transparent;
-          box-sizing: border-box;
-        }
-        .avatar-item input[type="radio"]:checked + img {
-          border-color: #00aaff;  /* 選択中の見た目 */
-        }
-      </style>
 
       {% load static %}
 
