@@ -53,6 +53,14 @@ form label {
 
 .caution_text {
   text-align: center;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  row-gap: 0;
+}
+
+.caution_text p {
+  margin: 0;
 }
 
 .btn_space {
@@ -66,6 +74,25 @@ form label {
 .btn_space a:last-child {
   margin-top: 2rem;
 }
+
+.copy_action {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;  
+  gap: 0.4rem;  
+}
+
+#copy-message {
+  display: none;
+}
+
+.copy-message {
+  margin-left: 0.5rem;
+  font-size: 0.8rem;
+  color: #007aff;
+}
+
 
 /* member_delete_confirm.html */
 
@@ -93,7 +120,7 @@ form label {
 
 .profile_section {
   padding: 12px;
-  margin-top: 2rem;
+  margin-top: 0.5rem;
   /* display: grid;
   grid-template-columns: repeat(auto-fill,minmax(240px,1fr));
   gap: 16px; */
@@ -102,7 +129,9 @@ form label {
 
 .profile_add_select {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .profile_add_select a {
@@ -116,6 +145,10 @@ form label {
 .profile_kajimaru_mikan {
   width: 5rem;
   height: 5rem;
+}
+
+.icon_select {
+  margin-left: 1rem;
 }
 
 /* profile_enter.html */
@@ -142,8 +175,83 @@ form label {
   margin-top: 1rem;
 }
 
-/* personal_page.html */
+/* owner_family_manage.html */
+/* #id_avatar_key {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  width: fit-content;
+  white-space: nowrap;
+  margin: 0;
+} */
 
+.avatar-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 72px);
+  gap: 12px;
+  margin-top: 8px;
+  margin-left: 1rem;
+}
+.avatar-item {
+  cursor: pointer;
+  text-align: center;
+  font-size: 10px;
+}
+.avatar-item input[type="radio"] {
+  display: none;  /* 本物のラジオは隠す */
+}
+.avatar-item img {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  box-sizing: border-box;
+}
+.avatar-item input[type="radio"]:checked + img {
+  border-color: #00aaff;  /* 選択中の見た目 */
+}
+
+.link_set_profile_add {
+    display: flex;
+    flex-direction: column;  
+    align-items: center;
+    text-align: center;
+    margin-top: 1rem;
+    gap: 0.5rem;
+}
+
+.profile_add_form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1.5rem;
+  width: 100%;
+}
+
+.profile_add_form .form_group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;  
+  width: 100%;          
+}
+.profile_add_form input,
+.profile_add_form select {
+  width: 70%;
+}
+
+p.help_text {
+  width: 100%;
+  text-align: center;
+}
+
+.profile_add_form .btn-primary {
+  margin-top: 1rem;
+}
+
+/* テスト */
+
+/* personal_page.html */
+/* 
 .profile_card {
   background-color: var(--bg-surface);
   border: 1px solid #ddd;

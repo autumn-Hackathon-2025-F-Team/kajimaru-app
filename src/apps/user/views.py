@@ -188,15 +188,15 @@ def profiles_list(request):
     members = Users.objects.filter(household_id=hh_id).order_by('id')
     return render(request, 'user/family_select.html', {'members': members})
 
-# 岡が追記した分↓
-def personal_page(request, pk:int):
-    """個人のプロフィール"""
-    hh_id = request.session.get(HK)
-    if not hh_id:
-        return redirect('welcome')
-    m = get_object_or_404(Users, id=pk, household_id=hh_id)
-    return render(request, 'user/personal_page.html', {'m': m})
-# ↑ここまで
+# # 岡が追記した分↓
+# def personal_page(request, pk:int):
+#     """個人のプロフィール"""
+#     hh_id = request.session.get(HK)
+#     if not hh_id:
+#         return redirect('welcome')
+#     m = get_object_or_404(Users, id=pk, household_id=hh_id)
+#     return render(request, 'user/personal_page.html', {'m': m})
+# # ↑ここまで
 
 def profile_enter(request, pk:int):
     """プロフィール別PIN（初回は設定）"""

@@ -18,15 +18,11 @@
 {% block content %}
   <div class="invite_code" id="invite-code"><strong>{{ code }}</strong></div>
   <!-- ゆーせー追加分 -->
-  <button type="button" class="btn-copy" onclick="copyInviteCode()">
-    コピーする
-  </button>
-
-  <p id="copy-message" class="copy-message" style="display:none;">
-    コピーしました！
-  </p>
-
-  <style>
+  <div class="copy_action">
+    <button type="button" class="btn-copy" onclick="copyInviteCode()">コピーする</button>
+    <p id="copy-message" class="copy-message">コピーしました！</p>
+  </div>
+  <!-- <style>
     .btn-copy {
       margin-top: 1rem;
       padding: 6px 16px;
@@ -47,7 +43,7 @@
       font-size: 0.8rem;
       color: #007aff;
     }
-  </style>
+  </style> -->
     <script>
     function copyInviteCode() {
       const el = document.getElementById('invite-code');
