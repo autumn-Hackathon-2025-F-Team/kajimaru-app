@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="{% static 'css/components/top_nav.css' %}">
   <link rel="stylesheet" href="{% static 'css/components/bottom_nav.css' %}">
   <link rel="stylesheet" href="{% static 'css/dashboard/home.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/calendar.css' %}">
   <!-- chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <!-- FullCalendar -->
@@ -24,6 +25,7 @@
 <div class="dashboard_scroll_container">
   <section class="area"><p class="graph_title">家族の家事達成率</p><canvas id ="family_chart"></canvas></section>
   <section class="area">週ローテ表<div id="calendar"></div></section>
+  <section class="area">今日の担当表</section>
 </div>
 <article class="notification_area"></article>
 {% endblock %}
