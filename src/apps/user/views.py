@@ -49,9 +49,6 @@ def signup(request):
         form = AdminSignupForm()
     return render(request, 'user/owner_signup.html', {'signup_form': form})
 
-class AdminLoginForm(forms.Form):
-    email = forms.EmailField(label='メールアドレス')
-    password = forms.CharField(label='パスワード', widget=forms.PasswordInput)
 
 def admin_login(request):
     if request.method == 'POST':
