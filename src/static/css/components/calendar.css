@@ -1,27 +1,24 @@
-h1 {
-    text-align: center;
+.area .my-calendar {
+  width: 100%;
 }
 
-table {
-    border-spacing: 0;
-    border-collapse: collapse;
-    margin: 0 auto;
+#calendar {
+  font-size: 1rem;  
 }
 
-td {
-    border: 1px solid #ddd;
-    padding: 5px;
-    text-align: center;
+#calendar .fc-header-toolbar .fc-toolbar-title {
+  font-size: 1rem;      
 }
 
-td:first-child {
-    color: red;
+#calendar .fc-header-toolbar .fc-button {
+  font-size: 0.8rem;       
+  padding: 2px 4px;
 }
 
-td:last-child {
-    color: royalblue;
-}
 
-.today {
-    color: goldenrod !important;
-}
+
+@media (min-width: 768px) {
+    .area .my-calendar {
+        max-width: 600px;
+    }
+}  

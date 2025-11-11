@@ -12,13 +12,13 @@
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     height: 350px;
-    padding-top: 2rem;
+    padding-top: 0.8rem;
     background-color: var(--bg-surface);
     /* インジケータを設置位置 */
     scroll-marker-group: after;
     /* スクロールバー非表示 */
     scrollbar-width: none;
-    position: relative; 
+    position: relative;  
 }
 
 .dashboard_scroll_container::scroll-marker-group {
@@ -77,3 +77,4 @@
 .page-title {
     margin-bottom: 1rem;
 }
+
