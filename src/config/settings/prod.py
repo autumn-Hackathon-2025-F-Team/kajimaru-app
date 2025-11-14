@@ -5,6 +5,10 @@ DEBUG = False
 ALLOWED_HOSTS = ('kajimaru.com', '').split(',') # デプロイ先で公開サイトのURLに置き換える
 CSRF_TRUSTED_ORIGINS = ['https://kajimaru.com']
 
+# 静的ファイルの出力先
+STATIC_ROOT = '/src/static/'
+
+
 # 以下はセキュリティ強化の設定。現状は仮置き。
 # HTTPをHTTPSに自動的にリダイレクトする。
 SECURE_SSL_REDIRECT = True
