@@ -2,7 +2,8 @@
 from .base import *
 
 DEBUG = False
-ALLOWED_HOSTS = os.getenv('DJANGO_ALLOWED_HOSTS', '').split(',') # デプロイ先で公開サイトのURLに置き換える
+ALLOWED_HOSTS = ('kajimaru.com', '').split(',') # デプロイ先で公開サイトのURLに置き換える
+CSRF_TRUSTED_ORIGINS = ['https://kajimaru.com']
 
 # 以下はセキュリティ強化の設定。現状は仮置き。
 # HTTPをHTTPSに自動的にリダイレクトする。

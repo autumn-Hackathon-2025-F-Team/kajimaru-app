@@ -1,0 +1,41 @@
+# web(django), nginxのコンテナを作成（本番用）
+services:
+  # Djangoの設定
+  web:
+    # コンテナ名をdjangoに設定
+    container_name: django
+    # Python(django)のDockerfileをビルド
+    # ビルドコンテキストは「カレントディレクトリ」とする
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.prod
+      # ビルド時のDockerfileの変数設定
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+        USERNAME: ${USERNAME:-appuser}
+        GROUPNAME: ${GROUPNAME:-appgroup}
+    # dockerコンテナ起動時のデフォルトコマンド設定
+    command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    # 内部ネットワークの明示（外には公開せず、nginxからのみアクセス可能）
+    expose:
+      - :"8000"
+    # 環境変数の設定
+    environment:
+      - TZ=${TZ}
+    # .envファイルから環境変数を読み込む
+    env_file:
+      - .env
+
+  # nginxの設定
+  nginx:
+  # コンテナ名をnginxに設定
+    container_name: nginx
+    image: nginx:1.28
+    depends_on:
+      - web
+    ports:
+      - "80:80"
+    volumes:
+      - ./infra/nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./infra/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
