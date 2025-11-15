@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 from django.views.generic import TemplateView
 
+
 urlpatterns = [
     # テスト用index
     path('index/', views.index, name='index'),
@@ -17,13 +18,17 @@ urlpatterns = [
     # プロフィール関連
     path('profiles/', views.profiles_list, name='profiles_list'),
     path('profiles/<int:pk>/enter/', views.profile_enter, name='profile_enter'),
+    path('profiles/<int:pk>/avatar/', views.avatar_edit, name='avatar_edit'),
     path('members/new/', views.member_create, name='member_create'),
-    path('members/<int:pk>/edit/', views.member_edit, name='member_edit'),
-    path('members/<int:pk>/delete/', views.member_delete, name='member_delete'),
-    # 岡が追記した分↓
-    # path('personal_page/<int:pk>/', views.personal_page, name='personal_page'),
 
 
-    # ダッシュボード
-    #path('dashboard/', TemplateView.as_view(template_name='user/dashboard.html'), name='dashboard'),
+    # 管理者メニュー
+    path('owner/user/', views.admin_user, name='admin_user'),
+    path('owner/user/gate/', views.admin_gate, name='admin_gate'),
+    path('owner/user/add/', views.member_create, name='family_member_add'),
+    path('owner/user/<int:pk>/edit/', views.member_edit, name='family_list_edit'),
+    path('owner/user/<int:pk>/pin-reset/', views.pin_reset, name='pin_reset'),
+    path('owner/user/<int:pk>/delete/', views.member_delete, name='family_list_delete'),
+    path('owner/user/invite/create/', views.invite_create, name='family_invite_create'),
+
 ]

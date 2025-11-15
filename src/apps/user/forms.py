@@ -97,3 +97,25 @@ class MemberForm(forms.ModelForm):
     class Meta:
         model = Users
         fields = ['display_name', 'nickname', 'relation_to_admin', 'role', 'avatar_key']
+
+class AdminPinForm(forms.Form):
+    pin = forms.CharField(
+        label='管理者PIN',
+        min_length=4, max_length=4,
+        widget=forms.PasswordInput(attrs={'inputmode': 'numeric', 'autocomplete': 'one-time-code'})
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.label_suffix = ''
+
+class AvatarUpdateForm(forms.ModelForm):
+    avatar_key = forms.ChoiceField(
+        label='アイコン',
+        choices=AVATAR_CHOICES,
+        required=False,
+        widget=forms.RadioSelect,
+    )
+    class Meta:
+        model = Users
+        fields = ['display_name', 'nickname', 'relation_to_admin', 'role', 'avatar_key']
