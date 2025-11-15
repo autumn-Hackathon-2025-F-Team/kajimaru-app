@@ -2,11 +2,11 @@
 from .base import *
 
 DEBUG = False
-ALLOWED_HOSTS = ('kajimaru.com', '').split(',') # デプロイ先で公開サイトのURLに置き換える
+ALLOWED_HOSTS = ['kajimaru.com'] # デプロイ先で公開サイトのURLに置き換える
 CSRF_TRUSTED_ORIGINS = ['https://kajimaru.com']
 
-# 静的ファイルの出力先
-STATIC_ROOT = '/src/static/'
+# 本番環境での静的ファイルの出力先
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 
 # 以下はセキュリティ強化の設定。現状は仮置き。

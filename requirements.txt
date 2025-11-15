@@ -3,4 +3,5 @@ Django==5.2.7 # 最新のLTS版
 django-bootstrap5==25.2
 mysqlclient==2.2.7
 python-dotenv==1.1.1
-gunicorn==23.0.0
+gunicorn==23.0.0 # 本番環境で追加
+boto3==1.40.74 # 本番環境で追加

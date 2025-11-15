@@ -26,8 +26,8 @@ COPY requirements.txt .
 RUN pip install -U pip && \
     pip install --no-cache-dir -r requirements.txt
 
-# アプリ全体をコンテナへコピー
-COPY . .
+# ローカルのsrc直下をコンテナへコピー
+COPY /src/ .
 
 # コンテナの実行ユーザーを非rootユーザーに設定
 USER ${USERNAME}

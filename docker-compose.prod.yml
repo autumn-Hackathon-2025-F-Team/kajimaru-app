@@ -2,8 +2,8 @@
 services:
   # Djangoの設定
   web:
-    # コンテナ名をdjangoに設定
-    container_name: django
+    # コンテナ名をdjango_prodに設定
+    container_name: django_prod
     # Python(django)のDockerfileをビルド
     # ビルドコンテキストは「カレントディレクトリ」とする
     build:
@@ -35,8 +35,8 @@ services:
       - TZ=${TZ}
     # .envファイルから環境変数を読み込む
     env_file:
-      - .env
-    # healthcheckの設定
+      - .env.prod
+    # Djangoのhealthcheckの設定 nginxから/healthへリバースプロキシ
     healthcheck:
       test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:8000/health || exit 1"]
       interval: 10s
@@ -50,12 +50,21 @@ services:
     container_name: nginx
     image: nginx:1.28
     depends_on:
-      - web:
+      web:
         condition: service_healthy
     ports:
       - "80:80"
     # コンテナを削除するまで常に再起動する設定
     restart: always
+    # nginxの設定ファイルをコンテナへバインドマウント
     volumes:
       - ./infra/nginx/conf.d:/etc/nginx/conf.d:ro
       - ./infra/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    # nginxのヘルスチェック
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost/nginx-health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
