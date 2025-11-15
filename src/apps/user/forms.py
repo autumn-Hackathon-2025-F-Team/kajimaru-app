@@ -20,9 +20,17 @@ class AdminSignupForm(forms.Form):
     password = forms.CharField(label='パスワード', widget=forms.PasswordInput)
     confirm_password = forms.CharField(label='パスワード（確認用）', widget=forms.PasswordInput)
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.label_suffix =''
+
 class AdminLoginForm(forms.Form):
     email = forms.EmailField(label='メールアドレス')
     password = forms.CharField(label='パスワード', widget=forms.PasswordInput)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.label_suffix =''
 
 class JoinCodeForm(forms.Form):
     code8 = forms.CharField(
