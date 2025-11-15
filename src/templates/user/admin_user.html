@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}管理者ページ{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/components/button.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/form.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/top_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/bottom_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/user/user.css' %}">
+{% endblock %}
+
+{% block header %}
+{% include "components/top_nav.html" %}
+{% endblock %}
+
+{% block page_title %}管理者ページ{% endblock %}
+{% block content %}
+
+  <p><a href="{% url 'family_member_add' %}">＋ 新規ユーザーを追加</a></p>
+  <ul>
+    {% for m in members %}
+      <li>
+        {{ m.display_name }} ({{ m.role }})
+        <a href="{% url 'family_list_edit' m.id %}">編集</a>
+        <a href="{% url 'family_list_delete' m.id %}">削除</a>
+        <a href="{% url 'pin_reset' m.id %}">PINリセット</a>
+      </li>
+    {% empty %}
+      <li>メンバーがいません</li>
+    {% endfor %}
+  </ul>
+  <hr>
+  <p class="link_set">
+    <a href="{% url 'family_invite_create' %}" class="btn btn-primary" style="border-radius: 8px; font-size: 1rem; font-weight: bold; padding: 10px 20px;">
+      招待コードを発行する
+    </a>
+  </p>  
+  <div class="btn_space">
+    <a href="{% url 'profiles_list' %}" class="btn btn-secondary">プロフィール一覧へ</a>
+  </div>
+  
+  {% for m in messages %}<p class="alert_message" style="color:red">{{ m }}</p>{% endfor %}
+
+{% endblock %}

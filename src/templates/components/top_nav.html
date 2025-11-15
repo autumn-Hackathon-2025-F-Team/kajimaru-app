@@ -7,7 +7,12 @@
       <img src="{% static 'img/icon.svg' %}" alt="かじまるアイコン" class="kajimaru_icon">
       <span class="title">かじまる</span>
     </li>
-    <li class="nav_item_useradmin"><a href=""><span class="material-symbols-outlined">settings_account_box</span><span class="small_text">管理者</span></a></li>
+      <li class="nav_item_useradmin">
+        <a href="{% url 'admin_gate' %}" class="admin-link">
+          <span class="material-symbols-outlined">settings_account_box</span>
+          <span class="small_text">管理者</span>
+        </a>
+      </li>  
   </ul>
 </nav>
 
