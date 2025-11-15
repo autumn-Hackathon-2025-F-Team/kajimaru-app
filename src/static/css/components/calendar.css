@@ -1,0 +1,36 @@
+.area .my-calendar {
+  width: 100%;
+}
+
+#calendar {
+  font-size: 1rem;  
+}
+
+#calendar .fc-header-toolbar .fc-toolbar-title {
+  font-size: 1rem;      
+}
+
+#calendar .fc-header-toolbar .fc-button {
+  font-size: 0.8rem;       
+  padding: 2px 4px;
+}
+
+table {
+  table-layout: auto;
+  border-collapse: collapse;
+  width: 95%;
+}
+
+.schedule_tbl,
+.schedule_tbl th,
+.schedule_tbl td {
+  border: 1px solid var(--table-solid);
+  text-align: center; 
+}
+
+
+@media (min-width: 768px) {
+    .area .my-calendar {
+        max-width: 600px;
+    }
+}  

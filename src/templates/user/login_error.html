@@ -4,16 +4,63 @@
 {% block title %}ログイン失敗{% endblock %}
 
 {% block css %}
+  <link rel="stylesheet" href="{% static 'css/components/top_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/bottom_nav.css' %}">
   <link rel="stylesheet" href="{% static 'css/user/user.css' %}">
 {% endblock %}
 
 {% block header %}
+{% include "components/top_nav.html" %}
 {% endblock %}
 
 {% block page_title %}ログインに失敗しました{% endblock %}
 {% block content %}
   <p class="caution_text">15分待つとロックが解除されます。</p>
-  <p class="unlock_time">15:00（仮）</p>
+  <div id="countdownArea" class="countdown">
+    <span id="countdown-minutes"></span>分
+    <span id="countdown-seconds"></span>秒
+</div>
   
 {% endblock %}
 
+
+{% block footer %}
+{% include "components/bottom_nav_before_login.html" %}
+{% endblock %}
+
+
+
+{% block script %}
+<script>
+  const min = document.getElementById("countdown-minutes");
+  const sec = document.getElementById("countdown-seconds");
+  const now = new Date();
+  // 現在の時間+15分を終了時間に設定
+  const endTime = new Date(Date.now() + 15 * 60 * 1000); 
+  
+  function countdown() {
+    // 組み込みクラスで現在時刻を取得
+    const now = new Date();
+    const diff = endTime - now;
+    // diffが0以下だったら、00と00を返して関数を止める
+    if (diff <= 0) {
+      min.innerHTML = "00";
+      sec.innerHTML = "00";
+      // 該当のID（一番下で定義）のタイマーを止める
+      clearInterval(timerId);
+      window.location.href = "{% url 'login' %}";
+      return; 
+    }
+    // m秒を秒、秒を分に変換、小数点切り捨て整数のみ
+    const calcMin = Math.floor(diff / 1000 / 60);
+    // m秒を秒に
+    const calcSec = Math.floor(diff / 1000) % 60;
+    // 取得した時間を表示（2桁表示）
+    min.innerHTML = calcMin < 10 ? '0' + calcMin : calcMin;
+    sec.innerHTML = calcSec < 10 ? '0' + calcSec : calcSec;
+  }
+  countdown();
+  // カウントダウンを実行するタイマーにID付与
+  const timerId = setInterval(countdown,1000);
+</script>
+{% endblock %}

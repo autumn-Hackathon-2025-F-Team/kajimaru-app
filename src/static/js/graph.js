@@ -2,15 +2,10 @@ const ctx = document.getElementById("family_chart");
   const myDoughnutChart= new Chart(ctx, {
     type: 'doughnut',
     data: {
-      labels: ["父", "母", "娘", "息子"], //データ項目のラベル
+      labels: ["父", "母", "娘", "息子","孫"], //データ項目のラベル(データを入れ込む)
       datasets: [{
-          backgroundColor: [
-              "#CD7257",
-              "#ED6C00",
-              "#EC6D56",
-              "#F6BBA6"
-          ],
-          data: [45, 32, 18, 5] //グラフのデータ
+          
+          data: [5, 5, 18, 5, 5] //グラフのデータ（データを入れ込む）
       }]
     },
     options: {
@@ -18,6 +13,13 @@ const ctx = document.getElementById("family_chart");
         display: true,
         //グラフタイトル
         text: '家族の家事達成率'
+      }
+    },
+    options: {
+      plugins: {
+          colorschemes: {
+          scheme: 'brewer.Paired12'
+          }
       }
     }
   });

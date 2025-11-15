@@ -85,9 +85,9 @@
     function showCopied() {
       const msg = document.getElementById('copy-message');
       if (!msg) return;
-      msg.style.display = 'inline';
+      msg.classList.add('is-visible');
       setTimeout(function () {
-        msg.style.display = 'none';
+        msg.classList.remove('is-visible');
       }, 1500);
     }
   </script>
