@@ -62,8 +62,8 @@ document.addEventListener('DOMContentLoaded', function () {
   // ②タイトルに入れる月を取得する
   const today = new Date();
   const month = today.getMonth() + 1;
-  const calenderTitle = document.getElementById("calender");
-  calenderTitle.textContent = `${month}月：週ローテ表`;
+  const calendarTitle = document.getElementById("calendar");
+  calendarTitle.textContent = `${month}月：週ローテ表`;
 
   // ③データベースに登録されている家事と担当者を取得、行を作って入れる
 
