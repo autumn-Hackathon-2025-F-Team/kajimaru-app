@@ -17,17 +17,25 @@ RUN groupadd --gid ${GID} ${GROUPNAME} && \
 # 作業ディレクトリの設定
 WORKDIR /src
 
+# wait-for-it.shをコンテナにコピー、実行権限を付与
+COPY docker/wait-for-it.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/wait-for-it.sh
+
 # requirements.txtをワーキングディレクトリ直下にコピー
 # 依存関係ファイルのみ先にコピー（キャッシュ効率化のため）
 COPY requirements.txt .
 
+# healthcheckのためcurlコマンドをインストール
 # pipをアップデートして、Pythonのパッケージをインストール(-Uは--upgrade)
 # ローカルの保存用ディレクトリ（キャッシュ）の影響を排除して、常に最新のパッケージをインストールしたいため、--no-cache-dirを採用
-RUN pip install -U pip && \
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends curl && \
+    rm -rf /var/lib/apt/lists/* && \
+    pip install -U pip && \
     pip install --no-cache-dir -r requirements.txt
 
 # ローカルのsrc直下をコンテナへコピー
-COPY /src/ .
+COPY src/ .
 
 # コンテナの実行ユーザーを非rootユーザーに設定
 USER ${USERNAME}

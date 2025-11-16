@@ -17,6 +17,7 @@ services:
         GROUPNAME: ${GROUPNAME:-appgroup}
     # dockerコンテナ起動時のデフォルトコマンド設定
     command: >
+      wait-for-it.sh ${MYSQL_HOST}:3306 --
       sh -c "
       python manage.py migrate &&
       python manage.py collectstatic --noinput &&
@@ -27,7 +28,7 @@ services:
       "
     # 内部ネットワークの明示（外には公開せず、nginxからのみアクセス可能）
     expose:
-      - :"8000"
+      - "8000"
     # コンテナを削除するまで常に再起動する設定
     restart: always
     # 環境変数の設定
@@ -35,7 +36,9 @@ services:
       - TZ=${TZ}
     # .envファイルから環境変数を読み込む
     env_file:
-      - .env.prod
+      - .env
+    volumes:
+      - static_volume:/src/staticfiles
     # Djangoのhealthcheckの設定 nginxから/healthへリバースプロキシ
     healthcheck:
       test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:8000/health || exit 1"]
@@ -46,9 +49,11 @@ services:
 
   # nginxの設定
   nginx:
-  # コンテナ名をnginxに設定
+    # コンテナ名をnginxに設定
     container_name: nginx
-    image: nginx:1.28
+    build:
+      context: .
+      dockerfile: infra/nginx/Dockerfile
     depends_on:
       web:
         condition: service_healthy
@@ -58,8 +63,9 @@ services:
     restart: always
     # nginxの設定ファイルをコンテナへバインドマウント
     volumes:
-      - ./infra/nginx/conf.d:/etc/nginx/conf.d:ro
-      - ./infra/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - infra/nginx/conf.d:/etc/nginx/conf.d:ro
+      - infra/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - static_volume:/src/staticfiles:ro
     # nginxのヘルスチェック
     healthcheck:
       test: ["CMD-SHELL", "curl -fsS http://localhost/nginx-health || exit 1"]
@@ -67,4 +73,5 @@ services:
       timeout: 5s
       retries: 5
       start_period: 20s
-
+volumes:
+  static_volume:
