@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}ホーム{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/components/button.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/form.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/top_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/bottom_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/dashboard/home.css' %}">
+ {% endblock %}
+
+{% block header %}
+{% include "components/top_nav.html" %}
+{% endblock %}
+
+{% block page_title %}家事リスト{% endblock %}
+{% block content %}
+<form method="post" class="owner_signup_form">{% csrf_token %}
+  {{ signup_form.as_p }}
+<button class="btn-primary" type="submit">登録してはじめる</button>
+</form>
+<div class="link_set">
+  <a href="{% url 'admin_login' %}" class="btn btn-secondary">管理者ログインへ</a>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% include "components/bottom_nav.html" %}
+{% endblock %}
+{% block script %}
+{% endblock %}
+
+

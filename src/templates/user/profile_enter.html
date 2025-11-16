@@ -25,9 +25,9 @@
     {{ form.as_p }}
     <button class="btn btn-primary" type="submit">ホームに入室する</button>
   </form>
-  <p class="link_set">
+  <div class="link_set">
     <a href="{% url 'profiles_list' %}" class="btn btn-secondary">プロフィールへ戻る</a>
-  </p>
+  </div>
   {% for m in messages %}<p class="alert_message" style="color:red">{{ m }}</p>{% endfor %} 
 {% endblock %}
 

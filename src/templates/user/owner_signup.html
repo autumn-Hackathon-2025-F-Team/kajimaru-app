@@ -22,9 +22,9 @@
   {{ signup_form.as_p }}
 <button class="btn-primary" type="submit">登録してはじめる</button>
 </form>
-<p class="link_set">
+<div class="link_set">
   <a href="{% url 'admin_login' %}" class="btn btn-secondary">管理者ログインへ</a>
-</p>
+</div>
 {% for m in messages %}<p class="alert_message" style="color:red">{{ m }}</p>{% endfor %}  
 {% endblock %}
 

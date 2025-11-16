@@ -22,9 +22,9 @@
     {% csrf_token %}
     {{ form.as_p }}
     <button class="btn-primary" type="submit">入室する</button>
-    <p class="link_set">
+    <div class="link_set">
       <a href="{% url 'profiles_list' %}" class="btn btn-secondary">プロフィール一覧へ</a>
-    </p>
+    </div>
   </form>
 
   {% for m in messages %}

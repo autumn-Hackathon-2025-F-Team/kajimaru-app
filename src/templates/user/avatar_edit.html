@@ -40,9 +40,9 @@
   </div>
 
   <button class="btn-primary" type="submit">更新する</button>
-  <p class="link_set">
+  <div class="link_set">
     <a href="{% url 'profiles_list' %}" class="btn btn-secondary">キャンセル</a>
-  </p>
+  </div>
 </form>
 
 {% for m in messages %}<p class="alert_message">{{ m }}</p>{% endfor %}
