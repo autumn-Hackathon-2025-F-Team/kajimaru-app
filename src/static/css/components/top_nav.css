@@ -75,3 +75,16 @@
 .nav_item {
   margin-top: 1.5rem;
 }
+
+/* ログイン前 */
+.top_nav_before_login .top_nav_list {
+  justify-content: center;   
+  position: relative;        
+}
+
+.top_nav_before_login .nav_item_back {
+  position: absolute;
+  left: 0;
+  display: flex;
+  align-items: center;
+}

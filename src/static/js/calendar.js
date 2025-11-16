@@ -49,14 +49,14 @@ document.addEventListener('DOMContentLoaded', function () {
     return week
   }
   // htmlの.week_dateクラスがついた要素を全部取得してweek_day変数に入れる
-  const week_day = document.querySelectorAll('.week_date');
+  const weekCells = document.querySelectorAll('.week_date');
   // 月曜日から始まる一週間の日にちを取得してweekDates変数に入れる
   const weekDates = getWeek();
   // weekDatesを0から順番にみて、同じインデックス番号（i）のところに書き込む
   for (let i = 0; i < weekDates.length; i ++) {
     // weekDates[i]の日にちだけを取り出す
     // 同じインデックス番号の対応するセル（week_day[i]）の中身を書き換える
-    week_day[i].textContent = weekDates[i].getDate();
+    weekCells[i].textContent = weekDates[i].getDate();
   };
 
   // ②タイトルに入れる月を取得する
