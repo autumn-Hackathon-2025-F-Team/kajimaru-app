@@ -12,7 +12,7 @@ class TaskListForm(forms.ModelForm):
     #担当者の複数選択
     homemakers = forms.ModelMultipleChoiceField(
         label="担当者",
-        queryset=Users.objects.all(),
+        queryset=Users.objects.none(),
         required=False,
         widget=forms.CheckboxSelectMultiple,
     )
@@ -32,14 +32,16 @@ class TaskListForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        if self.instance.pk and self.instance.frequency:
-            value = self.instance.frequency
-            initial = []
-            for bit, label in WEEKDAY_FLAGS:
-                if value & bit:
-                    initial.append(str(bit))
-            self.fields['frequency'].initial = initial
-        self.fields["homemakers"].initial = self.instance.homemakers.all()
+        self.fields["homemakers"].queryset = Users.objects.all()
+        if self.instance.pk:
+            if self.instance.frequency:
+                value = self.instance.frequency
+                initial = []
+                for bit, label in WEEKDAY_FLAGS:
+                    if value & bit:
+                        initial.append(str(bit))
+                self.fields['frequency'].initial = initial
+            self.fields["homemakers"].initial = self.instance.homemakers.all()
 
     def clean_frequency(self):
         selected = self.cleaned_data['frequency']
@@ -54,7 +56,7 @@ class TaskListForm(forms.ModelForm):
 class MaintenanceForm(forms.ModelForm):
     homemakers = forms.ModelMultipleChoiceField(
         label="担当者",
-        queryset=Users.objects.all(),
+        queryset=Users.objects.none(),
         required=False,
         widget=forms.CheckboxSelectMultiple,    #担当者をチェックボックスで選択
     )
@@ -75,5 +77,6 @@ class MaintenanceForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields["homemakers"].queryset = Users.objects.all()
         if self.instance.pk:
             self.fields["homemakers"].initial = self.instance.homemakers.all()
