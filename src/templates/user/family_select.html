@@ -17,7 +17,7 @@
 
 {% block page_title %}家族のプロフィール一覧{% endblock %}
 {% block content %}
-<p class="link_set"><a href="/members/new/">＋ プロフィールを追加</a></p>
+<!-- <p class="link_set"><a href="/members/new/">＋ プロフィールを追加</a></p> -->
 
   <!-- <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;"> -->
   <!-- ゆーせーが下記をコメントアウトしました -->
@@ -54,9 +54,9 @@
           > -->
 
           {# ▼ 名前など #}
-          <div><strong>{{ m.display_name }}</strong> <small>({{ m.role }})</small></div>
+          <!-- <div><strong>{{ m.display_name }}</strong> <small>({{ m.role }})</small></div> -->
           {% if m.nickname %}
-            <div>Nickname: {{ m.nickname }}</div>
+            <div>{{ m.nickname }}</div>
           {% endif %}
 
           {# ▼ 入室ボタン（今はダミーで personal_page。必要に応じて変更） #}
@@ -72,7 +72,7 @@
                     class="profile_kajimaru_mikan">
               {% endif %}
             </a>
-            <a href="/members/{{ m.id }}/edit/" class="icon_select">編集</a>
+            <a href="{% url 'avatar_edit' m.id %}" class="icon_select">編集</a>
           </div>
         </div>
       {% empty %}
@@ -81,12 +81,6 @@
   </div>
   <!-- ここまでゆーせー追加分 -->
 
-  <hr>
-  <p class="link_set">
-    <a href="{% url 'invite_create' %}" class="btn btn-primary" style="border-radius: 8px; font-size: 1rem; font-weight: bold; padding: 10px 20px;">
-      招待コードを発行する
-    </a>
-  </p>
   {% for m in messages %}<p class="alert_message" style="color:red">{{ m }}</p>{% endfor %}
 {% endblock %}
 

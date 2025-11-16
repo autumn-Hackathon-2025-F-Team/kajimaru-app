@@ -48,12 +48,13 @@ form label {
 
 .expiration_date {
   text-align: center;
-  margin-top: 3rem;
+  margin-top: 1rem;
+  margin-bottom: 0;
 }
 
 .caution_text {
   text-align: center;
-  margin-top: 1rem;
+  margin-top: 0;
   display: flex;
   flex-direction: column;
   row-gap: 0;
@@ -61,6 +62,7 @@ form label {
 
 .caution_text p {
   margin: 0;
+
 }
 
 .btn_space {
@@ -82,15 +84,22 @@ form label {
   align-items: center;  
   gap: 0.4rem;  
 }
-
+/* 
 #copy-message {
   display: none;
-}
+} */
 
 .copy-message {
   margin-left: 0.5rem;
   font-size: 0.8rem;
   color: #007aff;
+  opacity: 0;                 
+  transition: opacity 300ms; 
+  min-height: 1.2em;  
+}
+
+.copy-message.is-visible {
+  opacity: 1;
 }
 
 
@@ -248,7 +257,17 @@ p.help_text {
   margin-top: 1rem;
 }
 
-/* テスト */
+/* login_error.html */
+
+.countdown {
+  margin-top: 5rem;
+  text-align: center;
+  font-size: 3rem;
+  background-color: var(--bg-surface);
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
+
 
 /* personal_page.html */
 /* 

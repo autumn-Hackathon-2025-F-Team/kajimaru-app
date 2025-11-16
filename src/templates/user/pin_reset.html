@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}PINコードのリセット{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/components/form.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/top_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/bottom_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/user/user.css' %}">
+  <style>
+    .pin-inputs { display: grid; gap: 12px; max-width: 420px; margin: 0 auto; }
+    .note { color: #666; font-size: .9rem; text-align: center; margin-top: .5rem; }
+    .danger { color: #b00020; }
+  </style>
+{% endblock %}
+
+{% block header %}{% include "components/top_nav.html" %}{% endblock %}
+{% block page_title %}{{ member.display_name }} の PIN をリセット{% endblock %}
+
+{% block content %}
+  <form method="post" action="{% url 'pin_reset' member.id %}">
+    {% csrf_token %}
+
+    <div class="pin-inputs">
+      <div class="form_group">
+        <label for="new_pin">新しいPIN（4桁数字）</label>
+        <input id="new_pin"
+               name="new_pin"
+               type="password"
+               inputmode="numeric"
+               pattern="\d{4}"
+               maxlength="4"
+               autocomplete="off"
+               required
+               class="form_control">
+      </div>
+
+      <div class="form_group">
+        <label for="confirm_pin">確認用PIN（もう一度）</label>
+        <input id="confirm_pin"
+               name="confirm_pin"
+               type="password"
+               inputmode="numeric"
+               pattern="\d{4}"
+               maxlength="4"
+               autocomplete="off"
+               required
+               class="form_control">
+      </div>
+
+      <div class="form_group">
+        <label class="checkbox">
+          <input type="checkbox" name="unlock" value="1">
+          誤入力ロックを解除する（失敗回数を0にして即ログイン可能にする）
+        </label>
+      </div>
+
+      <button class="btn-primary" type="submit">リセットする</button>
+      <p class="link_set"><a href="{% url 'admin_user' %}">キャンセル</a></p>
+      <p class="note">※ PINは数字4桁。端末のオートフィルは無効化しています。</p>
+    </div>
+  </form>
+
+  {# フラッシュメッセージ #}
+  {% for m in messages %}
+    <p class="alert_message {% if m.tags == 'error' %}danger{% endif %}">{{ m }}</p>
+  {% endfor %}
+
+  <script>
+    // 4桁数字のみに制限＆一致チェックの簡易バリデーション
+    (function () {
+      const newPin = document.getElementById('new_pin');
+      const confirmPin = document.getElementById('confirm_pin');
+
+      const enforceDigits = (e) => {
+        e.target.value = e.target.value.replace(/[^0-9]/g, '').slice(0, 4);
+      };
+      newPin.addEventListener('input', enforceDigits);
+      confirmPin.addEventListener('input', enforceDigits);
+
+      // 送信前チェック（HTML5のpatternも効くが、メッセージを丁寧に）
+      document.querySelector('form').addEventListener('submit', (e) => {
+        if (newPin.value.length !== 4 || confirmPin.value.length !== 4) {
+          e.preventDefault();
+          alert('PINは数字4桁で入力してください。');
+          return;
+        }
+        if (newPin.value !== confirmPin.value) {
+          e.preventDefault();
+          alert('確認用PINが一致しません。');
+        }
+      });
+    }());
+  </script>
+{% endblock %}
+
+{% block footer %}{% include "components/bottom_nav_before_login.html" %}{% endblock %}

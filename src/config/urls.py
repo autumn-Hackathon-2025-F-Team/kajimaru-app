@@ -20,6 +20,7 @@ from .views import health
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    # path('', include(('apps.user.urls', 'user'), namespace='user')),
     path('', include('apps.user.urls')),
     path('dashboard/', include('apps.dashboard.urls')),
     path('health', health),
