@@ -24,7 +24,10 @@
 {% block page_title %}ホーム{% endblock %}
 {% block content %}
 <div class="dashboard_scroll_container">
-  <section class="area"><p class="graph_title">家族の家事達成率</p><canvas id ="family_chart"></canvas></section>
+  <section class="area">
+    <p class="graph_title">家族の家事達成率</p>
+    <canvas id ="family_chart"></canvas>
+  </section>
   <section class="area"><p class="today_title">今日の担当表</p><p id="today_houseworklist" class="today_list"></p>
     <ul>
       {% for tasklist in tasks_today_family %}
@@ -113,15 +116,15 @@
             data: [complete,incomplete] //グラフのデータ（データを入れ込む）
         }]
       },
-      options: {
-        plugins: {
-          title: {
-            display: true,
-            //グラフタイトル
-            text: '家族の家事達成率'
-          }
-        }
-      }
+      // options: {
+      //   plugins: {
+      //     title: {
+      //       display: true,
+      //       //グラフタイトル
+      //       text: '家族の家事達成率'
+      //     }
+      //   }
+      // }
     });
 </script>
 <!-- <script src="{% static 'js/graph.js' %}"></script> -->
