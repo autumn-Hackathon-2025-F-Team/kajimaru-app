@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}かじまる{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/components/button.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/form.css' %}">
+  <link rel="stylesheet" href="{% static 'css/user/user.css' %}">
+  <link rel="stylesheet" href="{% static 'css/user/index.css' %}">
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block page_title %}
+<div class="container">
+    <img src="{% static 'img/background_illust.svg' %}" alt="背景画像" class="index_background-img">
+    <div class="title_set">
+        <img src="{% static 'img/icon.svg' %}" alt="かじまるアイコン" class="index_kajimaru_icon">
+        <p>かじまる</p>
+    </div>
+    <div class="kajimaru_mikan_position">
+        <img src="{% static 'img/kajimaru_mikan.svg' %}" alt="かじまるみかん" class="index_kajimaru_mikan">
+    </div>
+</div>
+{% endblock %}
+{% block content %}
+<div class="index_text">
+    <p>家族の代表者が新規登録をしてください。</p>
+    <p>登録した方が管理者権限を持ちます。</p>
+</div>
+<div class="index_button">
+    <a href="{% url 'signup' %}" class="btn btn-primary big_btn">新規登録</a>
+    <a href="{% url 'welcome' %}" class="btn btn-secondary second_big_btn">招待コードを入力</a>
+    <a href="{% url 'admin_login' %}" class="btn btn-secondary third_big_btn">管理者ログインへ</a>
+</div>  
+{% endblock %}
+
+{% block footer %}
+{% endblock %}

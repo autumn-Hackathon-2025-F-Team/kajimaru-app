@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}招待コード{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/user/user.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/top_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/bottom_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/button.css' %}">
+{% endblock %}
+
+{% block header %}
+{% include "components/top_nav.html" %}
+{% endblock %}
+
+{% block page_title %}こちらが招待コードです{% endblock %}
+{% block content %}
+  <div class="invite_code" id="invite-code"><strong>{{ code }}</strong></div>
+  <!-- ゆーせー追加分 -->
+  <div class="copy_action">
+    <button type="button" class="btn-copy" onclick="copyInviteCode()">コピーする</button>
+    <p id="copy-message" class="copy-message">コピーしました！</p>
+  </div>
+  <!-- <style>
+    .btn-copy {
+      margin-top: 1rem;
+      padding: 6px 16px;
+      border-radius: 6px;
+      border: none;
+      background-color: #007aff;
+      color: #fff;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .btn-copy:hover {
+      opacity: 0.9;
+    }
+
+    .copy-message {
+      margin-left: 0.5rem;
+      font-size: 0.8rem;
+      color: #007aff;
+    }
+  </style> -->
+    <script>
+    function copyInviteCode() {
+      const el = document.getElementById('invite-code');
+      if (!el) return;
+
+      const text = (el.textContent || el.innerText || '').trim();
+      if (!text) return;
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text)
+          .then(function () {
+            showCopied();
+          })
+          .catch(function () {
+            fallbackCopy(text);
+          });
+      } else {
+        fallbackCopy(text);
+      }
+    }
+
+    function fallbackCopy(text) {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.left = '-9999px';
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      try {
+        document.execCommand('copy');
+      } catch (e) {
+        console.error(e);
+      }
+      document.body.removeChild(textarea);
+      showCopied();
+    }
+
+    function showCopied() {
+      const msg = document.getElementById('copy-message');
+      if (!msg) return;
+      msg.classList.add('is-visible');
+      setTimeout(function () {
+        msg.classList.remove('is-visible');
+      }, 1500);
+    }
+  </script>
+<!-- ゆーせー追加分ここまで -->
+  <p class="expiration_date">有効期限：{{ expires_at }}</p>
+  <p class="caution_text">※ 5分以内に入力してください。</p>
+  <div class="btn_space">
+    <a href="{% url 'member_create' %}" class="btn btn-primary">続けて家族を追加する</a>
+    <a href="{% url 'profiles_list' %}" class="btn btn-secondary">プロフィール一覧へ</a>
+  </div>
+
+{% endblock %}
+
+{% block footer %}
+{% include "components/bottom_nav_before_login.html" %}
+{% endblock %}

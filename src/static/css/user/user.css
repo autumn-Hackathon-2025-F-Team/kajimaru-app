@@ -1,0 +1,292 @@
+h1 {
+    text-align: center;
+    margin-top: 3rem;
+}
+
+form p {
+  display: flex;
+  flex-direction: column;   
+  align-items: stretch;      
+  gap: 0.2rem;
+  width: 70%;
+  margin-bottom: 0.2rem; 
+}
+
+form label {
+  text-align: left;     
+  width: 70%;   
+}
+
+.link_set {
+    display: flex;
+    flex-direction: column;  
+    align-items: center;
+    text-align: center;
+    margin-top: 2rem;
+    gap: 0.5rem;
+}
+
+.link_set a {
+    text-decoration: none;
+}
+
+.alert_message {
+  text-align: center;
+}
+
+/* invite_result.html */
+
+.invite_code {
+  text-align: center;
+  margin-top: 3rem;
+  margin-left: 3rem;
+  margin-right: 3rem;
+  background-color: var(--bg-surface);
+  font-size: 2rem;
+  letter-spacing: 0.2rem;
+}
+
+.expiration_date {
+  text-align: center;
+  margin-top: 1rem;
+  margin-bottom: 0;
+}
+
+.caution_text {
+  text-align: center;
+  margin-top: 0;
+  display: flex;
+  flex-direction: column;
+  row-gap: 0;
+}
+
+.caution_text p {
+  margin: 0;
+
+}
+
+.btn_space {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.5rem;
+}
+
+.btn_space a:last-child {
+  margin-top: 2rem;
+}
+
+.copy_action {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;  
+  gap: 0.4rem;  
+}
+/* 
+#copy-message {
+  display: none;
+} */
+
+.copy-message {
+  margin-left: 0.5rem;
+  font-size: 0.8rem;
+  color: #007aff;
+  opacity: 0;                 
+  transition: opacity 300ms; 
+  min-height: 1.2em;  
+}
+
+.copy-message.is-visible {
+  opacity: 1;
+}
+
+
+/* member_delete_confirm.html */
+
+.delete_text {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+/* code_input.html */
+
+.participation_code {
+  text-align: center;
+  margin-bottom: -0.5rem;
+  margin-top: 1rem;
+}
+
+/* family_select.html */
+
+.profile_container {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  width: 100%;
+}
+
+.profile_section {
+  padding: 12px;
+  margin-top: 0.5rem;
+  /* display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(240px,1fr));
+  gap: 16px; */
+  width: 50%
+}
+
+.profile_add_select {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile_add_select a {
+  text-decoration: none;
+}
+
+.profile_add_select a:last-child {
+  margin-right: 1rem;
+}
+
+.profile_kajimaru_mikan {
+  width: 5rem;
+  height: 5rem;
+}
+
+.icon_select {
+  margin-left: 1rem;
+}
+
+/* profile_enter.html */
+
+.pin_target {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+/* login_error.html */
+
+.unlock_time {
+  text-align: center;
+  margin-top: 3rem;
+  margin-left: 3rem;
+  margin-right: 3rem;
+  background-color: var(--bg-surface);
+  font-size: 2rem;
+}
+
+/* owner_signup.html */
+
+.owner_signup_form {
+  margin-top: 1rem;
+}
+
+/* owner_family_manage.html */
+/* #id_avatar_key {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  width: fit-content;
+  white-space: nowrap;
+  margin: 0;
+} */
+
+.avatar-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 72px);
+  gap: 12px;
+  margin-top: 8px;
+  margin-left: 1rem;
+}
+.avatar-item {
+  cursor: pointer;
+  text-align: center;
+  font-size: 10px;
+}
+.avatar-item input[type="radio"] {
+  display: none;  /* 本物のラジオは隠す */
+}
+.avatar-item img {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  box-sizing: border-box;
+}
+.avatar-item input[type="radio"]:checked + img {
+  border-color: #00aaff;  /* 選択中の見た目 */
+}
+
+.link_set_profile_add {
+    display: flex;
+    flex-direction: column;  
+    align-items: center;
+    text-align: center;
+    margin-top: 1rem;
+    gap: 0.5rem;
+}
+
+.profile_add_form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1.5rem;
+  width: 100%;
+}
+
+.profile_add_form .form_group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;  
+  width: 100%;          
+}
+.profile_add_form input,
+.profile_add_form select {
+  width: 70%;
+}
+
+p.help_text {
+  width: 100%;
+  text-align: center;
+}
+
+.profile_add_form .btn-primary {
+  margin-top: 1rem;
+}
+
+/* login_error.html */
+
+.countdown {
+  margin-top: 5rem;
+  text-align: center;
+  font-size: 3rem;
+  background-color: var(--bg-surface);
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
+
+
+/* personal_page.html */
+/* 
+.profile_card {
+  background-color: var(--bg-surface);
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px;
+  margin-top: 2rem;
+}
+
+.new_line {
+  display: inline-block;
+}
+
+.profile_avatar_img {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto 4px;
+}

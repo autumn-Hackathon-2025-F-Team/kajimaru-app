@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{% if mode == "create" %}プロフィール作成{% else %}プロフィール編集{% endif %}{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/components/button.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/top_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/bottom_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/user/user.css' %}">
+{% endblock %}
+
+{% block header %}
+{% include "components/top_nav.html" %}
+{% endblock %}
+
+{% block page_title %}
+    {% if mode == "create" %}プロフィールを作成{% else %}プロフィールを編集{% endif %}
+{% endblock %}
+{% block content %}
+
+  <form method="post" class="profile_add_form">
+    {% csrf_token %}
+    <!-- ゆーせー追加分 -->
+     {# 1 avatar_key 以外の項目を普通に表示 #}
+     {% for field in form %}
+        {% if field.name != 'avatar_key' %}
+          <div class="form_group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{ field }}
+            {% if field.help_text %}
+              <p class="help_text">{{ field.help_text }}</p>
+            {% endif %}
+            {% for error in field.errors %}
+              <p class="alert_message">{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endfor %}
+
+      {# 2) アイコン選択エリア #}
+    <div class="form_group">
+      <label>{{ form.avatar_key.label }}</label>
+      <p class="help_text">お好みのアイコンを選択してください。</p>
+
+      {% load static %}
+
+      <div class="avatar-grid">
+        {# form.avatar_key.field.choices は [('boy','男の子'), ...] #}
+        {% for value, label in form.avatar_key.field.choices %}
+          <label class="avatar-item">
+            <input type="radio"
+                  name="{{ form.avatar_key.name }}"
+                  value="{{ value }}"
+                  {% if form.avatar_key.value == value %}checked{% endif %}>
+            <img src="{% static 'img/avatars/' %}{{ value }}.png"
+                alt="{{ label }}"
+                title="{{ label }}">
+            <div>{{ label }}</div>
+          </label>
+        {% endfor %}
+      </div>
+
+      {% for error in form.avatar_key.errors %}
+        <p class="alert_message">{{ error }}</p>
+      {% endfor %}
+    </div>
+    <!-- ここまでゆーせー追加分 -->
+     
+    <!-- {{ form.as_p }} -->
+    <button class="btn-primary" type="submit">
+      {% if mode == "create" %}作成する{% else %}更新する{% endif %}
+    </button>
+    <div class="link_set_profile_add">
+      <a href="{% url 'admin_user' %}" class="btn btn-secondary">キャンセル</a>
+    </div>
+  </form>
+
+  {% for m in messages %}
+    <p class="alert_message" style="color:red">{{ m }}</p>
+  {% endfor %}
+{% endblock %}
+
+{% block footer %}
+{% include "components/bottom_nav_before_login.html" %}
+{% endblock %}
+

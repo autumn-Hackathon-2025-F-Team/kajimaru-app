@@ -1,0 +1,86 @@
+p{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}ホーム{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/components/button.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/form.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/top_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/bottom_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/dashboard/home.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/calendar.css' %}">
+  <!-- chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-colorschemes"></script>
+  <!-- FullCalendar -->
+  <!-- <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script> -->
+{% endblock %}
+
+{% block header %}
+{% include "components/top_nav.html" %}
+{% endblock %}
+
+{% block page_title %}ホーム{% endblock %}
+{% block content %}
+<div class="dashboard_scroll_container">
+  <section class="area"><p class="graph_title">家族の家事達成率</p><canvas id ="family_chart"></canvas></section>
+  <section class="area"><p class="today_title">今日の担当表</p><p id="today_houseworklist" class="today_list"></p></section>
+  <section class="area">
+    <p id="calender" class="calender_title"></p>
+    <!-- <div id="calendar" class="my-calendar"></div> -->
+    <table id="tbl" class="schedule_tbl">
+      <thead>
+        <tr>
+          <th rowspan="2">家事名</th>
+          <th>日</th>
+          <th>月</th>
+          <th>火</th>
+          <th>水</th>
+          <th>木</th>
+          <th>金</th>
+          <th>土</th>
+        </tr>
+        <tr>
+          <td class="week_date"></td>
+          <td class="week_date"></td>
+          <td class="week_date"></td>
+          <td class="week_date"></td>
+          <td class="week_date"></td>
+          <td class="week_date"></td>
+          <td class="week_date"></td>
+        </tr>
+      </thead>
+      <tbody id="week_rotation">
+      </tbody>
+    </table>
+  </section>
+</div>
+<article class="today_mylist_area">
+  <div class="today_mylist">
+    <p>今日の自分の担当</p>
+    <!-- 仮の一覧（ここに取得した個人の担当が入る -->
+    <ul>
+      <li>朝ごはん 🔲</li>
+      <li>夜ごはん 🔲</li>
+      <li>お風呂掃除 🔲</li>
+    </ul>
+  </div>
+</article>
+
+<p class="license">
+    This app uses Chart.js — © Chart.js contributors — MIT License
+</p>
+{% endblock %}
+
+{% block footer %}
+{% include "components/bottom_nav.html" %}
+{% endblock %}
+{% block script %}
+<script src="{% static 'js/graph.js' %}"></script>
+<script src="{% static 'js/today_mylist.js' %}"></script>
+<script src="{% static 'js/today_list.js' %}"></script>
+<script src="{% static 'js/calendar.js' %}"></script>
+{% endblock %}
+
+

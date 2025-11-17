@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}ようこそ{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/components/button.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/form.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/top_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/bottom_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/user/user.css' %}">
+{% endblock %}
+
+{% block header %}
+{% include "components/top_nav.html" %}
+{% endblock %}
+
+{% block page_title %}家族に参加する{% endblock %}
+{% block content %}
+  <form method="post" action="/join/verify/">{% csrf_token %}
+    <label class="participation_code">参加コード（8桁）を入力</label>
+    <input name="code8" inputmode="numeric" pattern="\d{8}" maxlength="8" required>
+    <button class="btn-primary" type="submit">参加する</button>
+  </form>
+  <p class="link_set">
+    <a href="{% url 'admin_login' %}" class="btn btn-secondary">管理者ログイン</a>
+  </p>
+  {% for m in messages %}<p class="alert_message" style="color:red">{{ m }}</p>{% endfor %}
+{% endblock %}
+
+{% block footer %}
+{% include "components/bottom_nav_before_login.html" %}
+{% endblock %}

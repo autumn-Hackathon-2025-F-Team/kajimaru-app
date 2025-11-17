@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}管理者の新規登録{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/components/button.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/form.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/top_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/bottom_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/user/user.css' %}">
+
+{% endblock %}
+
+{% block header %}
+{% include "components/top_nav.html" %}
+{% endblock %}
+
+{% block page_title %}管理者の新規登録{% endblock %}
+{% block content %}
+<form method="post" class="owner_signup_form">{% csrf_token %}
+  {{ signup_form.as_p }}
+<button class="btn-primary" type="submit">登録してはじめる</button>
+</form>
+<p class="link_set">
+  <a href="{% url 'admin_login' %}" class="btn btn-secondary">管理者ログインへ</a>
+</p>
+{% for m in messages %}<p class="alert_message" style="color:red">{{ m }}</p>{% endfor %}  
+{% endblock %}
+
+{% block footer %}
+{% include "components/bottom_nav_before_login.html" %}
+{% endblock %}
