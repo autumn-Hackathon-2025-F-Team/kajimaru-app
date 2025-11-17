@@ -1,0 +1,21 @@
+:root {
+  --bg-1: #FBEAC8;
+  --bg-2: #FBECCD;
+  --bg-3: #FBF5EA;
+  --bg-surface: #ffffff;
+  --text: #111111;
+  --text-sub: #ffffff;
+  --primary: #FFAE00; 
+  --btn-danger-solid: #FF0000;
+  --btn-primary: #FFAE00; 
+  --btn-secondary-solid: #FFAE00;
+  --btn-bg-secondary: #ffffff;
+  --btn-bg-danger: #ffffff;
+  --btn-bottom: #D48C00;
+  --table-solid: #111111;
+  /* --graph-color-1: #D27B08;
+  --graph-color-2: #E48E00;
+  --graph-color-3: #DDAF63;
+  --graph-color-4: #E7B148;
+  --graph-color-5: #CD6715; */
+}

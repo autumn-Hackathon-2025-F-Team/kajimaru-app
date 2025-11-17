@@ -2,7 +2,7 @@
 from .base import *
 
 DEBUG = False
-ALLOWED_HOSTS = ['kajimaru.com'] # デプロイ先で公開サイトのURLに置き換える
+ALLOWED_HOSTS = ['kajimaru.com', 'localhost', '127.0.0.1'] # デプロイ先で公開サイトのURLに置き換える
 CSRF_TRUSTED_ORIGINS = ['https://kajimaru.com']
 
 # 本番環境での静的ファイルの出力先
@@ -12,6 +12,8 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 # 以下はセキュリティ強化の設定。現状は仮置き。
 # HTTPをHTTPSに自動的にリダイレクトする。
 SECURE_SSL_REDIRECT = True
+# クライアントからのリクエストヘッダーがHTTPSか否かを判定
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # セッションクッキーにSecure属性を付与。HTTPでの漏洩を防ぐ。
 SESSION_COOKIE_SECURE = True
 # CSRFトークンを格納するクッキーにSecure属性を付与。CSRF攻撃に対する保護を強化する。
