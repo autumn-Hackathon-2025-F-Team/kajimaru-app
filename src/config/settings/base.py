@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django_bootstrap5',
     'apps.user',
     'apps.dashboard',
+    'apps.shopping',
 ]
 
 MIDDLEWARE = [
