@@ -38,10 +38,11 @@
     <dd>{% if it.is_purchased %}購入済み{% else %}未購入{% endif %}</dd>
   </dl>
 
-  {# ここに削除ボタン等を置いている場合は維持 #}
+  
   <div class="detail-actions">
     <form method="post" action="{% url 'shopping:delete' it.id %}" onsubmit="return confirm('削除しますか？');">
       {% csrf_token %}
+      <input type="hidden" name="next" value="{% url 'shopping:list' %}">
       <button class="btn-danger" type="submit">削除する</button>
     </form>
   </div>
