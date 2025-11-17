@@ -22,5 +22,6 @@ urlpatterns = [
     # path('', include(('apps.user.urls', 'user'), namespace='user')),
     path('', include('apps.user.urls')),
     path('dashboard/', include('apps.dashboard.urls')),
+    path('rotation/', include('apps.rotation.urls')),
     
 ]
