@@ -1,6 +1,6 @@
 import json
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseNotAllowed
 from django.views.decorators.http import require_POST
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required
@@ -9,6 +9,8 @@ from .models import ShoppingItem
 from .forms import ShoppingAddForm
 from apps.user.models import Household, Users
 from apps.user.views import HK, MK
+from django.contrib import messages
+from django.urls import reverse
 
 def _current_household(request):
     hh_id =request.session.get(HK)
@@ -38,7 +40,7 @@ def add(request):
     
     form = ShoppingAddForm(request.POST)
     if not form.is_valid():
-        return JsonResponse({'ok': False, 'errors': form.errors.as_json()}, status=400)
+        return JsonResponse({'ok': False, 'errors': form.errors.get_json_data()}, status=400)
     
     kwargs = dict(
         household = hh,
@@ -79,9 +81,28 @@ def toggle(request, pk: int):
 @login_required
 def detail(request, pk: int):
     hh = _current_household(request)
-    it = get_object_or_404(ShoppingItem.objects.select_related('added_by', 'purchased_by'), id=pk, household=hh)
-    html = render_to_string('shopping/partials/detail.html', {'it': it}, request=request)
-    return JsonResponse({'ok': True, 'html': html})
+    it = get_object_or_404(
+        ShoppingItem.objects.select_related('added_by', 'purchased_by'),
+        id=pk, household=hh
+    )
+
+    # 互換: 旧モデル(buyer)も拾う
+    adder = getattr(it, "added_by", None) or getattr(it, "buyer", None)
+    purchaser = getattr(it, "purchased_by", None)
+
+    def name_of(u):
+        if not u:
+            return None
+        # nickname が空なら display_name をフォールバック
+        return getattr(u, "nickname", None) or getattr(u, "display_name", None) or str(u)
+
+    ctx = {
+        "it": it,
+        "added_name": name_of(adder),
+        "purchased_name": name_of(purchaser) if it.is_purchased else None,
+    }
+    html = render_to_string("shopping/partials/detail.html", ctx, request=request)
+    return JsonResponse({"ok": True, "html": html})
 
 @login_required
 @require_POST
@@ -89,6 +110,12 @@ def delete(request, pk:int):
     hh = _current_household(request)
     it = get_object_or_404(ShoppingItem, id=pk, household=hh)
     it.delete()
-    return JsonResponse({'ok': True, 'id': pk})
+
+    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+        return JsonResponse({'ok': True, 'id': pk})
+
+    messages.success(request, '削除しました。')
+    next_url = request.POST.get('next') or reverse('shopping:list')
+    return redirect(next_url)
 
 
