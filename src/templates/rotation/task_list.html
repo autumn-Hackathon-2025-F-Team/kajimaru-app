@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}家事リスト{% endblock %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/components/button.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/form.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/top_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/bottom_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/rotation/task_list.css' %}">
+  <link rel="stylesheet" href="{% static 'css/rotation/modal.css' %}">
+ {% endblock %}
+
+{% block header %}
+{% include "components/top_nav.html" %}
+{% endblock %}
+
+{% block page_title %}家事リスト{% endblock %}
+{% block content %}
+<section class="tasklist_section">
+
+  <div class="tasklist-area">
+    <ul class="tasklist">
+      {% for t in task_lists %}
+        <li class="task-item">
+          <span class="task-title">{{ t.task_name }}</span>
+          <div class="task_actions task_actions-edit">
+            <span class="material-symbols-outlined js-open-update task-icon" data-id="{{ t.id }}" data-name="{{ t.task_name }}">
+              edit
+            </span>
+            <span class="material-symbols-outlined js-open-delete task-icon" data-id="{{ t.id }}" data-name="{{ t.task_name }}">
+              delete
+            </span>
+          </div>
+        </li>
+      {% empty %}
+        <li>まだ家事が登録されていません。</li>
+      {% endfor %}
+    </ul>
+  </div>
+  
+</section>
+<!-- モーダル用html -->
+<!-- 家事作成 -->
+<div id="createTaskModal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5>家事を追加する</h5>
+      <span class="modalClose" id="create-task-close">×</span>
+    </div>
+    <form
+      id="createTaskForm"
+      class="modal-body"
+      method="post"
+      action="{% url 'rotation:task_list_create' %}"
+    >
+        {% csrf_token %}
+        {{ create_form.as_p }}
+      <div class="modal-footer">
+        <button type="submit" class="btn-primary">追加</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- 家事編集 -->
+<div id="updateTaskModal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5>家事を編集する</h5>
+      <span class="modalClose" id="update-task-close-button">×</span>
+    </div>
+
+    <form
+      id="updateTaskForm"
+      name="updateTaskForm"
+      class="modal-body"
+      method="post"
+      action="{% url 'rotation:task_list_edit' %}"
+    >
+      {% csrf_token %}
+      <!-- 画面には表示させずにフォーム送信時に値を送る -->
+      <!-- 編集フォームにどのデータを編集するかのIDを持たせる -->
+      <input type="hidden" name="task_id" id="updateTaskId">
+      {{ edit_form.as_p }}   
+
+      <div class="modal-footer">
+        <button type="submit" class="btn-secondary">編集</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- 家事削除 -->
+<div id="deleteTaskModal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5>家事を削除する</h5>
+      <span class="modalClose" id="delete-task-close-button">×</span>
+    </div>
+
+    <form 
+      name="deleteTaskForm" 
+      id="deleteTaskForm" 
+      class="modal-body" 
+      method="post"
+      action="{% url 'rotation:task_list_delete' %}"
+    >
+      {% csrf_token %}
+      <input type="hidden" name="task_id" id="deleteTaskId">
+      <p>削除してもよろしいですか？</p>
+
+      <div class="modal-footer">
+        <button type="submit" class="btn-danger" id="delete_task-confirmation-button">
+          削除
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+
+{# セクションの下に「家事追加」ボタン #}
+<div class="task_actions task_actions-bottom">
+  <button class="btn-primary" id="createTaskButton">＋ 家事を追加</button>
+</div>
+
+
+{% endblock %}
+
+{% block footer %}
+{% include "components/bottom_nav.html" %}
+{% endblock %}
+{% block script %}
+<script src="{% static 'js/task_list_modal.js' %}"></script>
+{% endblock %}
+
+

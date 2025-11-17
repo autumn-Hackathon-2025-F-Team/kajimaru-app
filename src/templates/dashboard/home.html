@@ -31,7 +31,7 @@
   <section class="area"><p class="today_title">今日の担当表</p><p id="today_houseworklist" class="today_list"></p>
     <ul>
       {% for tasklist in tasks_today_family %}
-        <li>家事名：{{ tasklist.role }} 担当者：{{ task.user.nickname}}</li>
+        <li>家事名：{{ task.role }} 担当者：{{ task.user.nickname}}</li>
       {% empty %}
         <li>まだ登録されていません。</li>
       {% endfor %}
@@ -72,17 +72,23 @@
     <p>今日の自分の担当</p>
     <ul>
       {% for task in tasks_today %}
-      <li>{{ task.name }}</li>
-      {% empty %}
-        <li>まだ登録されていません。</li>
-      {% endfor %}
+    <li 
+      class="task-item {% if task.is_completed %}completed{% endif %}"
+      data-task-id="{{ task.id }}"
+    >
+      <input type="checkbox" class="task-checkbox" {% if task.is_completed %}checked{% endif %}>
+      <span class="task-name">{{ task.task_list.task_name }}</span>
+    </li>
+  {% empty %}
+    <li>まだ登録されていません。</li>
+  {% endfor %}
     </ul>
   </div>
   <div class="unfinished_yesterday_list">
     <p>昨日できなかった家事</p>
     <ul>
       {% for yesterdaytask in unfinished_yesterday %}
-      <li>{{ yesterdaytask.name }}</li>
+      <li>{{ yesterdaytask.task_list.task_name }}</li>
       {% empty %}
         <li>昨日は全てやりました！</li>
       {% endfor %}

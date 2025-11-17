@@ -284,6 +284,25 @@ p.help_text {
     padding-right: 3.7rem;
   }
 
+
+/* admin_user.html */
+.btn_sets {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;  
+  gap: 1rem;
+  margin-top: 2rem;
+  width: fit-content;     
+  margin-left: auto;      
+  margin-right: auto;
+}
+
+.btn_sets .btn {
+    display: block;      
+    text-align: center;
+}
+
+
 /* personal_page.html */
 /* 
 .profile_card {
