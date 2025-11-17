@@ -25,5 +25,5 @@ urlpatterns = [
     path('dashboard/', include('apps.dashboard.urls')),
     path('rotation/', include('apps.rotation.urls')),
     path('health', health),
-    
+
 ]
