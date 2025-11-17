@@ -209,3 +209,7 @@ __marimo__/
 # Mac .DS_store
 .DS_Store
 
+# statcfiles(静的ファイルを1箇所に集めたもの）
+/staticfiles/*
+!/staticfiles/.gitkeep
+
