@@ -6,9 +6,10 @@ on:
   # プルリクエストがクローズ
   pull_request:
     types: [closed]
-    # ターゲットブランチがdevelopブランチ
+    # ターゲットブランチがdevelop, mainブランチ
     branches:
       - develop
+      - main
 
 # ジョブの定義
 jobs:

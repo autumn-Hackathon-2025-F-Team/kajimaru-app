@@ -6,9 +6,10 @@ on:
   # プルリクエストがオープン（作成）
   pull_request:
     types: [opened]
-    # ターゲットブランチがdevelopブランチ
+    # ターゲットブランチがdevelop, mainブランチ
     branches:
       - develop
+      - main
 
 # ジョブの定義
 jobs:
