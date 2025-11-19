@@ -20,10 +20,10 @@
 {% block content %}
 <section class="tasklist_section">
 
-  <div class="tasklist-area">
+  <div class="tasklist_area">
     {% for t in task_lists %}
-      <article class="task-card">
-        <span class="task-title">{{ t.task_name }}</span>
+      <article class="task_card">
+        <span class="task_title">{{ t.task_name }}</span>
           <div class="task_actions task_actions-edit">
             <span class="material-symbols-outlined js-open-update task-icon" data-id="{{ t.id }}" data-name="{{ t.task_name }}">
               edit
@@ -118,12 +118,9 @@
   </div>
 </div>
 
-
-
-
-{# セクションの下に「家事追加」ボタン #}
+<hr>
 <div class="task_actions task_actions-bottom">
-  <button class="btn-primary" id="createTaskButton">＋ 家事を追加</button>
+  <button class="btn-primary" id="createTaskButton">＋ 家事を追加する</button>
 </div>
 
 

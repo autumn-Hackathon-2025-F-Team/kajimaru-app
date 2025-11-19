@@ -30,9 +30,15 @@
           </div>
 
           <div class="member_actions">
-            <a href="{% url 'family_list_edit' m.id %}">編集</a>
-            <a href="{% url 'family_list_delete' m.id %}">削除</a>
-            <a href="{% url 'pin_reset' m.id %}">PINリセット</a>
+            <!-- <a href="{% url 'family_list_edit' m.id %}">編集</a>
+            <a href="{% url 'family_list_delete' m.id %}">削除</a> -->
+            <a href="{% url 'family_list_edit' m.id %}" class="task-icon icon_edit">
+              <span class="material-symbols-outlined">edit</span>
+            </a>
+            <a href="{% url 'family_list_delete' m.id %}" class="task-icon icon_delete">
+              <span class="material-symbols-outlined">delete</span>
+            </a>
+            <a href="{% url 'pin_reset' m.id %}" class="pinreset">PINリセット</a>
           </div>
         </article>
       {% empty %}

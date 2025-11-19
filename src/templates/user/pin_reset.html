@@ -5,6 +5,7 @@
 
 {% block css %}
   <link rel="stylesheet" href="{% static 'css/components/form.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/button.css' %}">
   <link rel="stylesheet" href="{% static 'css/components/top_nav.css' %}">
   <link rel="stylesheet" href="{% static 'css/components/bottom_nav.css' %}">
   <link rel="stylesheet" href="{% static 'css/user/user.css' %}">
@@ -57,9 +58,9 @@
         </label>
       </div>
 
-      <button class="btn-primary" type="submit">リセットする</button>
-      <div class="link_set"><a href="{% url 'admin_user' %}">キャンセル</a></div>
-      <p class="note">※ PINは数字4桁。端末のオートフィルは無効化しています。</p>
+      <button class="btn-danger" type="submit">リセットする</button>
+      <div class="link_set"><a href="{% url 'admin_user' %}" class="btn btn-secondary">キャンセル</a></div>
+      <p class="note">※ PINは数字4桁。<br>端末のオートフィルは無効化しています。</p>
     </div>
   </form>
 
