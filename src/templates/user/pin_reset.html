@@ -19,9 +19,10 @@
 {% block page_title %}{{ member.display_name }} の PIN をリセット{% endblock %}
 
 {% block content %}
+<section class="pin-reset-area">
   <form method="post" action="{% url 'pin_reset' member.id %}">
     {% csrf_token %}
-
+  
     <div class="pin-inputs">
       <div class="form_group">
         <label for="new_pin">新しいPIN（4桁数字）</label>
@@ -66,7 +67,7 @@
   {% for m in messages %}
     <p class="alert_message {% if m.tags == 'error' %}danger{% endif %}">{{ m }}</p>
   {% endfor %}
-
+</section>
   <script>
     // 4桁数字のみに制限＆一致チェックの簡易バリデーション
     (function () {

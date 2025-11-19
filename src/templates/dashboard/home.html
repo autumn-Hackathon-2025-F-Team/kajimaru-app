@@ -70,18 +70,22 @@
 <article class="mylist_area">
   <div class="today_mylist">
     <p>今日の自分の担当</p>
-    <ul>
+    <ul id="tasksTodayList">
       {% for task in tasks_today %}
-    <li 
-      class="task-item {% if task.is_completed %}completed{% endif %}"
-      data-task-id="{{ task.id }}"
-    >
-      <input type="checkbox" class="task-checkbox" {% if task.is_completed %}checked{% endif %}>
-      <span class="task-name">{{ task.task_list.task_name }}</span>
-    </li>
-  {% empty %}
-    <li>まだ登録されていません。</li>
-  {% endfor %}
+      <!-- もし完了済みなら「task_item」クラスにcompletedクラスを追加する -->
+      <!-- 家事のidを取得 -->
+        <li 
+          class="task-item {% if task.is_completed %}completed{% endif %}"
+          data-task-id="{{ task.id }}"
+        > 
+      <!-- 家事が完了しているならチェック状態（checked）になる -->
+          <input type="checkbox" class="task-checkbox" {% if task.is_completed %}checked{% endif %}>
+      <!-- 家事名を表示 -->
+          <span class="task-name">{{ task.task_list.task_name }}</span>
+        </li>
+      {% empty %}
+      <li>まだ登録されていません。</li>
+      {% endfor %}
     </ul>
   </div>
   <div class="unfinished_yesterday_list">
@@ -90,7 +94,7 @@
       {% for yesterdaytask in unfinished_yesterday %}
       <li>{{ yesterdaytask.task_list.task_name }}</li>
       {% empty %}
-        <li>昨日は全てやりました！</li>
+        <li>ありません。</li>
       {% endfor %}
     </ul>
   </div>

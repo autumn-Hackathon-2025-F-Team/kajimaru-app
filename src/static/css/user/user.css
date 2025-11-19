@@ -302,25 +302,86 @@ p.help_text {
     text-align: center;
 }
 
+.member_list_section {
+  display: block;
+  max-height: 500px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch; 
+  margin-top: 1rem;
+  padding-bottom: 2rem; 
+  padding-top: 0.2rem;
+  }
 
-/* personal_page.html */
-/* 
-.profile_card {
-  background-color: var(--bg-surface);
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 12px;
+.member_list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;  
+}
+
+
+.member_card {
+  width: 100%;
+  background: var(--bg-surface);
+  padding: 0.6rem 0.9rem 0.1rem 0.9rem;
+  border-radius: 12px;
+  box-shadow:
+    0 4px 8px rgba(0,0,0,0.10),
+    0 1px 4px rgba(0,0,0,0.06);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.member_info {
+  display: flex;
+  flex-direction: column;
+}
+
+.member_name {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: var(--text);
+  margin-bottom: 0;
+}
+
+.member_role {
+  font-size: 0.9rem;
+  color: var(--dashboard-list);
+}
+
+.member_actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.admin_user_text {
+  text-align: center;
+  color: var(--dashboard-list);
+  margin-top: 1rem;
+}
+
+.new_member {
+  text-align: center;
   margin-top: 2rem;
 }
 
-.new_line {
-  display: inline-block;
+/* pin_reset.html */
+
+.pin-reset-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.profile_avatar_img {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  display: block;
-  margin: 0 auto 4px;
+.form_group {
+  display: grid;
+  gap: 12px;
+  max-width: 420px;
+  margin: 0 auto;   
+}
+
+.checkbox {
+  text-align: center;
 }

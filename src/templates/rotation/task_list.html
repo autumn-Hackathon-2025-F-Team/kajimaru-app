@@ -21,10 +21,9 @@
 <section class="tasklist_section">
 
   <div class="tasklist-area">
-    <ul class="tasklist">
-      {% for t in task_lists %}
-        <li class="task-item">
-          <span class="task-title">{{ t.task_name }}</span>
+    {% for t in task_lists %}
+      <article class="task-card">
+        <span class="task-title">{{ t.task_name }}</span>
           <div class="task_actions task_actions-edit">
             <span class="material-symbols-outlined js-open-update task-icon" data-id="{{ t.id }}" data-name="{{ t.task_name }}">
               edit
@@ -33,11 +32,10 @@
               delete
             </span>
           </div>
-        </li>
-      {% empty %}
-        <li>まだ家事が登録されていません。</li>
-      {% endfor %}
-    </ul>
+      </article>
+    {% empty %}
+      <p>まだ家事が登録されていません。</p>
+    {% endfor %}
   </div>
   
 </section>
