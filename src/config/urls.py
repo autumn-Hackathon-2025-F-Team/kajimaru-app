@@ -23,5 +23,6 @@ urlpatterns = [
     path('dashboard/', include('apps.dashboard.urls')),
     path('rotation/', include('apps.rotation.urls')),
     path('shopping/', include(('apps.shopping.urls', 'shpping'), namespace='shopping')),
+    path('stocks', include('apps.stocks.urls', namespace='stocks')),
     
 ]
