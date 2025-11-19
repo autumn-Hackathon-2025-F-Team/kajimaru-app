@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}在庫リスト{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/components/top_nav.css' %}">
+<link rel="stylesheet" href="{% static 'css/components/bottom_nav.css' %}">
+<style>
+  .stock-list{list-style:none;margin:0;padding:0}
+  .stock-item{padding:.7rem 1rem;border-bottom:1px solid #eee}
+  .muted{color:#888}
+  .add-fab{position:fixed;right:16px;bottom:84px;background:#007aff;color:#fff;border-radius:9999px;padding:.75rem 1rem;text-decoration:none}
+</style>
+{% endblock %}
+
+{% block header %}{% include "components/top_nav.html" %}{% endblock %}
+{% block page_title %}在庫リスト{% endblock %}
+
+{% block content %}
+<ul class="stock-list">
+  {% for s in items %}
+  <li class="stock-item">
+    <div><strong>{{ s.stock_name }}</strong>（{{ s.get_category_display }}） × {{ s.quantity }}</div>
+    <div class="muted">
+      購入日: {{ s.purchase_date|date:"Y/m/d" }} / 目安: {{ s.period_days }}日 /
+      追加予定: {{ s.remind_at|date:"Y/m/d H:i" }}
+    </div>
+  </li>
+  {% empty %}
+  <li class="stock-item muted">登録された在庫はありません。</li>
+  {% endfor %}
+</ul>
+
+<a class="add-fab" href="{% url 'stocks:create' %}">＋ 登録画面へ</a>
+{% endblock %}
+
+{% block footer %}{% include "components/bottom_nav_before_login.html" %}{% endblock %}
