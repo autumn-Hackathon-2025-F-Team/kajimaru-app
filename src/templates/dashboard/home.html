@@ -23,6 +23,10 @@
 
 {% block page_title %}ホーム{% endblock %}
 {% block content %}
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">１週間分の家事タスクを作成</button>
+</form>
 <div class="dashboard_scroll_container">
   <section class="area">
     <p class="graph_title">家族の家事達成率</p>
