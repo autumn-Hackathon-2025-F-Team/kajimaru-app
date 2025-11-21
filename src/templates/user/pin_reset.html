@@ -5,6 +5,7 @@
 
 {% block css %}
   <link rel="stylesheet" href="{% static 'css/components/form.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/button.css' %}">
   <link rel="stylesheet" href="{% static 'css/components/top_nav.css' %}">
   <link rel="stylesheet" href="{% static 'css/components/bottom_nav.css' %}">
   <link rel="stylesheet" href="{% static 'css/user/user.css' %}">
@@ -19,9 +20,10 @@
 {% block page_title %}{{ member.display_name }} の PIN をリセット{% endblock %}
 
 {% block content %}
+<section class="pin-reset-area">
   <form method="post" action="{% url 'pin_reset' member.id %}">
     {% csrf_token %}
-
+  
     <div class="pin-inputs">
       <div class="form_group">
         <label for="new_pin">新しいPIN（4桁数字）</label>
@@ -52,13 +54,22 @@
       <div class="form_group">
         <label class="checkbox">
           <input type="checkbox" name="unlock" value="1">
-          誤入力ロックを解除する（失敗回数を0にして即ログイン可能にする）
+          <span class="checkbox_texts">
+            <span class="checkbox_text_one">
+              誤入力ロックを解除する
+            </span>
+            <span class="checkbox_text_second">
+              （失敗回数を0にして即ログイン可能にする）
+            </span>
+          </span>
         </label>
       </div>
 
-      <button class="btn-primary" type="submit">リセットする</button>
-      <p class="link_set"><a href="{% url 'admin_user' %}">キャンセル</a></p>
-      <p class="note">※ PINは数字4桁。端末のオートフィルは無効化しています。</p>
+      <button class="btn-danger" type="submit">リセットする</button>
+      <div class="link_set"><a href="{% url 'admin_user' %}" class="btn btn-secondary">キャンセル</a></div>
+      <p class="note">※ PINは数字4桁。<br>
+        <span class="note-second">端末のオートフィルは無効化しています。</span>
+      </p>
     </div>
   </form>
 
@@ -66,7 +77,7 @@
   {% for m in messages %}
     <p class="alert_message {% if m.tags == 'error' %}danger{% endif %}">{{ m }}</p>
   {% endfor %}
-
+</section>
   <script>
     // 4桁数字のみに制限＆一致チェックの簡易バリデーション
     (function () {

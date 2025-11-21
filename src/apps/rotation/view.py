@@ -24,7 +24,8 @@ def task_list_view(request):
 def task_list_create(request):
     form = TaskListForm(request.POST)
     if form.is_valid():
-        form.save()
+        obj = form.save(commit=False)
+        obj.save()
         form.save_m2m()
         return redirect('rotation:task_list')
 
@@ -80,7 +81,8 @@ def maintenance_list_view(request):
 def maintenance_create(request):
     form = MaintenanceForm(request.POST)
     if form.is_valid():
-        obj = form.save()
+        obj = form.save(commit=False)
+        obj.save()
         form.save_m2m()
         return redirect('rotation:maintenance_list')
 

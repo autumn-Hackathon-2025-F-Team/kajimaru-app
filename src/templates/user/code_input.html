@@ -22,9 +22,9 @@
     <input name="code8" inputmode="numeric" pattern="\d{8}" maxlength="8" required>
     <button class="btn-primary" type="submit">参加する</button>
   </form>
-  <p class="link_set">
+  <div class="link_set">
     <a href="{% url 'admin_login' %}" class="btn btn-secondary">管理者ログイン</a>
-  </p>
+  </div>
   {% for m in messages %}<p class="alert_message" style="color:red">{{ m }}</p>{% endfor %}
 {% endblock %}
 

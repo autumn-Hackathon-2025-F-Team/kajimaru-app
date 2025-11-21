@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block header %}
-{% include "components/top_nav.html" %}
+{% include "components/top_nav_before_login.html" %}
 {% endblock %}
 
 {% block page_title %}管理者ログイン{% endblock %}
@@ -21,9 +21,9 @@
   {{ form.as_p }}
 <button class="btn-primary" type="submit">ログインする</button>
 </form>
-<p class="link_set">
+<div class="link_set">
   <a href="{% url 'signup' %}" class="btn btn-secondary">新規登録へ</a>   
-</p>
+</div>
 {% for m in messages %}<p class="alert_message" style="color:red">{{ m }}</p>{% endfor %}
 {% endblock %}
 
