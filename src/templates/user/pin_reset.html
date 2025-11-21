@@ -54,13 +54,22 @@
       <div class="form_group">
         <label class="checkbox">
           <input type="checkbox" name="unlock" value="1">
-          誤入力ロックを解除する（失敗回数を0にして即ログイン可能にする）
+          <span class="checkbox_texts">
+            <span class="checkbox_text_one">
+              誤入力ロックを解除する
+            </span>
+            <span class="checkbox_text_second">
+              （失敗回数を0にして即ログイン可能にする）
+            </span>
+          </span>
         </label>
       </div>
 
       <button class="btn-danger" type="submit">リセットする</button>
       <div class="link_set"><a href="{% url 'admin_user' %}" class="btn btn-secondary">キャンセル</a></div>
-      <p class="note">※ PINは数字4桁。<br>端末のオートフィルは無効化しています。</p>
+      <p class="note">※ PINは数字4桁。<br>
+        <span class="note-second">端末のオートフィルは無効化しています。</span>
+      </p>
     </div>
   </form>
 

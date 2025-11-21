@@ -289,6 +289,7 @@ p.help_text {
 .admin-pin-form .btn-primary {
     padding-left: 3.7rem;
     padding-right: 3.7rem;
+    margin-top: 3rem;
   }
 
 
@@ -375,6 +376,12 @@ p.help_text {
   margin-top: 2rem;
 }
 
+.new_member a {
+  /* color: var(--accent-color);           */
+  text-decoration: none;  
+}
+
+
 .task-icon .icon_edit,
 .task-icon .icon_delete {
   font-size: 0.8rem;
@@ -414,7 +421,36 @@ p.help_text {
 }
 
 .pin-reset-area .form_group .checkbox {
-  width: 90%;
+  display: inline-flex;   
+
+  align-items: flex-start;     
+  gap: 0.5rem; 
+  text-align: left;            
+  word-break: keep-all;
+}
+
+.form_group .checkbox input[type="checkbox"] {
+  margin-top: 0.38rem; 
+}
+
+.pin-reset-area .form_group .checkbox .checkbox_text_one {
+  text-align: left;        
+  display: inline-block;
+  word-break: keep-all;
+}
+
+.pin-reset-area .form_group .checkbox .checkbox_text_second {
+  text-align: left;        
+  display: inline-block;
+  word-break: keep-all;
+  font-size: 0.9rem;
+  margin-left: -4rem;
+  color: var(--dashboard-list);
+}
+
+.checkbox_texts {
+  display: flex;
+  flex-direction: column;  
 }
 
 .pin-reset-area .btn-danger {
@@ -423,5 +459,15 @@ p.help_text {
 }
 
 .pin-reset-area .note {
-  text-align: center;
+  text-align: left;
+  max-width: 100%; 
+  word-break: keep-all;
+  margin-top: 2rem;
+}
+
+.note-second {
+  display: inline-block;  
+  font-size: 0.9rem;
+  color: var(--dashboard-list);     
+  padding-left: 1em;   /* 全体を1文字分右へ */
 }

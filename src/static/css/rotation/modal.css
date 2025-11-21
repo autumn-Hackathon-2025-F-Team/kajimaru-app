@@ -57,6 +57,38 @@
   right: 0;
 }
 
+.form_row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.task-form .form_row {
+  display: flex;
+  align-items: center;
+}
+
+.task-form .form_row > label {
+  text-align: left;
+  min-width: 90px;
+}
+
+.form_row-frequency .form_field #id_frequency {
+  display: flex;            
+  flex-wrap: wrap;       
+  gap: 0.4rem;
+}
+
+.form_row-homemakers .form_field #id_homemakers {
+  display: flex;            
+  flex-wrap: wrap;       
+  gap: 0.4rem;
+}
+
+
+
 
 /* ========================================================== */
 /* レスポンシブ */

@@ -60,3 +60,7 @@
   {% for m in messages %}<p class="alert_message" style="color:red">{{ m }}</p>{% endfor %}
 
 {% endblock %}
+
+{% block footer %}
+{% include "components/bottom_nav.html" %}
+{% endblock %}

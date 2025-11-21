@@ -3,15 +3,25 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from apps.user.models import Users
 from django.utils import timezone
 
+# WEEKDAY_FLAGS = [
+#     (1, '月曜日'),
+#     (2, '火曜日'),
+#     (4, '水曜日'),
+#     (8, '木曜日'),
+#     (16, '金曜日'),
+#     (32, '土曜日'),
+#     (64, '日曜日'),
+# ]
 WEEKDAY_FLAGS = [
-    (1, '月曜日'),
-    (2, '火曜日'),
-    (4, '水曜日'),
-    (8, '木曜日'),
-    (16, '金曜日'),
-    (32, '土曜日'),
-    (64, '日曜日'),
+    (1, '月'),
+    (2, '火'),
+    (4, '水'),
+    (8, '木'),
+    (16, '金'),
+    (32, '土'),
+    (64, '日'),
 ]
+
 class TaskList(models.Model):
     task_name = models.CharField(max_length=50, verbose_name="家事名")
     frequency = models.PositiveSmallIntegerField(verbose_name="頻度(曜日)",

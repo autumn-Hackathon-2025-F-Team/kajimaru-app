@@ -60,7 +60,7 @@
     <input type="text" name="item_name" placeholder="商品名（例: 牛乳）" maxlength="20" required>
     <input type="number" name="quantity" min="1" value="1" placeholder="数量">
     <textarea name="description" rows="2" placeholder="メモ（任意）" style="grid-column:1 / span 3"></textarea>
-    <button class="btn btn-primary" type="submit">＋ 追加</button>
+    <button class="btn btn-primary" type="submit">＋ 追加する</button>
   </form>
 </div>
 
@@ -141,4 +141,4 @@
 </script>
 {% endblock %}
 
-{% block footer %}{% include "components/bottom_nav_before_login.html" %}{% endblock %}
+{% block footer %}{% include "components/bottom_nav.html" %}{% endblock %}
