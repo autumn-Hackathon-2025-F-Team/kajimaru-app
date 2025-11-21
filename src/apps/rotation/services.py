@@ -92,6 +92,10 @@ def create_week_tasks(start_date=None):
                 role=homemaker.display_name,
             )
 
+def reset_future_tasks():
+    today = timezone.localdate()
+    Task.objects.filter(daily__date__gte=today,).delete()
+
 #Maintenance用
 def calc_user_score_for_maintenance(maintenance: Maintenance, user: Users) -> int:
     now = timezone.now()

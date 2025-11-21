@@ -5,7 +5,7 @@ from django.utils import timezone
 from django.shortcuts import redirect
 from .models import Task, Maintenance, TaskList
 from apps.user.models import Users
-from apps.rotation.services import create_week_tasks, create_maintenance_tasks
+from apps.rotation.services import create_week_tasks, create_maintenance_tasks, reset_future_tasks
 
 class DashboardView(LoginRequiredMixin,TemplateView):
     template_name = "dashboard/home.html"
@@ -91,6 +91,7 @@ class DashboardView(LoginRequiredMixin,TemplateView):
 
     def post(self, request, *args, **kwargs):
         today = timezone.localdate()
+        reset_future_tasks()
         create_week_tasks()
         create_maintenance_tasks(run_date=today)
         return redirect("dashboard:dashboard")
