@@ -68,32 +68,33 @@ def create_week_tasks(start_date=None):
         start_date = today - timedelta(days=today.weekday())        #今週の月曜日を取得
     end_date = start_date + timedelta(days=7)       #翌週の月曜日を取得
     task_lists = TaskList.objects.prefetch_related("homemakers")        #DB負担軽減のためのリスト化
-    for t1 in task_lists:
-        exists = Task.objects.filter(       #今週分の家事が既に存在するか確認
-            task_list=t1,
-            daily__date__gte=start_date,
-            daily__date__lt=end_date,
-        ).exists()
-        if exists:      #2重生成防止
-            continue
+    for tl in task_lists:
         for i in range(7):      #1週間分ループ
             day = start_date + timedelta(days=i)
+            if day < today:      #過去日はスキップ
+                continue
             py_weekday = day.weekday()
             bit = BIT_BY_WEEKDAY[py_weekday]
 
-            if not (t1.frequency & bit):        #その曜日に家事が設定されていなければスキップ
+            if not (tl.frequency & bit):        #その曜日に家事が設定されていなければスキップ
                 continue
-            homemaker = choose_homemaker_for_tasklist(t1)       #担当者を決定
+            if Task.objects.filter(task_list=tl, daily__date=day).exists():      #すでにタスクが存在する場合はスキップ
+                continue
+            homemaker = choose_homemaker_for_tasklist(tl)       #担当者を決定
             if not homemaker:
                 continue      #担当者が決まらなければスキップ
             Task.objects.create(        #DBに登録
-                task_list=t1,       #家事
+                task_list=tl,       #家事
                 user=homemaker,      #担当者
                 daily=timezone.make_aware(        #日時をタイムゾーン対応に変換
                     datetime.combine(day, datetime.min.time())
                 ),
                 role=homemaker.display_name,
             )
+
+def reset_future_tasks():
+    today = timezone.localdate()
+    Task.objects.filter(daily__date__gte=today,).delete()
 
 #Maintenance用
 def calc_user_score_for_maintenance(maintenance: Maintenance, user: Users) -> int:

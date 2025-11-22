@@ -244,7 +244,8 @@ def profile_enter(request, pk:int):
             m.save(update_fields=['pin_hash', 'pin_updated_at', 'failed_attempts', 'locked_until'])
             request.session[MK] = m.id
             request.session[LS] = timezone.now().timestamp()
-            return redirect('dashboard')
+            request.session["active_user_id"] = m.id
+            return redirect('dashboard:dashboard')
         return render(request, 'user/login.html', {'member': m, 'form': form})
         
     if m.locked_until and m.locked_until > timezone.now():
@@ -260,7 +261,8 @@ def profile_enter(request, pk:int):
             m.save(update_fields=['failed_attempts', 'locked_until'])
             request.session[MK] = m.id
             request.session[LS] = timezone.now().timestamp()
-            return redirect('dashboard')
+            request.session["active_user_id"] = m.id
+            return redirect("dashboard:dashboard")
         else:
             m.failed_attempts += 1
             if m.failed_attempts >= 5:
