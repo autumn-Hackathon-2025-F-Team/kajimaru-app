@@ -23,9 +23,17 @@ class StockItem(models.Model):
     purchase_date = models.DateField()
     remind_at = models.DateTimeField(null=True, blank=True)
     open_shopping_item = models.ForeignKey(ShoppingItem, null=True, blank=True, on_delete=models.SET_NULL, related_name='from_stock')
+    enqueued_to_shopping = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return f'[{self.get_category_display()}] {self.stock_name}'
+    
+    @property
+    def is_due(self):
+        return (self.remind_at and self.remind_at <= timezone.now() and not self.enqueued_to_shopping)
+    
     def calc_remind_at(self) -> datetime:
         base = datetime.combine(self.purchase_date, time(hour=9))
         return timezone.make_aware(base) + timedelta(days=int(self.period_days) - 2)
