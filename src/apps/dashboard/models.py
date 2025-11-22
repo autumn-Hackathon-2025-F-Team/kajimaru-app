@@ -38,11 +38,11 @@ class TaskList(models.Model):
                 labels.append(label)
         return ", ".join(labels) if labels else "曜日未設定"
 
-    # def __str__(self):
-    #     names = ", ".join(h.display_name for h in self.homemakers.all()) or "担当者未設定"
-    #     return f"{self.task_name}({self.get_weekday_labels()} / {names})"
     def __str__(self):
-        return self.task_name
+        names = ", ".join(h.display_name for h in self.homemakers.all()) or "担当者未設定"
+        return f"{self.task_name}({self.get_weekday_labels()} / {names})"
+    # def __str__(self):
+    #     return self.task_name
 class Maintenance(models.Model):
     target_name = models.CharField(max_length=20,verbose_name="メンテナンス名")
     homemakers = models.ManyToManyField(Users, verbose_name="担当者", related_name="maintenance_task_lists", blank=True)  
@@ -52,11 +52,11 @@ class Maintenance(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    # def __str__(self):
-    #     names = ", ".join(h.display_name for h in self.homemakers.all()) or "担当者未設定"
-    #     return f"{self.target_name}({names})"
     def __str__(self):
-        return self.target_name
+        names = ", ".join(h.display_name for h in self.homemakers.all()) or "担当者未設定"
+        return f"{self.target_name}({names})"
+    # def __str__(self):
+    #     return self.target_name
 class Task(models.Model):
     task_list = models.ForeignKey(TaskList, on_delete=models.SET_NULL,related_name="tasks",null=True,blank=True)
     maintenance = models.ForeignKey(Maintenance, on_delete=models.SET_NULL, null=True, blank=True)
