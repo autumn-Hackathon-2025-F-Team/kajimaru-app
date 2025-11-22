@@ -32,10 +32,18 @@
     <p class="graph_title">家族の家事達成率</p>
     <canvas id ="family_chart"></canvas>
   </section>
-  <section class="area"><p class="today_title">今日の担当表</p><p id="today_houseworklist" class="today_list"></p>
-    <ul>
-      {% for tasklist in tasks_today_family %}
-        <li>家事名：{{ task.role }} 担当者：{{ task.user.nickname}}</li>
+  <section class="area">
+    <p class="today_houseworklist_header">
+      <span class="today_title">今日の担当表：</span><span id="today_houseworklist" class="today_list"></span>
+    </p>
+    <ul class="today_houseworklist_detail">
+      {% for task in tasks_today_family %}
+        <li class="today_item">
+          <span class="housework_label">家事名：</span> 
+          <span class="housework_value">{{ task.task_list.task_name }}</span>
+          <span class="housework_label">担当者：</span>
+          <span class="housework_value">{{ task.user.nickname}}</span>
+        </li>
       {% empty %}
         <li>まだ登録されていません。</li>
       {% endfor %}
