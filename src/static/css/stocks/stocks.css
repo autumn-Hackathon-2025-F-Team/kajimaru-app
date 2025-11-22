@@ -7,7 +7,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  max-height: 450px;
+  max-height: 470px;
   overflow-y: auto;
   gap: 0.8rem;   
   margin-top: 2rem;
@@ -26,7 +26,6 @@
   box-shadow: 
     0 4px 8px rgba(0,0,0,0.10),
     0 1px 4px rgba(0,0,0,0.06);
-  pointer-events: none;
 }
 
 .stock_title {
@@ -56,6 +55,7 @@
   width: 100%;
   display: flex;
   justify-content: center;
+  margin: 0;
 }
 
 /* 上部ボタンの行 */
