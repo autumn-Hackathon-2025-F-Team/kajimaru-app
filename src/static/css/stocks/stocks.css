@@ -57,3 +57,26 @@
   justify-content: center;
   margin: 0;
 }
+
+/* 上部ボタンの行 */
+.stocks-header{
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  gap:12px;
+  margin: 8px 12px 0;
+}
+
+/* ボタンの体裁（既存の .btn / .btn-primary があればそれでOK） */
+.stocks-header .btn{
+  padding:.5rem .8rem;
+  border:1px solid #ccc;
+  border-radius:8px;
+  background:#fff;
+}
+.stocks-header .btn.btn-primary{
+  background:#007aff;
+  color:#fff;
+  border-color:#007aff;
+}
+
