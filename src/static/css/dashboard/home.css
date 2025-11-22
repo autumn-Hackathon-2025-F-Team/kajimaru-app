@@ -195,3 +195,7 @@
   text-decoration: line-through;
   opacity: .55;
 }
+
+#tasksTodayList {
+  list-style: none;
+}
