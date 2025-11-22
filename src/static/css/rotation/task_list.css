@@ -100,3 +100,10 @@
   color: var(--dashboard-list);
   margin-top: 1rem;
 }
+
+.tasklist_non_text {
+  text-align: center;
+  margin-top: 0.3rem;
+  font-size: 0.85rem;
+  color: var(--dashboard-list);
+}
