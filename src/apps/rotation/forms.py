@@ -31,8 +31,13 @@ class TaskListForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
+        login_user = kwargs.pop('login_user', None)
         super().__init__(*args, **kwargs)
-        self.fields["homemakers"].queryset = Users.objects.all()
+        if login_user and getattr(login_user, 'household', None):
+            qs = Users.objects.filter(household=login_user.household)
+        else:
+            qs = Users.objects.none()
+        self.fields["homemakers"].queryset = qs
         if self.instance.pk:
             if self.instance.frequency:
                 value = self.instance.frequency
@@ -76,7 +81,12 @@ class MaintenanceForm(forms.ModelForm):
         }
 
     def __init__(self, *args, **kwargs):
+        login_user = kwargs.pop('login_user', None)
         super().__init__(*args, **kwargs)
-        self.fields["homemakers"].queryset = Users.objects.all()
+        if login_user and getattr(login_user, 'household', None):
+            qs = Users.objects.filter(household=login_user.household)
+        else:
+            qs = Users.objects.none()
+        self.fields["homemakers"].queryset = qs
         if self.instance.pk:
             self.fields["homemakers"].initial = self.instance.homemakers.all()

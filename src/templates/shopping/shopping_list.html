@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}買いものリスト{% endblock %}
+
+{% block css %}
+ <link rel="stylesheet" href="{% static 'css/components/button.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/form.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/top_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/bottom_nav.css' %}">
+  <link rel="stylesheet" href="{% static 'css/user/user.css' %}">
+  <link rel="stylesheet" href="{% static 'css/shopping/shopping_list.css' %}">
+  <!-- <style>
+    .shopping-wrap{ padding-bottom:120px; }
+    .shopping-list{ list-style:none; margin:0; padding:0; }
+    .shopping-item{ display:flex; gap:.75rem; align-items:center; padding:.75rem 1rem; border-bottom:1px solid #eee; cursor:pointer; }
+    .shopping-item.purchased .name{ text-decoration:line-through; opacity:.55; }
+    .qty{ color:#666; font-size:.9rem; }
+    .muted{ color:#888; font-size:.85rem; }
+    dialog#detail-modal{ width:min(520px,92%); border:none; border-radius:10px; padding:0; }
+    .modal-header{ padding:24px 16px 12px; background:var(--bg-2); border-bottom:1px solid #eee; font-weight:600; }
+    .modal-body{ padding:16px 18px; background-color: var(--bg-3);}
+  </style> -->
+{% endblock %}
+<!-- <style>
+  .add-bar{ position:fixed; left:0; right:0; bottom:0; background:#fff; border-top:1px solid #ddd; padding:.5rem .75rem; display:grid; gap:.5rem; }
+  .add-row{ display:grid; grid-template-columns:1fr 100px 100px; gap:.5rem; }
+  .btn{ padding:.5rem .8rem; border:1px solid #ccc; border-radius:8px; background:#fff; }
+  .btn-primary{ background:#007aff; color:#fff; border-color:#007aff; }
+</style> -->
+
+{% block header %}{% include "components/top_nav.html" %}{% endblock %}
+{% block page_title %}買い物リスト{% endblock %}
+
+{% block content %}
+<div class="shopping-section">
+  <div class="shopping-wrap">
+    <p id="shopping-help" class="muted shopping-help-text {% if not items and not bought %}is-hidden{% endif %}">
+         ※ 商品名をクリックすると削除することができます。
+    </p>
+    <ul id="shopping-list" class="shopping-list">
+      {% for it in items %}
+        {% include 'shopping/partials/item.html' with it=it %}
+      {% empty %}
+        <li id="shopping-empty" class="muted shopping-empty">未購入の品はありません。</li>
+      {% endfor %}
+    </ul>
+
+    <hr>
+    {% if bought %}
+      <p class="muted" style="padding:.75rem 1rem;">最近買ったもの</p>
+      <ul id="shopping-bought" class="shopping-list">
+        {% for it in bought %}
+          {% include 'shopping/partials/item.html' with it=it %}
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+
+  <div class="add-bar">
+    <form id="add-form" class="add-row" action="{% url 'shopping:add' %}" method="post">
+      {% csrf_token %}
+      <input type="text" name="item_name" placeholder="商品名（例: 牛乳）" maxlength="20" required>
+      <input type="number" name="quantity" min="1" value="1" placeholder="数量">
+      <textarea name="description" rows="2" placeholder="メモ（任意）"></textarea>
+      <button class="btn btn-primary" type="submit">＋ 追加する</button>
+    </form>
+  </div>
+</div>
+
+<dialog id="detail-modal">
+  <div class="modal-header">詳細</div>
+  <div id="detail-body" class="modal-body"></div>
+  <div><!-- <div style="padding:0 130px 16px;"> -->
+    <button class="btn" onclick="document.getElementById('detail-modal').close()">×</button>
+  </div>
+</dialog>
+
+<script>
+  // CSRF
+  function getCookie(name){const m=document.cookie.match('(^|;)\\s*'+name+'\\s*=\\s*([^;]+)');return m?m.pop():'';}
+  const CSRF=getCookie('csrftoken');
+
+  // 追加
+  document.getElementById('add-form').addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const fd=new FormData(e.target);
+    const res=await fetch(e.target.action,{
+      method:'POST',
+      headers:{ 'X-CSRFToken':CSRF, 'X-Requested-With':'XMLHttpRequest' },   // ← 追加
+      body:fd
+    });
+    const j=await res.json();
+    if(!j.ok){ alert('追加に失敗しました'); return; }
+    const emptyMsg = document.getElementById('shopping-empty');
+    if (emptyMsg) {emptyMsg.remove();}
+    const helptext = document.getElementById('shopping-help');
+    if (helptext) {
+      helptext.classList.remove('is-hidden'); 
+    }
+
+    document.getElementById('shopping-list').insertAdjacentHTML('afterbegin', j.html);
+    e.target.reset(); e.target.item_name.focus();
+  });
+
+  // 行クリック/チェックトグル（イベント委譲）
+  document.addEventListener('click', async (e)=>{
+    const li=e.target.closest('li[data-id]');
+    if(!li) return;
+
+    // トグル
+    if(e.target.matches('input[type="checkbox"][data-toggle]')){
+      e.stopPropagation();
+      const res=await fetch(e.target.dataset.toggle,{
+        method:'POST',
+        headers:{ 'X-CSRFToken':CSRF, 'X-Requested-With':'XMLHttpRequest' }   // ← 追加
+      });
+      const j=await res.json(); if(!j.ok) return;
+      li.outerHTML=j.html;
+      return;
+    }
+
+    // 詳細
+    if(e.target.closest('.content')){
+      const url=li.dataset.detail;
+      const res=await fetch(url,{ headers:{ 'X-Requested-With':'XMLHttpRequest' } }); // ← 追加
+      const j=await res.json(); if(!j.ok) return;
+      document.getElementById('detail-body').innerHTML=j.html;
+      document.getElementById('detail-modal').showModal();
+    }
+  });
+
+  // モーダル内の削除
+  document.addEventListener('submit', async (e)=>{
+    const delForm = e.target.closest('form[data-delete]');
+    if(!delForm) return;
+    e.preventDefault();
+    if(!confirm('このアイテムを削除します。よろしいですか？')) return;
+
+    const res = await fetch(delForm.action,{
+      method:'POST',
+      headers:{ 'X-CSRFToken':CSRF, 'X-Requested-With':'XMLHttpRequest' },   // ← 追加
+      body:new FormData(delForm)
+    });
+    const j = await res.json();
+    if(!j.ok){ alert('削除に失敗しました'); return; }
+
+    const li = document.querySelector(`li[data-id="${j.id}"]`);
+    if(li) li.remove();
+    document.getElementById('detail-modal').close();
+  });
+</script>
+{% endblock %}
+
+{% block footer %}{% include "components/bottom_nav.html" %}{% endblock %}

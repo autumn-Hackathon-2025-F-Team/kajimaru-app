@@ -1,4 +1,4 @@
-# web(django), nginxのコンテナを作成（本番用）
+# web(django), nginx, cronのコンテナを作成（本番用）
 services:
   # Djangoの設定
   web:
@@ -11,13 +11,13 @@ services:
       dockerfile: docker/Dockerfile.prod
       # ビルド時のDockerfileの変数設定
       args:
-        UID: ${UID:-1000}
-        GID: ${GID:-1000}
+        UID: ${UID:-1001}
+        GID: ${GID:-1001}
         USERNAME: ${USERNAME:-appuser}
         GROUPNAME: ${GROUPNAME:-appgroup}
     # dockerコンテナ起動時のデフォルトコマンド設定
+    # RDS MySQLはコンソール操作で常に起動しているため、wait-for-it.shは本番環境では削除（また、KMSからMySQL_HOSTの読み込みが難しいため。）
     command: >
-      wait-for-it.sh ${MYSQL_HOST}:3306 --
       sh -c "
       python manage.py migrate &&
       python manage.py collectstatic --noinput &&
@@ -42,6 +42,26 @@ services:
       timeout: 5s
       retries: 5
       start_period: 20s
+
+  # cronの設定
+  cron:
+    # web と同じイメージを利用
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.prod
+    container_name: django_cron
+    # cronをフォアグラウンドで起動
+    command: ["cron", "-f"]
+    # cronはrootで動かす（crontab内で appuser に切り替え済み）
+    user: "root"
+    restart: always
+    environment:
+      - TZ=${TZ}
+    env_file:
+      - .env
+    # DB などにアクセスするなら、network / env は web と同じに
+    depends_on:
+      - web
 
   # nginxの設定
   nginx:

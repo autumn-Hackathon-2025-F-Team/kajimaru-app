@@ -5,3 +5,7 @@ mysqlclient==2.2.7
 python-dotenv==1.1.1
 gunicorn==23.0.0 # 本番環境で追加
 boto3==1.40.74 # 本番環境で追加
+django-storages==1.14.6 # 本番環境で追加
+python-dateutil>=2.9.0.post0
+requests==2.32.3
+

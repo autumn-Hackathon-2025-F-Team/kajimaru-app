@@ -17,18 +17,20 @@
 
 {% block page_title %} 初回ログイン {% endblock %}
 {% block content %}
-  <p class="pin_target">対象プロフィール：<strong>{{ member.display_name }}</strong></p>
+  <!-- <p class="pin_target">対象プロフィール：<strong>{{ member.display_name }}</strong></p> -->
   <div class="caution_text">
-    <p>PINコードを登録してください。</p>
+    <!-- <p>PINコードを登録してください。</p> -->
     <p>５回間違えるとロックがかかります。</p>
   </div>
-  <form method="post">{% csrf_token %}
-    {{ form.as_p }}
+  <form method="post" class="login-form">{% csrf_token %}
+    <div class="pin-input">
+      {{ form.as_p }}
+    </div>
     <button class="btn-primary" type="submit">登録して入室する</button>
   </form>
-  <p class="link_set">
+  <div class="link_set">
     <a href="{% url 'profiles_list' %}" class="btn btn-secondary">プロフィールへ戻る</a>
-  </p>
+  </div>
   {% for m in messages %}<p class="alert_message" style="color:red">{{ m }}</p>{% endfor %} 
 {% endblock %}
 

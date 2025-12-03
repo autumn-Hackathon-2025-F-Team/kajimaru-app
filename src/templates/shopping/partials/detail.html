@@ -1,0 +1,42 @@
+<div class="detail">
+  <dl class="detail-kv">
+    <dt>商品名</dt><dd>{{ it.item_name }}</dd>
+    <dt>数量</dt><dd>{{ it.quantity }}</dd>
+
+    <dt>追加者</dt>
+    <dd>
+      {# ニックネーム優先。無ければ表示名。それも無ければ "-" #}
+      {% if it.added_by %}
+        {{ it.added_by.nickname|default:it.added_by.display_name|default:"-" }}
+      {% else %}-{% endif %}
+    </dd>
+
+    <dt>追加日時</dt>
+    <dd>{{ it.created_at|date:"Y/m/d H:i" }}</dd>
+
+    <dt>説明</dt>
+    <dd>{{ it.description|default:"(なし)"|linebreaksbr }}</dd>
+
+    <dt>購入者</dt>
+    <dd>
+      {% if it.purchased_by %}
+        {{ it.purchased_by.nickname|default:it.purchased_by.display_name }}
+      {% else %}-{% endif %}
+    </dd>
+
+    <dt>購入日時</dt>
+    <dd>{% if it.purchased_at %}{{ it.purchased_at|date:"Y/m/d H:i" }}{% else %}-{% endif %}</dd>
+
+    <dt>状態</dt>
+    <dd>{% if it.is_purchased %}購入済み{% else %}未購入{% endif %}</dd>
+  </dl>
+
+  
+  <div class="detail-actions">
+    <form method="post" action="{% url 'shopping:delete' it.id %}" onsubmit="return confirm('削除しますか？');">
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{% url 'shopping:list' %}">
+      <button class="btn-danger" type="submit">削除する</button>
+    </form>
+  </div>
+</div>

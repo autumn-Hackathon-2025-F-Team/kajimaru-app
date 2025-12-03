@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}在庫登録{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/components/button.css' %}">
+<link rel="stylesheet" href="{% static 'css/components/form.css' %}">
+<link rel="stylesheet" href="{% static 'css/user/user.css' %}">
+<link rel="stylesheet" href="{% static 'css/components/top_nav.css' %}">
+<link rel="stylesheet" href="{% static 'css/components/bottom_nav.css' %}">
+{% endblock %}
+
+{% block header %}{% include "components/top_nav.html" %}{% endblock %}
+{% block page_title %}在庫登録{% endblock %}
+
+{% block content %}
+<form method="post" class="stock_add_form">
+  {% csrf_token %}
+  <p>
+    <label>カテゴリ</label>
+    {{ form.category }}
+  </p>
+  <p>
+    <label>在庫名</label>
+    {{ form.stock_name }}
+  </p>
+  <p>
+    <label>補充個数</label>
+    {{ form.quantity }}
+  </p>
+  <p>
+    <label>消耗の目安</label>
+    {{ form.period_days }}
+  </p>
+  <p>
+    <label>購入日</label>
+    {{ form.purchase_date }}
+  </p>
+
+  <button class="btn-primary" type="submit">登録する</button>
+  <p class="link_set">
+    <a href="{% url 'stocks:list' %}" class="btn btn-secondary">在庫リストへ</a>
+  </p>
+</form>
+{% endblock %}
+
+{% block footer %}{% include "components/bottom_nav.html" %}{% endblock %}

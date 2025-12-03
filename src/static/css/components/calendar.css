@@ -28,6 +28,20 @@ table {
   text-align: center; 
 }
 
+.schedule_tbl th[rowspan],
+.schedule_tbl tbody th {
+  width: 80px;              
+  max-width: 80px;    
+  overflow: hidden;         
+  text-overflow: ellipsis;  
+  font-size: 0.85rem;       
+}
+
+.schedule_tbl th,
+.schedule_tbl td {
+  white-space: nowrap;
+}
+
 
 @media (min-width: 768px) {
     .area .my-calendar {

@@ -18,13 +18,13 @@
 {% block page_title %}家族に参加する{% endblock %}
 {% block content %}
   <form method="post" action="/join/verify/">{% csrf_token %}
-    <label class="participation_code">参加コード（8桁）を入力</label>
+    <label class="participation_code">招待コード（8桁）を入力</label>
     <input name="code8" inputmode="numeric" pattern="\d{8}" maxlength="8" required>
     <button class="btn-primary" type="submit">参加する</button>
   </form>
-  <p class="link_set">
+  <div class="link_set">
     <a href="{% url 'admin_login' %}" class="btn btn-secondary">管理者ログイン</a>
-  </p>
+  </div>
   {% for m in messages %}<p class="alert_message" style="color:red">{{ m }}</p>{% endfor %}
 {% endblock %}
 

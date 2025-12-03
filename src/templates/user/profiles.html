@@ -23,7 +23,7 @@
     <button class="btn btn-primary" type="submit">入室する</button>
   </form>
   {% for m in messages %}<p class="alert_message" style="color:red">{{ m }}</p>{% endfor %}
-  <p><a href="{% url 'welcome' %}">戻る</a></p>
+  <div><a href="{% url 'welcome' %}">戻る</a></div>
 {% endblock %}
 
 {% block footer %}

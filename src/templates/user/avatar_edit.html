@@ -3,6 +3,7 @@
 {% block title %}アイコンの変更{% endblock %}
 
 {% block css %}
+<link rel="stylesheet" href="{% static 'css/components/button.css' %}">
 <link rel="stylesheet" href="{% static 'css/components/form.css' %}">
 <link rel="stylesheet" href="{% static 'css/components/top_nav.css' %}">
 <link rel="stylesheet" href="{% static 'css/components/bottom_nav.css' %}">
@@ -15,7 +16,7 @@
 {% block content %}
 <form method="post" class="profile_add_form">
   {% csrf_token %}
-  <p class="help_text">お好みのアイコンを選択してください。</p>
+  <p class="iconchange_text">好きなアイコンを選択してください。</p>
 
   <div class="avatar-grid">
     <label class="avatar-item">
@@ -39,7 +40,9 @@
   </div>
 
   <button class="btn-primary" type="submit">更新する</button>
-  <p class="link_set"><a href="{% url 'profiles_list' %}">キャンセル</a></p>
+  <div class="link_set">
+    <a href="{% url 'profiles_list' %}" class="btn btn-secondary">キャンセル</a>
+  </div>
 </form>
 
 {% for m in messages %}<p class="alert_message">{{ m }}</p>{% endfor %}

@@ -6,16 +6,17 @@
   --text: #111111;
   --text-sub: #ffffff;
   --primary: #FFAE00; 
-  --btn-danger-solid: #FF0000;
+  --btn-danger-solid: #c62828;
   --btn-primary: #FFAE00; 
   --btn-secondary-solid: #FFAE00;
   --btn-bg-secondary: #ffffff;
   --btn-bg-danger: #ffffff;
   --btn-bottom: #D48C00;
   --table-solid: #111111;
-  /* --graph-color-1: #D27B08;
-  --graph-color-2: #E48E00;
-  --graph-color-3: #DDAF63;
-  --graph-color-4: #E7B148;
-  --graph-color-5: #CD6715; */
+  --dashboard-list: #666;
+  --task_list-bg: #F5F5F5;
+  --accent-color: #3CAE94;
+  --todaylist-even: #fafafa;
+  --todaylist-odd: #fdf7ef;
+  --tasklist-underline: #cccccc;
 }

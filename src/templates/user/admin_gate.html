@@ -4,8 +4,10 @@
 {% block title %}管理者PIN入力{% endblock %}
 
 {% block css %}
+<link rel="stylesheet" href="{% static 'css/components/button.css' %}">
 <link rel="stylesheet" href="{% static 'css/components/form.css' %}">
 <link rel="stylesheet" href="{% static 'css/components/top_nav.css' %}">
+<link rel="stylesheet" href="{% static 'css/components/bottom_nav.css' %}">
 <link rel="stylesheet" href="{% static 'css/user/user.css' %}">
 {% endblock %}
 
@@ -13,14 +15,18 @@
   {% include "components/top_nav.html" %}
 {% endblock %}
 
-{% block page_title %}管理者ページに入る{% endblock %}
+{% block page_title %}管理者ページへ{% endblock %}
 
 {% block content %}
-  <form method="post" action="">
+  <form method="post" action="" class="admin-pin-form">
     {% csrf_token %}
-    {{ form.as_p }}
+    <div class="pin-input">
+      {{ form.as_p }}
+    </div>
     <button class="btn-primary" type="submit">入室する</button>
-    <p class="link_set"><a href="{% url 'profiles_list' %}">プロフィール一覧に戻る</a></p>
+    <div class="link_set">
+      <a href="{% url 'profiles_list' %}" class="btn btn-secondary">プロフィール一覧へ</a>
+    </div>
   </form>
 
   {% for m in messages %}
@@ -29,5 +35,5 @@
 {% endblock %}
 
 {% block footer %}
-  {% include "components/bottom_nav_before_login.html" %}
+  {% include "components/bottom_nav.html" %}
 {% endblock %}

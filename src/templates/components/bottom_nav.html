@@ -1,8 +1,8 @@
 <nav class="bottom_nav">
   <ul class="bottom_nav_list">
-    <li class="nav_item_shopping"><a href=""><span class="material-icons-outlined">shopping_bag</span><span class="small_text">買い物リスト</span></a></li>
-    <li class="nav_item_maintenance"><a href=""><span class="material-icons-outlined">iron</span><span class="small_text">家事・設備メンテ</span></a></li>
-    <li class="nav_item_stock"><a href=""><span class="material-symbols-outlined">shelves</span><span class="small_text">在庫ハブ</span></a></li>
+    <li class="nav_item_shopping"><a href="{% url 'shopping:list' %}"><span class="material-icons-outlined">shopping_bag</span><span class="small_text">買い物リスト</span></a></li>
+    <li class="nav_item_maintenance"><a href="{% url 'maintenance:list' %}"><span class="material-icons-outlined">iron</span><span class="small_text">家事・設備メンテ</span></a></li>
+    <li class="nav_item_stock"><a href="{% url 'stocks:list' %}"><span class="material-symbols-outlined">shelves</span><span class="small_text">在庫ハブ</span></a></li>
   </ul>           
 </nav>
 

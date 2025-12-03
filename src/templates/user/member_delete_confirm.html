@@ -21,9 +21,9 @@
 <form method="post">{% csrf_token %}
 <button class="btn-danger">削除する</button>
 </form>
-<p class="link_set">
+<div class="link_set">
     <a href="{% url 'admin_user' %}" class="btn btn-secondary">キャンセル</a>
-</p>  
+</div>  
 {% endblock %}
 
 {% block footer %}

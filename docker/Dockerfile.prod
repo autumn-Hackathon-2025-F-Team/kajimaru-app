@@ -5,8 +5,8 @@ FROM python:3.13
 ENV PYTHONUNBUFFERED=1
 
 # ビルド時に渡す変数の定義
-ARG UID=1000
-ARG GID=1000
+ARG UID=1001
+ARG GID=1001
 ARG USERNAME=appuser
 ARG GROUPNAME=appgroup
 
@@ -26,13 +26,21 @@ RUN chmod +x /usr/local/bin/wait-for-it.sh
 COPY requirements.txt .
 
 # healthcheckのためcurlコマンドをインストール
+# cronをインストール
 # pipをアップデートして、Pythonのパッケージをインストール(-Uは--upgrade)
 # ローカルの保存用ディレクトリ（キャッシュ）の影響を排除して、常に最新のパッケージをインストールしたいため、--no-cache-dirを採用
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends curl && \
+    apt-get install -y --no-install-recommends curl cron && \
     rm -rf /var/lib/apt/lists/* && \
     pip install -U pip && \
     pip install --no-cache-dir -r requirements.txt
+
+# crontabファイルをコピーして登録
+COPY docker/django_cron /etc/cron.d/django_cron
+RUN chmod 0644 /etc/cron.d/django_cron
+
+# コンテナの/src/logに出力設定
+RUN mkdir -p /src/log && chown ${USERNAME}:${GROUPNAME} /src/log
 
 # ローカルのsrc直下をコンテナへコピー
 COPY src/ .

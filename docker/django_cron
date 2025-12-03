@@ -1,0 +1,33 @@
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+# cronジョブに環境変数を読ませる
+DJANGO_LANGUAGE_CODE=ja
+DJANGO_SETTINGS_MODULE=config.settings.prod
+TZ=Asia/Tokyo
+
+DJANGO_SECRET_KEY=/kajimaru/django/DJANGO_SECRET_KEY
+MYSQL_DATABASE=/kajimaru/db/MYSQL_DATABASE
+MYSQL_USER=/kajimaru/db/MYSQL_USER
+MYSQL_HOST=/kajimaru/db/MYSQL_HOST
+MYSQL_PASSWORD=/kajimaru/db/MYSQL_PASSWORD
+
+# 本日の家事担当通知（毎朝6時）
+0 6 * * * appuser cd /src && python manage.py shell -c 'from apps.notification.services import notify_today_tasks; notify_today_tasks()' >> /src/log/cron.log 2>&1
+
+# 明日の家事担当通知（毎晩22時）
+0 22 * * * appuser cd /src && python manage.py shell -c 'from apps.notification.services import notify_tomorrow_tasks; notify_tomorrow_tasks()' >> /src/log/cron.log 2>&1
+
+# 昨日の未完了家事通知（毎朝6時）
+0 6 * * * appuser cd /src && python manage.py shell -c 'from apps.notification.services import notify_unfinished_yesterday_tasks; notify_unfinished_yesterday_tasks()' >> /src/log/cron.log 2>&1
+
+# 月次担当者一覧（毎月1日の6時）
+0 6 1 * * appuser cd /src && python manage.py shell -c 'from apps.notification.services import notify_monthly_assignment_tasks; notify_monthly_assignment_tasks()' >> /src/log/cron.log 2>&1
+
+# テストログ（毎分）
+# * * * * * appuser echo "cron test $(date)" >> /src/log/cron_test.log 2>&1
+
+# .envの読み込み確認テスト
+# * * * * * appuser env > /src/log/env_from_cron.txt 2>&1
+
+

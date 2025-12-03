@@ -1,10 +1,13 @@
 .main {
     padding-left: 0;
     padding-right: 0;
+    padding-bottom: 5rem;
 }
 
 .page-section {
     flex: 1;
+    /* かじまるみかん用 */
+    position: relative; 
 }
 
 .dashboard_scroll_container {
@@ -72,6 +75,11 @@
   max-height: 80%; 
 }
 
+.area ul li {
+  font-size: 0.9rem;
+  color: var(--dashboard-list); 
+  margin-top: 0.2rem;
+}
 .page-title {
   margin-bottom: 1rem;
 }
@@ -81,18 +89,19 @@
   aspect-ratio: 1 / 1;
 }
 
-.today_mylist_area{
+.mylist_area{
     margin-top: 1rem;
     min-height: auto;
     flex: 1;
     display: flex;
     flex-direction: column;
-    box-shadow: 0px 10px 10px -5px rgba(0,0,0,0.16);
+    box-shadow: 0px 10px 10px -5px rgba(0,0,0,0.10);
 }
 
 
 .today_mylist {
   background-color: var(--bg-surface);
+  box-shadow: 0px 10px 10px -5px rgba(0,0,0,0.10);
 }
 
 .today_mylist p {
@@ -100,8 +109,33 @@
 }
 
 .today_mylist ul li {
-  text-indent: 1em;
-  /* gap: 3rem; */
+  /* margin-left: 1em; */
+  font-size: 0.9rem;
+  color: var(--dashboard-list); 
+  font-weight: 600;
+  margin-top: 0.2rem;
+}
+
+.unfinished_yesterday_list {
+  margin-top: 1rem;
+  background-color: var(--bg-surface);
+  box-shadow: 0px 10px 10px -5px rgba(0,0,0,0.10);
+}
+
+.unfinished_yesterday_list p {
+  text-align: center;
+}
+
+.unfinished_yesterday_list ul li {
+  list-style: none;
+  margin-left: 1em;
+  font-size: 0.9rem;
+  color: var(--btn-danger-solid);
+  font-weight: 600; 
+  margin-top: 0.2rem;
+  display: block;
+  width: fit-content;
+  border-bottom: 1px solid var(--tasklist-underline); 
 }
 
 .license {
@@ -110,4 +144,377 @@
   text-align: center;
   font-size: 0.6rem;
   opacity: 0.6;
+}
+
+.today_houseworklist_detail {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: calc(100% - 4rem);
+  overflow-y: auto; 
+}
+
+.today_houseworklist_detail li {
+  padding: 0.5rem 1rem;
+  border-bottom: 1px solid #eee;
+  font-size: 0.9rem;
+}
+
+.today_item {
+  display: grid;
+  grid-template-columns: auto 1fr auto 1fr;
+  gap: 0.3rem 0.5rem;
+  align-items: center;
+}
+
+.today_item .housework_label {
+  text-align: left;
+  /* font-weight: 500; */
+}
+
+.today_item .housework_value {
+  text-align: left;
+}
+
+.today_houseworklist_detail .today_item .housework_label:nth-of-type(3) {
+  margin-left: 1rem;
+}
+
+.today_houseworklist_detail .housework_value {
+  font-weight: bold;
+}
+
+.today_houseworklist_detail .today_item:nth-child(even) {
+  background-color: var(--todaylist-even);
+  border-radius: 8px;
+}
+
+.today_houseworklist_detail .today_item:nth-child(odd) {
+  background-color: var(--todaylist-odd);
+  border-radius: 8px;
+}
+
+.today_title,
+.today_list {
+  display: inline-block;
+  vertical-align: middle;
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 0;
+}
+
+.task-item.completed .task-name {
+  text-decoration: line-through;
+  opacity: .55;
+}
+
+#tasksTodayList {
+  list-style: none;
+}
+
+.week_list_create_btn .icon-mikan{
+  width: 2rem;
+  height: 2rem;
+}
+
+.week_list_create_btn {
+  background: transparent;  
+  border: none;
+  /* かじまるみかん用 */
+  position: absolute;
+  top: 2.4rem; 
+  right: 6rem; 
+}
+
+.week-create-form {
+  margin: 0;
+}
+
+.today_mylist .task-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+}
+
+.task-substitute-status,
+.task-substitute-note {
+  font-size: 0.75rem;
+  white-space: nowrap;
+  margin-right: 0.3rem;
+}
+
+/* #tasksTodayListの直下のli.task-itemを指定 */
+.today_mylist #tasksTodayList > li.task-item {
+  display: flex;
+  align-items: center;   
+  gap: 0.4rem;
+  padding: 0.25rem 0.75rem;
+}
+
+.today_mylist #tasksTodayList > li.task-item > .task-row {
+  display: contents;     
+}
+
+.today_mylist .task-main {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  flex: 1 1 auto;        /* 残り幅はここにあげる（左側が伸びる） */
+  min-width: 0;
+}
+
+.today_mylist .task-name {
+  display: inline-block;
+  border-bottom: 1px solid var(--tasklist-underline);
+  padding-bottom: 0.1rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;   
+}
+
+.today_mylist .task-substitute-actions {
+  padding-right: 0.8rem;
+  white-space: nowrap;
+}
+
+.today_mylist .task-substitute-actions form {
+  display: inline-flex;
+  margin: 0;
+}
+
+.today_mylist .btn-substitute-request {
+  font-size: 0.8rem;
+  padding: 2px 10px;         
+  height: auto;
+  line-height: 1.3;
+  border-radius: 999px;
+  border: 1px solid var(--btn-primary);
+  background-color: var(--bg-surface);
+  color: var(--btn-primary);
+  display: inline-flex;
+  align-items: center;        
+}
+
+/* --- 多忙フラグエリア --- */
+.busy_flag_area {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  background-color: var(--bg-surface);
+  box-shadow: 0px 10px 10px -5px rgba(0,0,0,0.10);
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  font-size: 0.9rem;
+}
+
+.busy_flag_area form {
+  margin: 0;
+}
+
+.busy_flag_area label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.busy_flag_area input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
+}
+
+ /* 代役募集中 */
+.substitute_pending_list {
+  margin-top: 1rem;
+  background-color: var(--bg-surface);
+  box-shadow: 0px 10px 10px -5px rgba(0,0,0,0.10);
+  border-radius: 8px;
+}
+
+.substitute_pending_list > p {
+  margin: 0;
+  padding: 0.5rem 0.75rem;
+  text-align: center;
+  color: var(--text);
+}
+
+.substitute_pending_list ul {
+  list-style: none;
+  margin: 0;
+  padding: 0.25rem 0.75rem 0.75rem;
+  text-overflow: ellipsis;
+}
+
+.substitute_pending_list .pending-item:last-child {
+  border-bottom: none;
+}
+
+.substitute_pending_list .pending-row {
+  display: flex;
+  align-items: flex-start;
+  /* align-items: center; */
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.substitute_pending_list .housework_label {
+  font-size: 0.85rem;
+  color: var(--dashboard-list);
+}
+
+.substitute_pending_list .pending-actions {
+  flex: 0 0 auto;
+}
+
+.substitute_pending_list .substitute-accept-form {
+  margin: 0;
+}
+
+.substitute_pending_list ul > li.pending-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.9rem;
+  flex-wrap: nowrap;
+
+}
+.substitute_pending_list ul li {
+  font-size: 0.85rem;
+  color: var(--dashboard-list);
+  margin-left: 0.5rem;
+}
+
+.substitute_pending_list ul > li.pending-item > .pending-row {
+  display: contents;
+}
+
+.substitute_pending_list .pending-main {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  flex: 1 1 auto;
+  min-width: 0; 
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.substitute_pending_list .housework_value {
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.substitute_pending_list .pending-actions form {
+  margin: 0;
+}
+
+.substitute_pending_list .btn-substitute-accept {
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  line-height: 1.3;
+  border-radius: 999px;
+  border: 1px solid var(--btn-primary);
+  background-color: var(--bg-surface);
+  color: var(--btn-primary);
+  display: inline-flex;
+  align-items: center;
+}
+
+.today_mylist > p,
+.substitute_pending_list > p,
+.unfinished_yesterday_list > p {
+  font-family: inherit;
+  padding: 0.5rem 0.75rem;
+}
+
+/* ▼ 週ローテ表エリア全体 */
+.week-rotation-area {
+  align-items: stretch;   
+}
+
+.week-rotation-header {
+  padding: 0.5rem 0.75rem 0.1rem;
+}
+
+.week-rotation-card {
+  background-color: var(--bg-surface);
+  border-radius: 8px;
+  padding: 0.2rem 0.5rem 0.75rem;
+  box-shadow: 0px 10px 10px -5px rgba(0,0,0,0.10);
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto; 
+  max-height: calc(100% - 4.5rem);     
+  overflow-y: auto;               
+}
+
+.schedule_tbl {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 0.8rem;
+}
+
+.schedule_tbl th,
+.schedule_tbl td {
+  border: 1px solid var(--table-solid);
+  padding: 0.25rem 0.3rem;
+  text-align: center;
+}
+
+.schedule_tbl .col-task {
+  width: 6rem;
+  max-width: 6rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  padding-left: 0.5rem;
+}
+
+.schedule_tbl thead th {
+  white-space: nowrap;
+}
+
+.schedule_tbl thead tr:first-child th {
+  font-size: 0.7rem;
+  color: var(--dashboard-list);
+  font-weight: 500;
+}
+
+.schedule_tbl .week_date {
+  font-size: 0.8rem;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.schedule_tbl tbody td {
+  font-weight: 600;
+  color: var(--dashboard-list);
+}
+
+.schedule_tbl td.no-data {
+  font-weight: 400;
+  color:  var(--dashboard-list);
+}
+
+.calendar_title {
+  text-align: center;
+  width: 100%;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.schedule_tbl tbody th {
+  font-size: 0.7rem;    
+  font-weight: 500;
+  text-align: left;
+  padding-left: 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

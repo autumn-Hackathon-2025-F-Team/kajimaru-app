@@ -11,6 +11,14 @@
     var(--text) 0px -1px 0px;
 }
 
+.container {
+  position: relative;
+  width: 100%;
+  max-width: 420px;        
+  margin: 0 auto;
+  margin-top: 1.5rem;
+}
+
 .index_text {
   text-align: center;
   margin-top: 1rem;
@@ -54,29 +62,39 @@
   text-decoration: none;
 }
 
-.index_kajimaru_icon {
-  vertical-align: -12px;
-}
-
-.container {
-  position: relative;
-}
-
 .index_background-img {
-  position: absolute;
+  display: block;
   width: 100%;
   height: auto;
-  right: 1px;
 }
-
 
 .title_set {
   position: absolute;
+  top: 24%;
+  left: 7%;
   display: flex;
-  margin-top: 3.5rem;
+  align-items: center;
+  white-space: nowrap;
+  margin: 0;
+  max-width: 80%;
+}
+
+.title_set p {
+  font-size: clamp(3.8rem, 14vw, 6.5rem);
+  margin: 0;
+  line-height: 1;
+}
+
+.index_kajimaru_icon {
+  width: clamp(70px, 14vw, 130px);
+  height: auto;
+  vertical-align: 0;
 }
 
 .kajimaru_mikan_position {
+  position: absolute;
+  right: 0;
+  bottom: 5%;
   display: flex;
   justify-content: flex-end; 
   /* margin-top: 0.5rem;        */
@@ -85,15 +103,5 @@
 
 .index_kajimaru_mikan {
   width: 5rem;
-  height: 5rem;
-  margin-top: 11rem;
+  height: auto;
 }
-
-/* レスポンシブ
-@media(min-width: 768px) and (max-width: 959px) {
-  
-}
-
-@media(min-width: 960px) and (max-width: 1280px) {
-
-} */

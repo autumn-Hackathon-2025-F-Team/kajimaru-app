@@ -4,6 +4,8 @@
 
 up:        ## 起動
 	docker compose up -d
+run:       ## デフォルトタスクを一括投入
+	docker compose exec web python3 manage.py load_tasks
 down:      ## 停止
 	docker compose down
 build:     ## ビルド

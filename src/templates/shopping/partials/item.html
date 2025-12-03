@@ -1,0 +1,16 @@
+<li class="shopping-item {% if it.is_purchased %}purchased{% endif %}"
+    data-id="{{ it.id }}"
+    data-detail="{% url 'shopping:detail' it.id %}">
+  <input type="checkbox"
+         data-toggle="{% url 'shopping:toggle' it.id %}"
+         {% if it.is_purchased %}checked{% endif %}>
+  <div class="content">
+    <span class="name">{{ it.item_name }}</span>
+    {% if it.quantity %}
+      <span class="qty">× {{ it.quantity }}</span>
+    {% endif %}
+    {% if it.description %}
+      <div class="muted description">{{ it.description }}</div>
+    {% endif %}
+  </div>
+</li>

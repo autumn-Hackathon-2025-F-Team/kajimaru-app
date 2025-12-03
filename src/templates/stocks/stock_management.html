@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}在庫ハブ{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/components/button.css' %}">
+<link rel="stylesheet" href="{% static 'css/components/top_nav.css' %}">
+<link rel="stylesheet" href="{% static 'css/components/bottom_nav.css' %}">
+<link rel="stylesheet" href="{% static 'css/stocks/stocks.css' %}">
+<style>
+  /* --- クリック阻害対策 --- */
+  /* .stocklist_section { padding-bottom: 120px; }               フッターに隠れない
+  .stock-item { position: relative; }                          z-index土台
+  .stock-item::before,
+  .stock-item::after { pointer-events: none !important; }      装飾はクリック無効
+  .stock-item .btn,
+  .stock-del-form,
+  .stock-del-form .btn { position: relative; z-index: 10; pointer-events: auto; } */
+  /* .bottom_nav { position: fixed; left: 0; right: 0; bottom: 0; z-index: 5; } */
+</style>
+{% endblock %}
+
+{% block header %}{% include "components/top_nav.html" %}{% endblock %}
+{% block page_title %}在庫ハブ{% endblock %}
+
+{% block content %}
+  
+  <section class="stocklist_section">
+    <div class="stock-list-area">
+      {% for s in items %}
+      <article class="stock-item">
+        <div class="stock_title">
+          <strong>{{ s.stock_name }}</strong>（{{ s.get_category_display }}） × {{ s.quantity }}
+        </div>
+        <div class="stock-info-row">
+          <div class="muted">
+            購入日: {{ s.purchase_date|date:"Y/m/d" }} / 目安: {{ s.period_days }}日 <br>
+            追加予定: {{ s.remind_at|date:"Y/m/d H:i" }}
+          </div>
+
+        <!-- 削除フォーム（通常POST + 非同期どちらでも動く） -->
+          <form class="stock-del-form" method="post" action="{% url 'stocks:delete' s.id %}"  novalidate>
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger" aria-label="削除">
+              <span class="material-symbols-outlined">delete</span>
+            </button>
+          </form>
+        </div>
+      </article>
+      {% empty %}
+        <p class="stock-item muted">登録された在庫はありません。</p>
+      {% endfor %}
+    </div>
+    <hr>
+    <div class="stocks-footer">
+      <form method="post" action="{% url 'stocks:enqueue' %}">
+        {% csrf_token %}
+        <button class="btn btn-secondary" type="submit">
+          期限間近を買いものリストへ追加
+        </button>
+      </form>
+    </div>
+    <p class="link_set">
+      <a href="{% url 'stocks:create' %}" class="btn btn-primary">＋ 登録画面へ</a>
+    </p>
+  </section>
+  <!-- 予防線：クリックが阻害される環境でも fetch で強制削除できるように -->
+  <script>
+    (function () {
+      // CSRF取得
+      function getCookie(name) {
+        const m = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+        return m ? m.pop() : '';
+      }
+      const CSRF = getCookie('csrftoken');
+
+      // 在庫削除（フォーム通常送信が何らかで阻害された場合のフォールバック）
+      document.addEventListener('click', function (e) {
+        const btn = e.target.closest('.stock-del-form .btn-danger');
+        if (!btn) return;
+
+        const form = btn.closest('form.stock-del-form');
+        if (!form) return;
+
+        // まずは通常送信させる（これで動くならそれでOK）
+        // ただし、クリック阻害が残っている場合に備え fetch ルートも用意
+        // ここで preventDefault せず一度だけ試み、2回目以降は fetch に切替でも良いですが、
+        // 確実に通すため今回は fetch に切替
+        e.preventDefault();
+
+        if (!confirm('この在庫を削除します。よろしいですか？')) return;
+
+        fetch(form.action, {
+          method: 'POST',
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+            'X-CSRFToken': CSRF
+          }
+        })
+        .then(r => r.json())
+        .then(j => {
+          if (!j || !j.ok) { alert('削除に失敗しました'); return; }
+          // 該当カードを消す
+          const card = form.closest('.stock-item');
+          if (card) card.remove();
+        })
+        .catch(() => alert('通信に失敗しました'));
+      }, { passive: false });
+    })();
+  </script>
+{% endblock %}
+
+{% block footer %}{% include "components/bottom_nav.html" %}{% endblock %}

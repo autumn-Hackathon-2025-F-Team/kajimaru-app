@@ -20,10 +20,13 @@ from .views import health
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('', include(('apps.user.urls', 'user'), namespace='user')),
     path('', include('apps.user.urls')),
-    path('dashboard/', include('apps.dashboard.urls')),
+    path('dashboard/', include('apps.dashboard.urls', namespace='dashboard')),
     path('rotation/', include('apps.rotation.urls')),
     path('health', health),
-
+    path('shopping/', include(('apps.shopping.urls', 'shopping'), namespace='shopping')),
+    path('stocks', include('apps.stocks.urls', namespace='stocks')),
+    path('maintenance/', include(('apps.maintenance.urls', 'maintenance'), namespace='maintenance')),
+    path('api/weather/', include(('apps.weather.urls', 'weather'), namespace='weather')),
 ]
+

@@ -1,0 +1,109 @@
+/* .main {
+    padding-left: 0;
+    padding-right: 0;
+} */
+
+/* .tasklist_section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-height: 540px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch; 
+    margin-top: 1rem;
+    padding-bottom: 2rem; 
+    padding-top: 0.2rem;
+    /* background-color: var(--task_list-bg); */
+    /* box-shadow: 
+      0 10px 12px -6px rgba(0,0,0,0.18),
+      0 -6px 12px -6px rgba(0,0,0,0.08); */
+/* } */ 
+
+.task_actions {
+    display: flex;
+    width: 90%;
+    justify-content: center;
+    margin: 0 auto; 
+}
+
+.task_actions .btn-primary {         
+    display: flex;            
+    justify-content: center;  
+    align-items: center;      
+    margin-top: 1.3rem;            
+    padding: 0.4rem 1rem; 
+    border-width: 5px;      
+}
+
+.task_actions-edit {
+    display: flex;
+    gap: 0.5rem;
+}
+
+
+.tasklist_area {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  max-height: 500px;
+  overflow-y: auto;
+  gap: 0.8rem;   
+  margin-top: 2rem;
+  padding-bottom: 2rem; 
+}
+
+.task_card {
+  width: 100%; 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--bg-surface);
+  padding: 0.7rem 1rem;
+  border-radius: 12px;
+  box-shadow: 
+    0 4px 8px rgba(0,0,0,0.10),
+    0 1px 4px rgba(0,0,0,0.06);
+  pointer-events: none;
+}
+
+.task_title {
+  font-size: 1rem;
+  color: var(--text);
+  width: 50%;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden; 
+  text-overflow: ellipsis;
+}
+
+.task_actions-edit {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.task-icon {
+  font-size: 1.4rem;
+  padding: 0.3rem;
+  pointer-events: auto;
+}
+
+.js-open-delete {
+  color: var(--btn-danger-solid);
+}
+
+.js-open-update {
+  color: var(--primary);
+}
+
+.tasklist-area p {
+  text-align: center;
+  color: var(--dashboard-list);
+  margin-top: 1rem;
+}
+
+.tasklist_non_text {
+  text-align: center;
+  margin-top: 0.3rem;
+  font-size: 0.85rem;
+  color: var(--dashboard-list);
+}

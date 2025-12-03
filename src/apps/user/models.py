@@ -31,7 +31,7 @@ class Users(models.Model):
     def is_locked(self) -> bool:
         return self.locked_until is not None and self.locked_until > timezone.now()
     def __str__(self):
-        return f"{self.display_name} ({self.household.name})"
+        return self.display_name
     
 class JoinCode(models.Model):
     code8 = models.CharField(max_length=8, unique=True, db_index=True)

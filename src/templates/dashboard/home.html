@@ -1,4 +1,4 @@
-p{% extends 'base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block title %}ホーム{% endblock %}
@@ -12,9 +12,6 @@ p{% extends 'base.html' %}
   <link rel="stylesheet" href="{% static 'css/components/calendar.css' %}">
   <!-- chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-colorschemes"></script>
-  <!-- FullCalendar -->
-  <!-- <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script> -->
 {% endblock %}
 
 {% block header %}
@@ -23,48 +20,162 @@ p{% extends 'base.html' %}
 
 {% block page_title %}ホーム{% endblock %}
 {% block content %}
+<form class="week-create-form" method="post">
+  {% csrf_token %}
+  <button type="submit" class="week_list_create_btn" aria-label="１週間分の家事タスクを作成">
+    <img 
+      src="{% static 'img/kajimaru_mikan.svg' %}" 
+      alt="" 
+      class="icon-mikan"
+    >
+  </button>
+</form>
 <div class="dashboard_scroll_container">
-  <section class="area"><p class="graph_title">家族の家事達成率</p><canvas id ="family_chart"></canvas></section>
-  <section class="area"><p class="today_title">今日の担当表</p><p id="today_houseworklist" class="today_list"></p></section>
   <section class="area">
-    <p id="calender" class="calender_title"></p>
-    <!-- <div id="calendar" class="my-calendar"></div> -->
-    <table id="tbl" class="schedule_tbl">
-      <thead>
-        <tr>
-          <th rowspan="2">家事名</th>
-          <th>日</th>
-          <th>月</th>
-          <th>火</th>
-          <th>水</th>
-          <th>木</th>
-          <th>金</th>
-          <th>土</th>
-        </tr>
-        <tr>
-          <td class="week_date"></td>
-          <td class="week_date"></td>
-          <td class="week_date"></td>
-          <td class="week_date"></td>
-          <td class="week_date"></td>
-          <td class="week_date"></td>
-          <td class="week_date"></td>
-        </tr>
-      </thead>
-      <tbody id="week_rotation">
-      </tbody>
-    </table>
+    <p class="graph_title">家族の家事達成率</p>
+    <canvas id ="family_chart"></canvas>
+  </section>
+  <section class="area">
+    <p class="today_houseworklist_header">
+      <span class="today_title">今日の担当表：</span><span id="today_houseworklist" class="today_list"></span>
+    </p>
+    <ul class="today_houseworklist_detail">
+      {% for task in tasks_today_family %}
+        <li class="today_item">
+          <span class="housework_label">家事名：</span> 
+          <span class="housework_value">{{ task.task_list.task_name }}</span>
+          <span class="housework_label">担当者：</span>
+          <span class="housework_value">{{ task.user.nickname}}</span>
+        </li>
+      {% empty %}
+        <li>まだ登録されていません。</li>
+      {% endfor %}
+    </ul>
+  </section>
+  <section class="area week-rotation-area">
+    <p class="today_houseworklist_header week-rotation-header">
+      <span class="today_title">週ローテ担当表：</span>
+      <span id="calendar" class="today_list"></span> 
+    </p>
+    <div class="week-rotation-card">
+      <table id="tbl" class="schedule_tbl">
+        <thead>
+          <tr>
+            <th rowspan="2" class="col-task">家事名</th>
+            <th>月</th>
+            <th>火</th>
+            <th>水</th>
+            <th>木</th>
+            <th>金</th>
+            <th>土</th>
+            <th>日</th>
+          </tr>
+          <tr>
+            <td class="week_date"></td>
+            <td class="week_date"></td>
+            <td class="week_date"></td>
+            <td class="week_date"></td>
+            <td class="week_date"></td>
+            <td class="week_date"></td>
+            <td class="week_date"></td>
+          </tr>
+        </thead>
+        <tbody id="week_rotation">
+        </tbody>
+      </table>
+    </div>
   </section>
 </div>
-<article class="today_mylist_area">
+<article class="mylist_area">
   <div class="today_mylist">
-    <p>今日の自分の担当</p>
-    <!-- 仮の一覧（ここに取得した個人の担当が入る -->
-    <ul>
-      <li>朝ごはん 🔲</li>
-      <li>夜ごはん 🔲</li>
-      <li>お風呂掃除 🔲</li>
+    <p>今日の自分の担当家事</p>
+    <ul id="tasksTodayList">
+      {% for task in tasks_today %}
+      <!-- もし完了済みなら「task_item」クラスにcompletedクラスを追加する -->
+      <!-- 家事のidを取得 -->
+        <li 
+          class="task-item {% if task.is_completed %}completed{% endif %}"
+          data-task-id="{{ task.id }}"
+          data-toggle-url="{% url 'dashboard:task_toggle' task.id %}"
+        > 
+          <div class="task-row">
+            <div class="task-main">
+              <!-- 家事が完了しているならチェック状態（checked）になる -->
+              <input type="checkbox" class="task-checkbox" {% if task.is_completed %}checked{% endif %}>
+              <!-- 家事名を表示 -->
+              <span class="task-name">{{ task.task_list.task_name }}</span>
+            </div>
+            <!-- 代役依頼ボタン -->
+            <div class="task-substitute-actions">
+              {% if not task.completed and not task.is_busy %}
+                <form action="{% url 'dashboard:request_substitute' task.id %}" method="post" class="substitute-request-form">
+                  {% csrf_token %}
+                  <button type="submit" class="btn-substitute-request">代役依頼</button>
+                </form>
+              {% elif task.is_busy %}
+                <span class="task-substitute-status">代役依頼中</span>
+              {% endif %}
+            </div>
+          </div>
+          <!--代役表示-->
+          {% if task.substitute %}
+            <span class="task-substitute-note">
+              ({{ task.substitute }} の代役)
+            </span>
+          {% endif %}
+        </li>
+      {% empty %}
+      <li>まだ登録されていません。</li>
+      {% endfor %}
     </ul>
+  </div>
+  <div class="substitute_pending_list">
+    <p>代役募集中の家事</p>
+    <ul>
+      {% for t in pending_sub_tasks %}
+      <li class="pending-item">
+        <div class="pending-row">
+          <div class="pending-main">
+            <span class="housework_label">家事名:</span>
+            <span class="housework_value">
+              {% if t.task_list %}
+                {{ t.task_list.task_name }}
+              {% else %}
+                {{ t.role }}
+              {% endif %}
+            </span>
+          </div>
+          <div class="pending-actions">
+            <form action="{% url 'dashboard:accept_substitute' t.id %}" method="post" class="substitute-accept-form">
+              {% csrf_token %}
+              <button type="submit" class="btn-substitute-accept">代役を引き受ける</button>
+            </form>
+          </div>
+        </div>
+      </li>
+      {% empty %}
+        <li>代役依頼の家事はありません。</li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="unfinished_yesterday_list">
+    <p>昨日できなかった家事</p>
+    <ul>
+      {% for yesterdaytask in unfinished_yesterday %}
+      <li>{{ yesterdaytask.task_list.task_name }}</li>
+      {% empty %}
+        <li>ありません。</li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="busy_flag_area">
+    <form action="{% url 'dashboard:toggle_busy' %}" method="post">
+      {% csrf_token %}
+      <label>
+        <input type="checkbox" onchange="this.form.submit()" {% if login_user.status == "busy" %}checked{% endif %}>
+        多忙(次回ローテから除外)
+      </label>
+    </form>
   </div>
 </article>
 
@@ -77,10 +188,104 @@ p{% extends 'base.html' %}
 {% include "components/bottom_nav.html" %}
 {% endblock %}
 {% block script %}
-<script src="{% static 'js/graph.js' %}"></script>
-<script src="{% static 'js/today_mylist.js' %}"></script>
-<script src="{% static 'js/today_list.js' %}"></script>
+{{ week_rotation_data|json_script:"week-rotation-data" }}
 <script src="{% static 'js/calendar.js' %}"></script>
+<script>
+  const complete = JSON.parse('{{ completion_rate_family | default:0 }}');
+  const incomplete = 100 - complete;
+
+  const ctx = document.getElementById("family_chart");
+  const myDoughnutChart= new Chart(ctx, {
+    type: 'doughnut',
+      data: {
+        labels: ["達成", "未達成"], //データ項目のラベル(データを入れ込む)
+        datasets: [{
+            backgroundColor: [
+                "#FF8C00",
+                "#cccccc",
+            ],
+            data: [complete,incomplete] //グラフのデータ（データを入れ込む）
+        }]
+      },
+      // options: {
+      //   plugins: {
+      //     title: {
+      //       display: true,
+      //       //グラフタイトル
+      //       text: '家族の家事達成率'
+      //     }
+      //   }
+      // }
+    });
+    //グラフ更新用
+    window.updateFamilyChart = function(rate) {
+      const c = Number(rate) || 0;
+      const ic = 100 - c;
+      myDoughnutChart.data.datasets[0].data = [c, ic];
+      myDoughnutChart.update();
+    };
+    // CSRFトークン取得関数
+    function getCookie(name) {
+      const value = `; ${document.cookie}`;
+      const parts = value.split(`; ${name}=`);
+      if (parts.length === 2) return parts.pop().split(';').shift();
+      return null;
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      const csrftoken = getCookie('csrftoken');
+
+      document.querySelectorAll('#tasksTodayList .task-item .task-checkbox').forEach(function(checkbox) {
+        checkbox.addEventListener('change', function() {
+          const li = this.closest('.task-item');
+          const taskId = li.dataset.taskId;
+          const url = li.dataset.toggleUrl;
+          const prevChecked = checkbox.checked;
+
+          fetch(url, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': csrftoken,
+              'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify({})
+          })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then((data) => {
+            if (!data.success) {
+              checkbox.checked = !prevChecked;
+              return;
+            }
+
+            //サーバが持っている状態に合わせる
+            checkbox.checked = data.is_completed;
+
+              if (data.is_completed) {
+                li.classList.add('completed');
+              } else {
+                li.classList.remove('completed');
+              }
+              // 家族の達成率を更新
+              window.updateFamilyChart(data.completion_rate_family);
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            checkbox.checked = !checkbox.checked;
+          });
+        });
+      });
+    });
+</script>
+<!-- <script src="{% static 'js/graph.js' %}"></script> -->
+<!-- <script src="{% static 'js/today_mylist.js' %}"></script> -->
+<script src="{% static 'js/today_list.js' %}"></script>
+<!-- <script src="{% static 'js/calendar.js' %}"></script> -->
 {% endblock %}
 
 
