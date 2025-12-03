@@ -61,7 +61,7 @@ class Task(models.Model):
     task_list = models.ForeignKey(TaskList, on_delete=models.SET_NULL,related_name="tasks",null=True,blank=True)
     maintenance = models.ForeignKey(Maintenance, on_delete=models.SET_NULL, null=True, blank=True)
     user = models.ForeignKey(Users, on_delete=models.SET_NULL, null=True, blank=True)
-    daily = models.DateTimeField(default=timezone.now)
+    daily = models.DateField(default=timezone.localdate)
     role = models.CharField(max_length=10)
     substitute = models.CharField(max_length=10, blank=True)
     is_completed = models.BooleanField(default=False)

@@ -44,18 +44,18 @@ class DashboardView(LoginRequiredMixin,TemplateView):
         context["substitute_requests"] = substitute_requests
 
         #今日の家事(個人)
-        tasks_today = Task.objects.filter(daily__date=today, user=login_user).select_related("user","task_list","maintenance")
+        tasks_today = Task.objects.filter(daily=today, user=login_user).select_related("user","task_list","maintenance")
 
         #昨日できなかった家事
-        unfinished_yesterday = Task.objects.filter(daily__date=yesterday, user=login_user, is_completed=False).select_related("user","task_list","maintenance")
+        unfinished_yesterday = Task.objects.filter(daily=yesterday, user=login_user, is_completed=False).select_related("user","task_list","maintenance")
 
         #今日のメンテナンステーブルの作業
         maintenance_today = Maintenance.objects.filter(next_date__date=today, homemakers=login_user).select_related("homemakers")
 
         #家族版
         family = self.get_household(login_user)
-        tasks_today_family = Task.objects.filter(daily__date=today, user__in=family).select_related("user","task_list","maintenance")
-        unfinished_yesterday_family = Task.objects.filter(daily__date=yesterday, user__in=family, is_completed=False).select_related("user")
+        tasks_today_family = Task.objects.filter(daily=today, user__in=family).select_related("user","task_list","maintenance")
+        unfinished_yesterday_family = Task.objects.filter(daily=yesterday, user__in=family, is_completed=False).select_related("user")
 
         #達成率
         total_count_family = tasks_today_family.count()
@@ -99,8 +99,8 @@ class DashboardView(LoginRequiredMixin,TemplateView):
         week_tasks_qs = (
             Task.objects
             .filter(
-                daily__date__gte=week_start,
-                daily__date__lte=week_end,
+                daily__gte=week_start,
+                daily__lte=week_end,
                 user__in=family,
             )
             .select_related("task_list", "user")
@@ -109,7 +109,7 @@ class DashboardView(LoginRequiredMixin,TemplateView):
         # (task_list_id, date) → 担当者名 のマップ
         task_map = {}
         for t in week_tasks_qs:
-            task_date = t.daily.date()
+            task_date = t.daily
             key = (t.task_list_id, task_date)
             task_map[key] = t.user.nickname if t.user else ""
 
@@ -129,7 +129,7 @@ class DashboardView(LoginRequiredMixin,TemplateView):
         
         #代役タスク
         pending_sub_tasks = Task.objects.filter(
-            daily__date=today,
+            daily=today,
             user__in=family,
             is_busy=True,
             is_completed=False,
@@ -161,7 +161,7 @@ class DashboardView(LoginRequiredMixin,TemplateView):
     def post(self, request, *args, **kwargs):
         today = timezone.localdate()
         reset_future_tasks()
-        create_week_tasks()
+        create_week_tasks(run_date=today)
         create_maintenance_tasks(run_date=today)
         return redirect("dashboard:dashboard")
 
@@ -182,7 +182,7 @@ class ToggleTaskDoneView(LoginRequiredMixin, View):
         else:
             family = Users.objects.filter(household=login_user.household)
 
-        tasks_today_family = Task.objects.filter(daily__date=today, user__in=family)
+        tasks_today_family = Task.objects.filter(daily=today, user__in=family)
         total_count_family = tasks_today_family.count()
         done_count_family = tasks_today_family.filter(is_completed=True).count()
         completion_rate_family = round(done_count_family * 100 / total_count_family) if total_count_family else 0
